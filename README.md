@@ -17,9 +17,9 @@ Uma chave nos exibidores do interior define quais Dados estão chegando (Dados S
 O log nos permite descobrir se a chave está na posição correta, ou se existe um erro de conexão.
 
 Etapas do projeto:
- - Desenvolvimento do arquivo de import de configurações 'config.ini';
- - Desenvolvimento da abertura do arquivo de log e tratamento das informações;
- - Desenvolvimento da engine Zabbix para envio dos alarmes;
+ - Desenvolvimento do arquivo de import de configurações 'config.ini'; OK
+ - Desenvolvimento da abertura do arquivo de log e tratamento das informações; OK
+ - Desenvolvimento da engine Zabbix para envio dos alarmes; OK
  - Desenvolvimento do mecanismo inteligente para analise dos dados;
  - Desenvolvimento da Interface do Usuário;
  - Demais etapas ainda a serem definidas
@@ -27,3 +27,5 @@ Etapas do projeto:
 Atualizações:
 - Adicionada biblioteca parse-config que importa dados do arquivo de configurações config.ini
 - Em curso o desenvolvimento do arquivo WRFileParser que importa os dados do arquivo de log.
+- Concluida versão inicial do arquivo WRFileParser que retorna como resultado a última linha do log contendo a Flag ou retorna 0 se não for encontrada
+- Concluida a versão inicial do arquivo WRZabbixSender que envia as métricas para o Zabbix.
