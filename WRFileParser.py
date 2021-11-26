@@ -30,7 +30,7 @@ def parse_file():
             print("Erro ao abrir o arquivo. Verifique o caminho no arquivo 'config.ini'")
             print(Err)
 
-        print(data_list)
+        #print(data_list)
         for linha in data_list:    #itera sobre a lista contendo todos os dados organizados
             if (FLAG in linha):  #procura pela Flag Flops
                 print(f"A flag {FLAG} foi encontrada")

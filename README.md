@@ -29,3 +29,5 @@ Atualizações:
 - Em curso o desenvolvimento do arquivo WRFileParser que importa os dados do arquivo de log.
 - Concluida versão inicial do arquivo WRFileParser que retorna como resultado a última linha do log contendo a Flag ou retorna 0 se não for encontrada
 - Concluida a versão inicial do arquivo WRZabbixSender que envia as métricas para o Zabbix.
+- Inicio do desenvolvimento da interface do usuario no arquivo user_interf.py
+
