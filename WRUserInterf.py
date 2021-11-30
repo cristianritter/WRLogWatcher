@@ -1,20 +1,21 @@
-from wx.core import CENTER
+"""Biblioteca de criacao da interface do usuario"""
 import parse_config
 import wx.adv
 import wx
 import os
 
-configuration = parse_config.ConfPacket()
-configs = configuration.load_config('default')
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-TRAY_TOOLTIP = 'WRLogWatcher - ' + configs['default']['nome_praca']
-task_icon = os.path.join(ROOT_DIR, 'task_icon.png')
+
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self, frame):
+        #configuration = parse_config.ConfPacket()
+        #configs = configuration.load_config('default')
+        #TRAY_TOOLTIP = 'WRLogWatcher - ' + configs['default']['nome_praca']
+        #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
+        #task_icon = os.path.join(ROOT_DIR, 'task_icon.png')    
+        #self.set_icon(task_icon)
         self.frame = frame
         super(TaskBarIcon, self).__init__()
-        self.set_icon(task_icon)
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
 
     def create_menu_item(self, menu, label, func):
@@ -32,7 +33,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def set_icon(self, path):
         icon = wx.Icon(path)
-        self.SetIcon(icon, TRAY_TOOLTIP)
+        #self.SetIcon(icon, TRAY_TOOLTIP)
 
     def on_left_down(self, event):      
         frame.Show()
@@ -42,7 +43,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         self.frame.Close()
 
 
-class MyFrame(wx.Frame):    
+class MyFrame(wx.Frame):
     def __init__(self, prog_name):
         """font family can be:
         wx.DECORATIVE, wx.DEFAULT,wx.MODERN, wx.ROMAN, wx.SCRIPT or wx.SWISS.
@@ -57,13 +58,22 @@ class MyFrame(wx.Frame):
         """
         
         tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
+        
+        configuration = parse_config.ConfPacket()
+        configs = configuration.load_config('default')
+        #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
+        #TRAY_TOOLTIP = 'WRLogWatcher - ' + configs['default']['nome_praca']
+        #task_icon = os.path.join(ROOT_DIR, 'task_icon.png')    
+
+        
         super().__init__( # cria uma janela
             parent=None, 
             title=f"{prog_name} - {configs['default']['nome_praca']}", 
             #style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
             size=(600, 600)
         ) 
-        
+        #self.SetIcon(wx.Icon(task_icon))
+
         self.Centre()    #centraliza a janela  
         
         panel = wx.Panel(self) #cria um painel dentro da janela
@@ -102,33 +112,31 @@ class MyFrame(wx.Frame):
         esconder_bt.Bind(wx.EVT_BUTTON, self.on_press)  #associa funcao ao botao
 
     def on_press(self, event):
-        frame.Hide()
+        self.Hide()
     def set_error_led(self):
-        frame.led1.SetBackgroundColour('Red')
-        frame.Refresh()
+        self.led1.SetBackgroundColour('Red')
+        self.Refresh()
     def clear_error_led(self):
-        frame.led1.SetBackgroundColour('Gray')
-        frame.Refresh()
+        self.led1.SetBackgroundColour('Gray')
+        self.Refresh()
 
-def carrega_informacoes(_frame, informacoes):
-    """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
-    _frame.logpanel.Value=informacoes
+    def carrega_informacoes(self, informacoes):
+        """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
+        self.logpanel.Value=informacoes
 
-def informa_erro(_frame):
-    """_frame recebe a janela do aplicativo  """
-    _frame.set_error_led()
-    
-
-def informa_ok(_frame):
-    """_frame recebe a janela do aplicativo  """
-    frame.clear_error_led()
+    def informa_erro(self, estado):
+        """recebe o estado de erros  """
+        #pass
+        if (estado == True):
+            self.set_error_led()
+        #else:
+        #    self.clear_error_led()
     
 
 if __name__ == '__main__':
     app = wx.App()
     frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
-    carrega_informacoes(frame, 'teste')
-    informa_erro(frame)
-    frame.SetIcon(wx.Icon(task_icon))
+    frame.carrega_informacoes('teste')
+    frame.informa_erro(True)
     TaskBarIcon(frame)
     app.MainLoop()

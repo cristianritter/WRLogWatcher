@@ -4,14 +4,18 @@ import os
 from datetime import datetime, timedelta
 from file_read_backwards import FileReadBackwards
 
+def le_arquivo():
+    pass
+
 def parse_file():
+    """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
     try:
         configuration = parse_config.ConfPacket()
         configs = configuration.load_config(
         'diretorios, default'  #carrega configuracoes do arquivo config.ini
         )
         #print(configs)
-        FLAG = configs['default']['flag']
+        FLAG = configs['default']['flag_string']
         log_filename = f'Comm_{datetime.now().year}_{datetime.now().month}_{datetime.now().day}.txt'  # define o nome do arquivo de log atual baseado na data de hoje
         log_path = (configs['diretorios']['pasta_raiz_dos_logs'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
         arquivo_de_log = os.path.join(log_path, log_filename)  # cria o caminho completo do arquivo unindo o diretorio de logs com o nome do arquivo
@@ -19,6 +23,7 @@ def parse_file():
         data_list = [['id', 'date','time', 'message']]  #criacao de um dicionario para armazenar os dados
         try:
             with FileReadBackwards(arquivo_de_log, encoding='utf-8') as conteudo:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
+                #return conteudo
                 for idx, linha in enumerate(conteudo):
                     line_data = linha.replace(" - ", "-").split('-')  #separa dos dados da linha em uma lista 
                     line_data.insert(0, idx)    #insere um indice na lista
