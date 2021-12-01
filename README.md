@@ -31,3 +31,7 @@ Atualizações:
 - Concluida a versão inicial do arquivo WRZabbixSender que envia as métricas para o Zabbix.
 - Concluido o desenvolvimento da interface do usuario no arquivo user_interf.py
 - Iniciado o desenvolvimento do loop main no arquivo WRMain.py
+
+Pendentes:
+ - Alterar todas as bibliotecas para uso como classes
+ - Realizar o parsing dos logs em duas funções, uma trazendo somente texto e outra trazendo a lista com o resultado

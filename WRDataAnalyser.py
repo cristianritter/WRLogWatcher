@@ -1,46 +1,40 @@
 """Verifica erros retorna um boolean com informacoes sobre problemas no sistema"""
-from WRFileParser import parse_file
+#from WRFileParser import parse_file
 from datetime import datetime, timedelta
 import parse_config
 
+class WRAnalizer:
+    def __init__(self, flag_max_time):
+        self.FLAG_MAX_TIME = flag_max_time
+        pass
+    pass
 
-def hora_atual():   
-    """retorna a hora atual"""
-    return datetime.now()
+    def tempo_desde_flag(self, registro):
+        """retorna a diferenca entre o horario atual e o horario do ultimo registro encontrado em log"""
+        datahora_atual = datetime.now()
+        print(registro)
+        data_registro = datetime.strptime(registro[1], "%d/%m/%Y")                  #esta gerando erro, nao sei pq
+        hora_registro =  datetime.strptime(registro[2], "%H:%M:%S,%f")    
+        datahora_registro = datetime.combine(data_registro.date(), hora_registro.time())
+        return datahora_atual - datahora_registro
 
-def hora_do_registro(registro):
-    """retorna a hora do registro informado"""
-    data = datetime.strptime(registro[1], "%d/%m/%Y")
-    hora =  datetime.strptime(registro[2], "%H:%M:%S,%f")    
-    return data.combine(data.date(), hora.time())
+    def verifica_erros(self, registro):
+        """ Retorna se existem problemas com base nas informacoes do log
+        e do horario atual do sistema, recebe os dados do ultimo registro 
+        encontrado em log"""
+        try:
+            if (self.tempo_desde_flag(registro) > timedelta(seconds=self.FLAG_MAX_TIME)):
+            #if ( timedelta(seconds=100) > timedelta(seconds=self.FLAG_MAX_TIME)):
+                return True
+            else:
+                return False
 
-def tempo_da_ultima_flag(registro):
-    """retorna a diferenca entre o horario atual e o horario do ultimo registro encontrado em log"""
-    return hora_atual()-hora_do_registro(registro)
-
-def verifica_erros(registro):
-    """ Retorna se existem problemas com base nas informacoes do log
-    e do horario atual do sistema, recebe os dados do ultimo registro 
-    encontrado em log"""
-    try:
-        configuration = parse_config.ConfPacket()
-        configs = configuration.load_config(
-            'default'  #carrega configuracoes do arquivo config.ini
-        )
-        FLAG_MAX_TIME = int(configs['default']['flag_max_time_seconds'])
-        if (tempo_da_ultima_flag(registro) > timedelta(seconds=30)):
-            return True
-        else:
-            return False
-
-    except Exception as Err:
-        print(Err)
-        return 0
+        except Exception as Err:
+            print("Erro: ",Err)
+            return 0
 
 
 if (__name__ == "__main__"):
-    data_ = parse_file()
-    if (data_):
-        pass
-        print(verifica_erros(data_))
-    
+    analizer = WRAnalizer(30)
+    data_ = [209, '24/11/2021', '06:05:37,430', 'WAIT 2']
+    print(analizer.verifica_erros(data_))
