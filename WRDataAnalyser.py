@@ -1,19 +1,14 @@
 """Verifica erros retorna um boolean com informacoes sobre problemas no sistema"""
-#from WRFileParser import parse_file
 from datetime import datetime, timedelta
-import parse_config
 
 class WRAnalizer:
     def __init__(self, flag_max_time):
         self.FLAG_MAX_TIME = flag_max_time
-        pass
-    pass
-
+        
     def tempo_desde_flag(self, registro):
         """retorna a diferenca entre o horario atual e o horario do ultimo registro encontrado em log"""
         datahora_atual = datetime.now()
-        print(registro)
-        data_registro = datetime.strptime(registro[1], "%d/%m/%Y")                  #esta gerando erro, nao sei pq
+        data_registro = datetime.strptime(registro[1], "%d/%m/%Y")                
         hora_registro =  datetime.strptime(registro[2], "%H:%M:%S,%f")    
         datahora_registro = datetime.combine(data_registro.date(), hora_registro.time())
         return datahora_atual - datahora_registro
@@ -37,4 +32,5 @@ class WRAnalizer:
 if (__name__ == "__main__"):
     analizer = WRAnalizer(30)
     data_ = [209, '24/11/2021', '06:05:37,430', 'WAIT 2']
-    print(analizer.verifica_erros(data_))
+    #print(analizer.verifica_erros(data_))
+    print(analizer.tempo_desde_flag(data_))

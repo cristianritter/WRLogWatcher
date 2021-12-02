@@ -1,8 +1,7 @@
 """parse_file function returns fata from the last line with the flag or 0 if no flags found"""
-from file_read_backwards.buffer_work_space import _remove_trailing_new_line
 import parse_config
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from file_read_backwards import FileReadBackwards
 
 class WRFileParse:
@@ -42,7 +41,7 @@ class WRFileParse:
             #print(data_list)
             for linha in data_list:    #itera sobre a lista contendo todos os dados organizados
                 if (self.FLAG in linha):  #procura pela Flag Flops
-                    print(f"A flag {self.FLAG} foi encontrada")
+                    #print(f"A flag {self.FLAG} foi encontrada")
                     return linha  #caso encontre retorna as informações da linha
             return 0
             

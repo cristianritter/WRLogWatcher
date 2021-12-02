@@ -4,7 +4,11 @@ import wx.adv
 import wx
 import os
 
+def InitLocale(self):  #funcao vazia para substituicao
+    """Esta funcao vazia resolve um problema na biblioteca wx.app que danifica a configuracao de local do sistema no windows 7"""
+    pass
 
+wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     def __init__(self, frame):
@@ -44,7 +48,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
 
 class MyFrame(wx.Frame):
-    def __init__(self, prog_name):
+    def __init__(self, prog_name, prog_name2):
         """font family can be:
         wx.DECORATIVE, wx.DEFAULT,wx.MODERN, wx.ROMAN, wx.SCRIPT or wx.SWISS.
 
@@ -58,17 +62,11 @@ class MyFrame(wx.Frame):
         """
         
         tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
-        
-        configuration = parse_config.ConfPacket()
-        configs = configuration.load_config('default')
-        #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-        #TRAY_TOOLTIP = 'WRLogWatcher - ' + configs['default']['nome_praca']
-        #task_icon = os.path.join(ROOT_DIR, 'task_icon.png')    
 
-        
+
         super().__init__( # cria uma janela
             parent=None, 
-            title=f"{prog_name} - {configs['default']['nome_praca']}", 
+            title=f"{prog_name} - {prog_name2}", 
             #style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
             size=(600, 600)
         ) 
@@ -126,16 +124,15 @@ class MyFrame(wx.Frame):
 
     def informa_erro(self, estado):
         """recebe o estado de erros  """
-        #pass
         if (estado == True):
             self.set_error_led()
-        #else:
-        #    self.clear_error_led()
+        else:
+            self.clear_error_led()
     
 
 if __name__ == '__main__':
     app = wx.App()
-    frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
+    frame = MyFrame("WR LogWatcher", "ATL_JOI")  #criacao do frame recebe o nome da janela
     frame.carrega_informacoes('teste')
     frame.informa_erro(True)
     TaskBarIcon(frame)

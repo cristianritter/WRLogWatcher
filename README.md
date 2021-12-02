@@ -31,6 +31,7 @@ Atualizações:
 - Concluida a versão inicial do arquivo WRZabbixSender que envia as métricas para o Zabbix.
 - Concluido o desenvolvimento da interface do usuario no arquivo user_interf.py
 - Iniciado o desenvolvimento do loop main no arquivo WRMain.py
+- Alteradas biblotecas WRAnalizer e WRUserInterf para uso como classes, resolvido erro com WxLocale substituindo o metodo LocaleInit
 
 Pendentes:
  - Alterar todas as bibliotecas para uso como classes
