@@ -41,7 +41,7 @@ try:
 
     app = wx.App()
     frame = MF("WR LogWatcher", PRACA)  #criacao do frame recebe o nome da janela
-    TBI(frame)
+    TBI(frame, "WR LogWatcher", PRACA)
 except Exception as Err:
     print("Erro: ", Err)
 
@@ -50,11 +50,15 @@ def loop_execucao(fileparser, ZMETRICA):
         time.sleep(1)
         try:
             dados_do_log = fileparser.get_last_flag_line()
-            frame.carrega_informacoes(' \n'.join(fileparser.get_conteudo_log()))
-            
+            frame.carrega_informacoes(' \n'.join(fileparser.get_conteudo_log()))  
             fail_status = (analizer.verifica_erros(dados_do_log)) 
             frame.informa_erro(fail_status)
-
+            
+            if fail_status:     #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
+                ZMETRICA[0] = 1
+            else:
+                ZMETRICA[0] = 0
+            
         except Exception as Err:
             print("Erro: ", Err)
 
@@ -62,7 +66,7 @@ if (__name__ == '__main__'):
     try:
         t = Thread(target=loop_execucao, args=[parser, ZMETRICA], daemon=True)  # True executa o thread somente enquanto o programa estiver aberto
         t.start()
-        zsender.start_zabbix_thread(ZMETRICA)
+        zsender.start_zabbix_thread(ZMETRICA)   #inicia thread de envio das metricas pro zabbix
         app.MainLoop()
    
     except Exception as Err:

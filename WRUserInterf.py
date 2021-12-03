@@ -1,25 +1,44 @@
 """Biblioteca de criacao da interface do usuario"""
-import parse_config
 import wx.adv
 import wx
 import os
 
-def InitLocale(self):  #funcao vazia para substituicao
-    """Esta funcao vazia resolve um problema na biblioteca wx.app que danifica a configuracao de local do sistema no windows 7"""
-    pass
+def InitLocale(self):
+    """
+    Try to ensure that the C and Python locale is in sync with the wxWidgets
+    locale on Windows. If you have troubles from the default behavior of this
+    method you can override it in a derived class to behave differently.
+    Please report the problem you encountered.
+    """
+    self.ResetLocale()
+    #if 'wxMSW' in PlatformInfo:
+    import locale
+    try:
+        lang, enc = locale.getdefaultlocale()
+        self._initial_locale = wx.Locale(lang, lang[:2], lang)
+        #print(lang, enc)
+        #print(locale.locale_alias)
+        locale.setlocale(locale.LC_ALL, 'portuguese_brazil')  #pulo do gato
+        #print(locale.getlocale())
+    except (ValueError, locale.Error) as ex:
+        target = wx.LogStderr()
+        orig = wx.Log.SetActiveTarget(target)
+        wx.LogError("Unable to set default locale: '{}'".format(ex))
+        wx.Log.SetActiveTarget(orig)
+
 
 wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
-    def __init__(self, frame):
-        #configuration = parse_config.ConfPacket()
-        #configs = configuration.load_config('default')
-        #TRAY_TOOLTIP = 'WRLogWatcher - ' + configs['default']['nome_praca']
-        #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-        #task_icon = os.path.join(ROOT_DIR, 'task_icon.png')    
-        #self.set_icon(task_icon)
-        self.frame = frame
+    """Criacao de um icone na bandeja do systema para controle do aplicativo, e existencia minimizada"""
+    def __init__(self, frame, prog_name, prog_name2):
+        self.frame = frame   
         super(TaskBarIcon, self).__init__()
+
+        ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
+        task_icon = os.path.join(ROOT_DIR, 'task_icon.png')          
+        self.TRAY_TOOLTIP = prog_name + prog_name2
+        self.SetIcon(wx.Icon(task_icon), self.TRAY_TOOLTIP)
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
 
     def create_menu_item(self, menu, label, func):
@@ -34,10 +53,6 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         menu.AppendSeparator()
         self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit)
         return menu
-
-    def set_icon(self, path):
-        icon = wx.Icon(path)
-        #self.SetIcon(icon, TRAY_TOOLTIP)
 
     def on_left_down(self, event):      
         frame.Show()
@@ -120,7 +135,8 @@ class MyFrame(wx.Frame):
 
     def carrega_informacoes(self, informacoes):
         """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
-        self.logpanel.Value=informacoes
+        if (not informacoes in self.logpanel.Value):
+            self.logpanel.Value=informacoes
 
     def informa_erro(self, estado):
         """recebe o estado de erros  """
@@ -131,9 +147,9 @@ class MyFrame(wx.Frame):
     
 
 if __name__ == '__main__':
-    app = wx.App()
+    app = wx.App(useBestVisual=True)
     frame = MyFrame("WR LogWatcher", "ATL_JOI")  #criacao do frame recebe o nome da janela
     frame.carrega_informacoes('teste')
     frame.informa_erro(True)
-    TaskBarIcon(frame)
+    TaskBarIcon(frame, "WR LogWatcher", "ATL_JOI")
     app.MainLoop()
