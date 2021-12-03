@@ -5,20 +5,28 @@ from datetime import datetime
 from file_read_backwards import FileReadBackwards
 
 class WRFileParse:
-    def __init__(self, flag, log_path):
+    def __init__(self, flag, log_path_master, log_path_slave):
         self.FLAG = flag
-        self.LOG_PATH = log_path
+        self.LOG_PATH_MASTER = log_path_master
+        self.LOG_PATH_SLAVE = log_path_slave
 
-    def get_log_filename(self):
+    def get_log_filename(self, description='master'):
         """retorna o caminho completo para acesso ao arquivo de log"""
+        if (description.lower() == 'master'):
+            LOG_PATH = LOG_PATH_MASTER
+        elif (description.lower() =='slave'):
+            LOG_PATH = LOG_PATH_SLAVE
+        else:
+            raise NameError("Argumento incorreto")
+
         log_filename = f"Comm_{datetime.now().strftime('%Y_%m_%d')}.txt"  # define o nome do arquivo de log atual baseado na data de hoje
-        log_fullfilepath = os.path.join(self.LOG_PATH, log_filename)  # cria o caminho completo do arquivo unindo o diretorio de logs com o nome do arquivo
+        log_fullfilepath = os.path.join(LOG_PATH, log_filename)  # cria o caminho completo do arquivo unindo o diretorio de logs com o nome do arquivo
         return log_fullfilepath
 
-    def get_conteudo_log(self):
+    def get_conteudo_log(self, description='master'):
         """Retorna a quantidade de linhas informada do arquivo de log como uma string"""
         try:
-            arquivo_de_log = self.get_log_filename()
+            arquivo_de_log = self.get_log_filename(description)
             conteudo = []
             with FileReadBackwards(arquivo_de_log, encoding='utf-8') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
                 for linha in frb:
@@ -27,24 +35,19 @@ class WRFileParse:
         except Exception as Err:
             print(Err)
 
-    def get_last_flag_line(self):
+    def get_last_flag_line(self, description='master'):
         """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
         try:
-            arquivo_de_log = self.get_log_filename()
             data_list = [['id', 'date','time', 'message']]  #criacao de um dicionario para armazenar os dados
-            conteudo = self.get_conteudo_log()
-            #print(conteudo)
+            conteudo = self.get_conteudo_log(description)
             for idx, linha in enumerate(conteudo):
                 line_data = linha.replace(" - ", "-").split('-')  #separa dos dados da linha em uma lista 
                 line_data.insert(0, idx)    #insere um indice na lista
                 data_list.append (line_data)  #adiciona os dados em uma lista global
-            #print(data_list)
             for linha in data_list:    #itera sobre a lista contendo todos os dados organizados
                 if (self.FLAG in linha):  #procura pela Flag Flops
-                    #print(f"A flag {self.FLAG} foi encontrada")
                     return linha  #caso encontre retorna as informações da linha
             return 0
-            
         except Exception as Err:
             print(Err)
 
@@ -54,7 +57,8 @@ if (__name__ == '__main__'):
     'diretorios, default'  #carrega configuracoes do arquivo config.ini
     )
     FLAG = configs['default']['flag_string']
-    LOG_PATH = (configs['diretorios']['pasta_raiz_dos_logs'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
-    parser = WRFileParse(FLAG, LOG_PATH)
-    print(parser.get_last_flag_line())
+    LOG_PATH_MASTER = (configs['diretorios']['pasta_logs_master'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
+    LOG_PATH_SLAVE = (configs['diretorios']['pasta_logs_slave'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
+    parser = WRFileParse(FLAG, LOG_PATH_MASTER, LOG_PATH_SLAVE)
+    print(parser.get_last_flag_line('master'))
     

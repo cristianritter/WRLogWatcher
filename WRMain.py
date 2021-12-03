@@ -19,7 +19,8 @@ try:
     PRACA = configs['default']['nome_praca']
     FLAG = configs['default']['flag_string']
     FLAG_MAX_TIME = int(configs['default']['flag_max_time_seconds'])
-    LOG_PATH = (configs['diretorios']['pasta_raiz_dos_logs'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
+    LOG_PATH_MASTER = (configs['diretorios']['pasta_logs_master'])  #carrega o diretorio dos logs master que servem como referencia
+    LOG_PATH_SLAVE = (configs['diretorios']['pasta_logs_master'])  #carrega o diretorio dos logs slave que serao monitorados
     ZABBIX_CONFIG = {
         'metric_interval' :int(configs['zabbix']['send_metrics_interval']),
         'hostname' :configs['zabbix']['hostname'],
@@ -28,7 +29,7 @@ try:
         'port' :int(configs['zabbix']['port'])
     }
     
-    parser = WRFileParse(FLAG, LOG_PATH)
+    parser = WRFileParse(FLAG, LOG_PATH_MASTER, LOG_PATH_SLAVE)
     analizer = WRAnalizer(FLAG_MAX_TIME)
     zsender = WRZabbixSender(
         ZABBIX_CONFIG['metric_interval'],
@@ -45,12 +46,12 @@ try:
 except Exception as Err:
     print("Erro: ", Err)
 
-def loop_execucao(fileparser, ZMETRICA):
+def loop_execucao(parser, ZMETRICA):
     while True:
         time.sleep(1)
         try:
-            dados_do_log = fileparser.get_last_flag_line()
-            frame.carrega_informacoes(' \n'.join(fileparser.get_conteudo_log()))  
+            dados_do_log = parser.get_last_flag_line()
+            frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log()))  
             fail_status = (analizer.verifica_erros(dados_do_log)) 
             frame.informa_erro(fail_status)
             
