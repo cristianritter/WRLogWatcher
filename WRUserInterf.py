@@ -52,6 +52,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         self.create_menu_item(menu, 'Exibir aplicação', self.on_left_down)
         menu.AppendSeparator()
         self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit)
+        self.create_menu_item(menu, 'Sobre', self.on_get_info)
         return menu
 
     def on_left_down(self, event):      
@@ -61,6 +62,9 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         wx.CallAfter(self.Destroy)
         self.frame.Close()
 
+    def on_get_info(self, event):
+        wx.MessageBox("Feito por Cristian Ritter para NSC TV FLOPS", 'Sobre o aplicativo')
+      
 
 class MyFrame(wx.Frame):
     def __init__(self, prog_name, prog_name2):
@@ -83,7 +87,7 @@ class MyFrame(wx.Frame):
             parent=None, 
             title=f"{prog_name} - {prog_name2}", 
             #style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
-            size=(600, 600)
+            size=(1200, 660)
         ) 
         #self.SetIcon(wx.Icon(task_icon))
 
@@ -95,14 +99,27 @@ class MyFrame(wx.Frame):
 
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
-        texto01 = wx.StaticText(panel, label=prog_name, style=wx.ALIGN_CENTER, size=(600,33))
-        texto01.SetBackgroundColour('black')
-        texto01.SetForegroundColour('white')
-        box_linha01.Add(texto01, proportion=0, flag=wx.ALL, border=5)   #adiciona elemento de texto na linha01 
-         
-        self.logpanel = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(1,400))  #cria um edit
-        self.logpanel.SetBackgroundColour(wx.Colour(190,190,170))
-        
+        texto011 = wx.StaticText(panel, label=prog_name, style=wx.ALIGN_CENTER, size=(600,33))
+        texto011.SetBackgroundColour('black')
+        texto011.SetForegroundColour('white')
+        box_linha01.Add(texto011, proportion=0, flag=wx.TOP, border=10)   #adiciona elemento de texto na linha01 
+
+        box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
+        texto01b1 = wx.StaticText(panel, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,33))
+        self.logpanel_master = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
+        self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
+        texto01b2 = wx.StaticText(panel, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,33))
+        self.logpanel_slave = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
+        self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
+        coluna01a = wx.BoxSizer(wx.VERTICAL)
+        coluna01b = wx.BoxSizer(wx.VERTICAL)   
+        coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
+        coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
+        coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
+        coluna01b.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
+        box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
+        box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
+
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.led1 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
         self.led1.SetBackgroundColour('gray')
@@ -112,14 +129,14 @@ class MyFrame(wx.Frame):
         esconder_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
                   
         coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
-        coluna.Add(self.logpanel, proportion=0, flag=wx.ALL | wx.EXPAND, border=5)
+        coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
         coluna.AddSpacer(20) 
         coluna.Add(box_linha02, proportion=0, flag=wx.CENTER, border=0) 
         coluna.Add(esconder_bt, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         
         panel.SetSizer(coluna)
         
-        texto01.SetFont(tittle_font)
+        texto011.SetFont(tittle_font)
         self.Show()
         
         esconder_bt.Bind(wx.EVT_BUTTON, self.on_press)  #associa funcao ao botao
@@ -133,10 +150,17 @@ class MyFrame(wx.Frame):
         self.led1.SetBackgroundColour('Gray')
         self.Refresh()
 
-    def carrega_informacoes(self, informacoes):
+    def carrega_informacoes(self, informacoes, descricao='master'):
         """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
-        if (not informacoes in self.logpanel.Value):
-            self.logpanel.Value=informacoes
+        if descricao == 'master':
+            painel = self.logpanel_master
+        elif descricao == 'slave':
+            painel = self.logpanel_slave
+        else:
+            raise(NameError, 'parametro incorreto')
+
+        if (not informacoes in painel.Value):
+            painel.Value=informacoes
 
     def informa_erro(self, estado):
         """recebe o estado de erros  """
