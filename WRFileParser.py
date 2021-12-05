@@ -13,9 +13,9 @@ class WRFileParse:
     def get_log_filename(self, description='master'):
         """retorna o caminho completo para acesso ao arquivo de log"""
         if (description.lower() == 'master'):
-            LOG_PATH = LOG_PATH_MASTER
+            LOG_PATH = self.LOG_PATH_MASTER
         elif (description.lower() =='slave'):
-            LOG_PATH = LOG_PATH_SLAVE
+            LOG_PATH = self.LOG_PATH_SLAVE
         else:
             raise NameError("Argumento incorreto")
 
@@ -29,8 +29,8 @@ class WRFileParse:
             arquivo_de_log = self.get_log_filename(description)
             conteudo = []
             with FileReadBackwards(arquivo_de_log, encoding='utf-8') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
-                for linha in frb:
-                    conteudo.append(linha)
+                for idx, linha in enumerate(frb):
+                    conteudo.append(f'{idx} - {linha}')
             return conteudo
         except Exception as Err:
             print(Err)
@@ -38,18 +38,23 @@ class WRFileParse:
     def get_last_flag_line(self, description='master'):
         """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
         try:
-            data_list = [['id', 'date','time', 'message']]  #criacao de um dicionario para armazenar os dados
-            conteudo = self.get_conteudo_log(description)
-            for idx, linha in enumerate(conteudo):
+            data_list = []  #criacao de um dicionario para armazenar os dados
+            for linha in self.get_conteudo_log(description):
                 line_data = linha.replace(" - ", "-").split('-')  #separa dos dados da linha em uma lista 
-                line_data.insert(0, idx)    #insere um indice na lista
                 data_list.append (line_data)  #adiciona os dados em uma lista global
             for linha in data_list:    #itera sobre a lista contendo todos os dados organizados
-                if (self.FLAG in linha):  #procura pela Flag Flops
+                if (self.FLAG in ' '.join(linha)):  #procura pela Flag 
                     return linha  #caso encontre retorna as informações da linha
             return 0
         except Exception as Err:
             print(Err)
+
+    def get_some_reg(self, finded_reg, descricao='master'):
+        """Procura pela existencia de um registro especifico em um log com base em um disparo registrado em outro log"""
+        for linha in self.get_conteudo_log(descricao):
+            if (finded_reg[3] in linha):
+                return linha.replace(" - ", "-").split('-')
+        pass
 
 if (__name__ == '__main__'):
     configuration = parse_config.ConfPacket()
@@ -60,5 +65,7 @@ if (__name__ == '__main__'):
     LOG_PATH_MASTER = (configs['diretorios']['pasta_logs_master'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
     LOG_PATH_SLAVE = (configs['diretorios']['pasta_logs_slave'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
     parser = WRFileParse(FLAG, LOG_PATH_MASTER, LOG_PATH_SLAVE)
-    print(parser.get_last_flag_line('master'))
+    somereg = parser.get_last_flag_line('slave')
+    print(somereg)
+    print(parser.get_some_reg(somereg, 'master'))
     

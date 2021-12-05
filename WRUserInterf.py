@@ -79,7 +79,8 @@ class MyFrame(wx.Frame):
         
         sizer flags applies to aplied borders TOP BOTTOM LEFT RIGHT ALL 
         """
-        
+        self.masterpath = ""
+        self.slavepath = ""
         tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
 
@@ -87,7 +88,7 @@ class MyFrame(wx.Frame):
             parent=None, 
             title=f"{prog_name} - {prog_name2}", 
             #style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
-            size=(1200, 660)
+            size=(1200, 690)
         ) 
         #self.SetIcon(wx.Icon(task_icon))
 
@@ -105,26 +106,34 @@ class MyFrame(wx.Frame):
         box_linha01.Add(texto011, proportion=0, flag=wx.TOP, border=10)   #adiciona elemento de texto na linha01 
 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        texto01b1 = wx.StaticText(panel, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,33))
+        texto01b1 = wx.StaticText(panel, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b1b = wx.StaticText(panel, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_master = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
-        texto01b2 = wx.StaticText(panel, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,33))
+        texto01b2 = wx.StaticText(panel, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b2b = wx.StaticText(panel, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_slave = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
         coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.texto01b1b, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
         coluna01b.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
+        coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
         box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
         box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
+        self.listbox1 = wx.ListBox(panel, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
+        self.listbox1.Disable()
         self.led1 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
         self.led1.SetBackgroundColour('gray')
+        box_linha02.Add(wx.StaticText(panel, label='Modo de operação detectado:'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=30)
         box_linha02.Add(self.led1, proportion=0, flag=wx.ALL, border=10)
-        box_linha02.Add(wx.StaticText(panel, label='Status de problemas'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02.Add(wx.StaticText(panel, label='Status de funcionamento (Green-> Tudo OK, Red->Problemas)'), proportion=0, flag=wx.ALL, border=10)
 
         esconder_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
                   
@@ -147,20 +156,31 @@ class MyFrame(wx.Frame):
         self.led1.SetBackgroundColour('Red')
         self.Refresh()
     def clear_error_led(self):
-        self.led1.SetBackgroundColour('Gray')
+        self.led1.SetBackgroundColour('Green')
         self.Refresh()
+
+    def set_listbox_selected(self, mode):
+        for idx, content in enumerate(self.listbox1.GetItems()):
+            if mode in content:
+                self.listbox1.Select(idx)
 
     def carrega_informacoes(self, informacoes, descricao='master'):
         """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
         if descricao == 'master':
             painel = self.logpanel_master
+            self.texto01b1b.SetLabel(self.masterpath)
+        
         elif descricao == 'slave':
             painel = self.logpanel_slave
+            self.texto01b2b.SetLabel(self.slavepath)
+        
         else:
             raise(NameError, 'parametro incorreto')
 
         if (not informacoes in painel.Value):
             painel.Value=informacoes
+        self.Refresh()
+
 
     def informa_erro(self, estado):
         """recebe o estado de erros  """
@@ -173,7 +193,8 @@ class MyFrame(wx.Frame):
 if __name__ == '__main__':
     app = wx.App(useBestVisual=True)
     frame = MyFrame("WR LogWatcher", "ATL_JOI")  #criacao do frame recebe o nome da janela
-    frame.carrega_informacoes('teste')
+    frame.carrega_informacoes('teste', descricao='master')
     frame.informa_erro(True)
+    print(frame.listbox1.GetItems())
     TaskBarIcon(frame, "WR LogWatcher", "ATL_JOI")
     app.MainLoop()
