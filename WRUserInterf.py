@@ -82,6 +82,7 @@ class MyFrame(wx.Frame):
         self.masterpath = ""
         self.slavepath = ""
         tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
+        warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
 
         super().__init__( # cria uma janela
@@ -133,14 +134,20 @@ class MyFrame(wx.Frame):
         box_linha02.Add(wx.StaticText(panel, label='Modo de operação detectado:'), proportion=0, flag=wx.ALL, border=10)
         box_linha02.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=30)
         box_linha02.Add(self.led1, proportion=0, flag=wx.ALL, border=10)
-        box_linha02.Add(wx.StaticText(panel, label='Status de funcionamento (Green-> Tudo OK, Red->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02.Add(wx.StaticText(panel, label='Status de funcionamento     (Green-> Tudo OK, Red->Problemas)'), proportion=0, flag=wx.ALL, border=10)
 
         esconder_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
-                  
+        self.texto02a = wx.StaticText(panel, label='Verifique a sincronização de horário dos sistemas de referência e/ou monitorados.')
+        self.texto02a.Font = warning_font
+        self.texto02a.BackgroundColour = 'red'
+                   
         coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
-        coluna.AddSpacer(20) 
-        coluna.Add(box_linha02, proportion=0, flag=wx.CENTER, border=0) 
+        coluna.AddSpacer(10) 
+        coluna.Add(box_linha02, proportion=0, flag=wx.CENTER, border=0)
+        coluna.AddSpacer(5) 
+        coluna.Add(self.texto02a, proportion=0, flag=wx.CENTER, border=5) 
+        coluna.AddSpacer(5) 
         coluna.Add(esconder_bt, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         
         panel.SetSizer(coluna)

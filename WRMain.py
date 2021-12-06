@@ -58,7 +58,7 @@ except Exception as Err:
 
 def loop_execucao(parser, ZMETRICA):
     while True:
-        time.sleep(1)
+        time.sleep(2)
         try:
             pass
             frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log('master')), descricao='master')
@@ -67,18 +67,21 @@ def loop_execucao(parser, ZMETRICA):
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analizer.get_time_offset(dados_do_log_master, dados_do_log_slave)
+            print(current_offset)
 
-            operacao_detectada = analizer.mode_detect(CONFIG_OFFSETS, current_offset)
+            if current_offset[1] == -1:  # exibe aviso se erro de sinc de horario nos pcs monitorados
+                frame.texto02a.Show()
+            else:
+                frame.texto02a.Hide()
+
+            operacao_detectada = analizer.mode_detect(CONFIG_OFFSETS, current_offset[0])
             frame.set_listbox_selected(operacao_detectada)
             if (not operacao_detectada in OPERACAO_PADRAO):
                 frame.set_error_led()
+                ZMETRICA[0] = 1   #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
             else:
                 frame.clear_error_led()
-            
-            #if fail_status:     #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
-            #    ZMETRICA[0] = 1
-            #else:
-            #    ZMETRICA[0] = 0
+                ZMETRICA[0] = 0
             
         except Exception as Err:
             print("Erro: ", Err)
