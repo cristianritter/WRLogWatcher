@@ -32,11 +32,14 @@ Atualizações:
 - Concluido o desenvolvimento da interface do usuario no arquivo user_interf.py
 - Iniciado o desenvolvimento do loop main no arquivo WRMain.py
 - Alteradas biblotecas WRAnalizer e WRUserInterf para uso como classes, resolvido erro com WxLocale substituindo o metodo LocaleInit
-- Criado arquivo de teste para operacoes em tempo real no log do winradio
+- Criado arquivo de teste para operacoes em tempo real no log do winradio (finalizado com sucesso sem causar erros no sistema)
+- Alteração do sistema para permitir a configuração de multiplas praças 
+- Alterado sistema config e bibliotecas
+
 
 Pendentes:
  - Alterar todas as bibliotecas para uso como classes (resolvido)
  - Realizar o parsing dos logs em duas funções, uma trazendo somente texto e outra trazendo a lista com o resultado (resolvido)
+ - Resolver problema com wx task relacionado ao locale (resolvido)
  - Comentar as funcoes e adicionar as descricoes
  - Elaborar e integrar icones da interface de usuario
- - Resolver problema com wx task relacionado ao locale (resolvido)

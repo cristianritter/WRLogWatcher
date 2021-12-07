@@ -1,24 +1,22 @@
 """parse_file function returns fata from the last line with the flag or 0 if no flags found"""
-import parse_config
 import os
 from datetime import datetime
 from file_read_backwards import FileReadBackwards
 
 class WRFileParse:
-    def __init__(self, flag, log_path_master, log_path_slave):
+    def __init__(self, flag, log_paths):
         self.FLAG = flag
-        self.LOG_PATH_MASTER = log_path_master
-        self.LOG_PATH_SLAVE = log_path_slave
-
+        self.LOG_PATHS = log_paths
+      
     def get_log_filename(self, description='master'):
         """retorna o caminho completo para acesso ao arquivo de log"""
         if (description.lower() == 'master'):
-            LOG_PATH = self.LOG_PATH_MASTER
+            LOG_PATH = self.LOG_PATHS[0]
         elif (description.lower() =='slave'):
-            LOG_PATH = self.LOG_PATH_SLAVE
+            LOG_PATH = self.LOG_PATHS[1]
         else:
             raise NameError("Argumento incorreto")
-
+ 
         log_filename = f"Comm_{datetime.now().strftime('%Y_%m_%d')}.txt"  # define o nome do arquivo de log atual baseado na data de hoje
         log_fullfilepath = os.path.join(LOG_PATH, log_filename)  # cria o caminho completo do arquivo unindo o diretorio de logs com o nome do arquivo
         return log_fullfilepath
@@ -54,17 +52,16 @@ class WRFileParse:
         for linha in self.get_conteudo_log(descricao):
             if (finded_reg[3] in linha):
                 return linha.replace(" - ", "-").split('-')
-        pass
-
+  
 if (__name__ == '__main__'):
+    import parse_config
     configuration = parse_config.ConfPacket()
     configs = configuration.load_config(
     'diretorios, default'  #carrega configuracoes do arquivo config.ini
     )
     FLAG = configs['default']['flag_string']
-    LOG_PATH_MASTER = (configs['diretorios']['pasta_logs_master'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
-    LOG_PATH_SLAVE = (configs['diretorios']['pasta_logs_slave'])  #carrega o diretorio dos logs desde o arquivo de configuracoes config.ini
-    parser = WRFileParse(FLAG, LOG_PATH_MASTER, LOG_PATH_SLAVE)
+    pathlog_list = configs['diretorios']['praca01'].split(', ')
+    parser = WRFileParse(FLAG, pathlog_list)
     somereg = parser.get_last_flag_line('slave')
     print(somereg)
     print(parser.get_some_reg(somereg, 'master'))

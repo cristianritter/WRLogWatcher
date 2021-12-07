@@ -31,13 +31,15 @@ wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro po
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     """Criacao de um icone na bandeja do systema para controle do aplicativo, e existencia minimizada"""
-    def __init__(self, frame, prog_name, prog_name2):
-        self.frame = frame   
+    def __init__(self, frame, prog_name, frame_names, list_of_frames):
+        self.frame = frame  
+        self.FRAME_NAMES = frame_names
+        self.LIST_OF_FRAMES = list_of_frames
         super(TaskBarIcon, self).__init__()
 
         ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
         task_icon = os.path.join(ROOT_DIR, 'task_icon.png')          
-        self.TRAY_TOOLTIP = prog_name + prog_name2
+        self.TRAY_TOOLTIP = prog_name
         self.SetIcon(wx.Icon(task_icon), self.TRAY_TOOLTIP)
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
 
@@ -49,25 +51,31 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
     def CreatePopupMenu(self):
         menu = wx.Menu()
-        self.create_menu_item(menu, 'Exibir aplicação', self.on_left_down)
+        for item in self.FRAME_NAMES:
+            self.create_menu_item(menu, f'View {self.FRAME_NAMES[item]}', lambda evt, temp=self.LIST_OF_FRAMES[item]: self.on_right_down(evt, temp))
         menu.AppendSeparator()
         self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit)
+        menu.AppendSeparator()
         self.create_menu_item(menu, 'Sobre', self.on_get_info)
         return menu
 
-    def on_left_down(self, event):      
-        frame.Show()
-        
+    def on_left_down(self, event): 
+        pass
+
+    def on_right_down(self, event, button_label):
+        button_label.Show()
+      
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
-        self.frame.Close()
+        for item in self.LIST_OF_FRAMES:
+            self.LIST_OF_FRAMES[item].Close();
 
     def on_get_info(self, event):
         wx.MessageBox("Feito por Cristian Ritter para NSC TV FLOPS", 'Sobre o aplicativo')
       
 
 class MyFrame(wx.Frame):
-    def __init__(self, prog_name, prog_name2):
+    def __init__(self, prog_name):
         """font family can be:
         wx.DECORATIVE, wx.DEFAULT,wx.MODERN, wx.ROMAN, wx.SCRIPT or wx.SWISS.
 
@@ -87,8 +95,8 @@ class MyFrame(wx.Frame):
 
         super().__init__( # cria uma janela
             parent=None, 
-            title=f"{prog_name} - {prog_name2}", 
-            #style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
+            title=prog_name, 
+            style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
             size=(1200, 690)
         ) 
         #self.SetIcon(wx.Icon(task_icon))
@@ -165,6 +173,9 @@ class MyFrame(wx.Frame):
     def clear_error_led(self):
         self.led1.SetBackgroundColour('Green')
         self.Refresh()
+    def set_interface_paths(self, paths):
+        self.texto01b1b.SetLabel(paths[0])
+        self.texto01b2b.SetLabel(paths[1])
 
     def set_listbox_selected(self, mode):
         for idx, content in enumerate(self.listbox1.GetItems()):
@@ -175,12 +186,10 @@ class MyFrame(wx.Frame):
         """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
         if descricao == 'master':
             painel = self.logpanel_master
-            self.texto01b1b.SetLabel(self.masterpath)
         
         elif descricao == 'slave':
             painel = self.logpanel_slave
-            self.texto01b2b.SetLabel(self.slavepath)
-        
+
         else:
             raise(NameError, 'parametro incorreto')
 
@@ -199,7 +208,7 @@ class MyFrame(wx.Frame):
 
 if __name__ == '__main__':
     app = wx.App(useBestVisual=True)
-    frame = MyFrame("WR LogWatcher", "ATL_JOI")  #criacao do frame recebe o nome da janela
+    frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
     frame.carrega_informacoes('teste', descricao='master')
     frame.informa_erro(True)
     print(frame.listbox1.GetItems())

@@ -10,7 +10,7 @@ class WRZabbixSender:
         self.server = server
         self.port = int(port)
         self.status = status
-
+        
     def send_metric(self, value):
         '''Envia metricas para zabbix:    
             
@@ -22,7 +22,7 @@ class WRZabbixSender:
                 time.sleep(self.metric_interval)       
                 try:
                     packet = [
-                        ZabbixMetric(self.hostname, self.key, value[0])
+                        ZabbixMetric(self.hostname, self.key, str(value[0]))
                     ]
                     ZabbixSender(zabbix_server=self.server, zabbix_port=self.port).send(packet)
                 except Exception as Err:
@@ -30,10 +30,10 @@ class WRZabbixSender:
         except Exception as Err:
             print(f"Erro: {Err}")
 
-    def start_zabbix_thread(self, v_data):
+    def start_zabbix_thread(self):
         """v_data é o valor da metrica que precisa ser passado como lista e pode ser alterada no contexto do programa"""
         try:
-            u = Thread(target=self.send_metric, args=[v_data], daemon=True)
+            u = Thread(target=self.send_metric, args=[self.status], daemon=True)
             u.start()
         except Exception as Err:
             print(f'Erro: {Err}')

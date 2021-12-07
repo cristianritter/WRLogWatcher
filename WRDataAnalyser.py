@@ -44,8 +44,6 @@ class WRAnalizer:
     def get_time_offset(self, regMaster, regSlave):
         last_flag_time_slave = self.get_datahora_registro(regSlave)
         last_flag_time_master = self.get_datahora_registro(regMaster)
-        #print(last_flag_time_slave)
-        #print(last_flag_time_master)
         if last_flag_time_master > last_flag_time_slave:  ## se master estiver atrasado com relacao a slave
             offset = [last_flag_time_master - last_flag_time_slave, -1]  ##retorna flag -1 se houver problemas
             if (offset[0] < timedelta(milliseconds=20)):
@@ -56,12 +54,12 @@ class WRAnalizer:
 
     def mode_detect(self, config_offsets, current_offset):
         avaiable_modes = ["SAT POA", "BARIX", "SAT REG", "LINK DOWN"]
-        print(current_offset)
-        if (current_offset <= timedelta(milliseconds=config_offsets['sat_poa_sat_poa'])):
+        offsets = config_offsets.split(', ')
+        if (current_offset <= timedelta(milliseconds=int(offsets[0]))):
             return avaiable_modes[0]
-        elif (current_offset < timedelta(milliseconds=config_offsets['sat_poa_barix_ms'])):
+        elif (current_offset < timedelta(milliseconds=int(offsets[1]))):
             return avaiable_modes[1]
-        elif (current_offset < timedelta(milliseconds=config_offsets['sat_poa_sat_reg_ms'])):
+        elif (current_offset < timedelta(milliseconds=int(offsets[2]))):
             return avaiable_modes[2]
         else:
             return avaiable_modes[3]
