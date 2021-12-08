@@ -61,7 +61,7 @@ try:
         )
 
         FRAMES[nome] = MF(f"WR LogWatcher - {NOMES[nome]}")  #criacao do frame recebe o nome da janela
-    TBI(FRAMES[nome], f"WR LogWatcher", NOMES, FRAMES)
+    TBI(f"WR LogWatcher", NOMES, FRAMES)
    
 except Exception as Err:
     print("Erro: ", Err)
@@ -70,8 +70,8 @@ def loop_execucao(idx, name, frame, parser, analyzer):
     while True:
         time.sleep(5)
         try:
-            frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log('master')), descricao='master')
-            frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log('slave')), descricao='slave')
+            frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log('master')), selecao='master')
+            frame.carrega_informacoes(' \n'.join(parser.get_conteudo_log('slave')), selecao='slave')
             
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')

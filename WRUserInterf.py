@@ -2,81 +2,32 @@
 import wx.adv
 import wx
 import os
+import locale
 
 def InitLocale(self):
     """
-    Try to ensure that the C and Python locale is in sync with the wxWidgets
-    locale on Windows. If you have troubles from the default behavior of this
-    method you can override it in a derived class to behave differently.
-    Please report the problem you encountered.
+    Substituição do método padrão devido a problemas relacionados a detecção de locale no Windows 7.
+    Não foi testado no windows 10.
     """
     self.ResetLocale()
-    #if 'wxMSW' in PlatformInfo:
-    import locale
     try:
         lang, enc = locale.getdefaultlocale()
         self._initial_locale = wx.Locale(lang, lang[:2], lang)
-        #print(lang, enc)
-        #print(locale.locale_alias)
         locale.setlocale(locale.LC_ALL, 'portuguese_brazil')  #pulo do gato
-        #print(locale.getlocale())
     except (ValueError, locale.Error) as ex:
         target = wx.LogStderr()
         orig = wx.Log.SetActiveTarget(target)
         wx.LogError("Unable to set default locale: '{}'".format(ex))
         wx.Log.SetActiveTarget(orig)
-
-
 wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
 
-class TaskBarIcon(wx.adv.TaskBarIcon):
-    """Criacao de um icone na bandeja do systema para controle do aplicativo, e existencia minimizada"""
-    def __init__(self, frame, prog_name, frame_names, list_of_frames):
-        self.frame = frame  
-        self.FRAME_NAMES = frame_names
-        self.LIST_OF_FRAMES = list_of_frames
-        super(TaskBarIcon, self).__init__()
-
-        ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
-        task_icon = os.path.join(ROOT_DIR, 'task_icon.png')          
-        self.TRAY_TOOLTIP = prog_name
-        self.SetIcon(wx.Icon(task_icon), self.TRAY_TOOLTIP)
-        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down)
-
-    def create_menu_item(self, menu, label, func):
-            item = wx.MenuItem(menu, -1, label)
-            menu.Bind(wx.EVT_MENU, func, id=item.GetId())
-            menu.Append(item)
-            return item
-
-    def CreatePopupMenu(self):
-        menu = wx.Menu()
-        for item in self.FRAME_NAMES:
-            self.create_menu_item(menu, f'View {self.FRAME_NAMES[item]}', lambda evt, temp=self.LIST_OF_FRAMES[item]: self.on_right_down(evt, temp))
-        menu.AppendSeparator()
-        self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit)
-        menu.AppendSeparator()
-        self.create_menu_item(menu, 'Sobre', self.on_get_info)
-        return menu
-
-    def on_left_down(self, event): 
-        pass
-
-    def on_right_down(self, event, button_label):
-        button_label.Show()
       
-    def on_exit(self, event):
-        wx.CallAfter(self.Destroy)
-        for item in self.LIST_OF_FRAMES:
-            self.LIST_OF_FRAMES[item].Close();
-
-    def on_get_info(self, event):
-        wx.MessageBox("Feito por Cristian Ritter para NSC TV FLOPS", 'Sobre o aplicativo')
-      
-
 class MyFrame(wx.Frame):
     def __init__(self, prog_name):
-        """font family can be:
+        """
+        Criacao dos frames, define o layout de todos os componentes e as variaveis utilizadas
+
+        font family can be:
         wx.DECORATIVE, wx.DEFAULT,wx.MODERN, wx.ROMAN, wx.SCRIPT or wx.SWISS.
 
         style can be:
@@ -87,11 +38,8 @@ class MyFrame(wx.Frame):
         
         sizer flags applies to aplied borders TOP BOTTOM LEFT RIGHT ALL 
         """
-        self.masterpath = ""
-        self.slavepath = ""
         tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
-
 
         super().__init__( # cria uma janela
             parent=None, 
@@ -99,6 +47,8 @@ class MyFrame(wx.Frame):
             style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
             size=(1200, 690)
         ) 
+        #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
+        #task_icon = os.path.join(ROOT_DIR, 'task_icon.png')
         #self.SetIcon(wx.Icon(task_icon))
 
         self.Centre()    #centraliza a janela  
@@ -166,51 +116,140 @@ class MyFrame(wx.Frame):
         esconder_bt.Bind(wx.EVT_BUTTON, self.on_press)  #associa funcao ao botao
 
     def on_press(self, event):
+        """Funcao executada ao pressionar o botao Esconder"""
         self.Hide()
+
     def set_error_led(self):
+        """Funcao que pinta o led de vermelho"""
         self.led1.SetBackgroundColour('Red')
         self.Refresh()
+
     def clear_error_led(self):
+        """Funcao que pinta o led de verde"""
         self.led1.SetBackgroundColour('Green')
         self.Refresh()
+
     def set_interface_paths(self, paths):
+        """
+        Funcao que seta o texto da interface que indica os paths monitorados
+        Recebe uma lista no estilo [path master, path slave]
+        """
         self.texto01b1b.SetLabel(paths[0])
         self.texto01b2b.SetLabel(paths[1])
 
     def set_listbox_selected(self, mode):
+        """
+        Funcao que seleciona uma opcao no listbox dos modos de operacao\n
+        Recebe uma string com o nome do modo de servico. Suporta as opcoes listadas no listbox\n
+        SAT POA, SAT REG, BARIX, LINK DOWN
+        """
         for idx, content in enumerate(self.listbox1.GetItems()):
             if mode in content:
                 self.listbox1.Select(idx)
 
-    def carrega_informacoes(self, informacoes, descricao='master'):
-        """_frame recebe a janela do aplicativo; informações recebe a string com o texto do painel"""
-        if descricao == 'master':
+    def carrega_informacoes(self, conteudo, selecao='master'):
+        """Funcao que atualiza o painel de informacoes do log. \n
+        Recebe uma string contendo o conteudo do log\n
+        a selecao suporta as opcoes 'master' ou 'slave' para escolher o destino das informacoes.
+        """
+        if selecao == 'master':
             painel = self.logpanel_master
         
-        elif descricao == 'slave':
+        elif selecao == 'slave':
             painel = self.logpanel_slave
 
         else:
             raise(NameError, 'parametro incorreto')
 
-        if (not informacoes in painel.Value):
-            painel.Value=informacoes
+        if (not conteudo in painel.Value):
+            painel.Value=conteudo
         self.Refresh()
 
-
     def informa_erro(self, estado):
-        """recebe o estado de erros  """
+        """
+        Função que informa o status de erros do sistema.\n
+        Recebe um booleano contendo True se existem erros, e False se nao existem.
+        """
         if (estado == True):
             self.set_error_led()
         else:
             self.clear_error_led()
     
 
+class TaskBarIcon(wx.adv.TaskBarIcon):
+    """
+    Criacao de um icone na bandeja do systema para controle do aplicativo, e existencia no tray do sistema
+    """
+    def __init__(self, prog_name, frame_names, list_of_frames):
+        """
+        Funcao que inicializa o tray do sistema \n
+        prog_name recebe uma string com o nome do programa a ser apresentado no icone tray\n
+        frame_names recebe um dicionario no estilo chave :key {profile_name :apelido_praca}\n
+        list_of_frames recebe um dicionario no estilo chave :key {profile_name :instancia de inicializacao do frame}\n
+        
+        """
+        self.frame = (list(list_of_frames.values())[0])
+        self.FRAME_NAMES = frame_names
+        self.LIST_OF_FRAMES = list_of_frames
+        super(TaskBarIcon, self).__init__()
+        
+        self.TRAY_TOOLTIP = prog_name
+        ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
+        task_icon = os.path.join(ROOT_DIR, 'task_icon.png')          
+        self.SetIcon(wx.Icon(task_icon), self.TRAY_TOOLTIP)
+
+        self.Bind(wx.adv.EVT_TASKBAR_LEFT_DOWN, self.on_left_down) #funcao que define o metodo de clique esquerdo no trayicon
+
+    def create_menu_item(self, menu, label, func):
+            item = wx.MenuItem(menu, -1, label)
+            menu.Bind(wx.EVT_MENU, func, id=item.GetId())
+            menu.Append(item)
+            return item
+
+    def CreatePopupMenu(self):
+        menu = wx.Menu()
+        for item in self.FRAME_NAMES:
+            # definindo metodos para cada submenu criado, funcao lambda permite enviar parametros especificos para cada submenu
+            self.create_menu_item(menu, f'View {self.FRAME_NAMES[item]}', lambda evt, temp=self.LIST_OF_FRAMES[item]: self.on_right_down(evt, temp)) 
+        
+        menu.AppendSeparator()
+        self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit) #on exit program clique
+        menu.AppendSeparator()
+        self.create_menu_item(menu, 'Sobre', self.on_get_info) #apresentacao de informacoes sobre o desenvolvedor
+        return menu
+
+    def on_left_down(self, event): 
+        """
+        Metodo executado ao clicar com o botao esquerdo
+        """
+        pass
+
+    def on_right_down(self, event, button_label):
+        """
+        Metodo executado ao clicar com o botao direito em submenus\n
+        button_label recebe o frame especifico de casa submenu
+        a funcao frame.Show() realiza a exibicao da janela especificada 
+        """
+        button_label.Show()
+      
+    def on_exit(self, event):
+        wx.CallAfter(self.Destroy)
+        for item in self.LIST_OF_FRAMES:
+            self.LIST_OF_FRAMES[item].Close();
+
+    def on_get_info(self, event):
+        wx.MessageBox("Feito por Cristian Ritter para NSC TV", 'Sobre o aplicativo')
+
+
 if __name__ == '__main__':
+    """
+    Este trecho do código permite testar a biblioteca individualmente e fornece também exemplos de uso.
+    """
     app = wx.App(useBestVisual=True)
     frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
-    frame.carrega_informacoes('teste', descricao='master')
+    frame.carrega_informacoes('teste', selecao='master')
     frame.informa_erro(True)
-    print(frame.listbox1.GetItems())
-    TaskBarIcon(frame, "WR LogWatcher", "ATL_JOI")
+    frame_names = {'nome_do_perfil' : 'apelido'}
+    frames_dict = {'nome_do_perfil' :frame}
+    TaskBarIcon("WR LogWatcher - ATL_JOI", frame_names, frames_dict)
     app.MainLoop()

@@ -41,5 +41,5 @@ Pendentes:
  - Alterar todas as bibliotecas para uso como classes (resolvido)
  - Realizar o parsing dos logs em duas funções, uma trazendo somente texto e outra trazendo a lista com o resultado (resolvido)
  - Resolver problema com wx task relacionado ao locale (resolvido)
- - Comentar as funcoes e adicionar as descricoes
+ - Comentar as funcoes e adicionar as descricoes (WRUserInterf.py->OK)
  - Elaborar e integrar icones da interface de usuario
