@@ -5,13 +5,7 @@ Todas as mensagens seriais recebidas são registradas neste log de eventos.
 Este programa verifica em tempo real o log para detectar problemas relacionados a erros de conexão, ou problemas de roteamento na cadeia.
 Os problemas detectados serão encaminhados para uma plataforma de monitoramento Zabbix.
 
-Segue o diagrama de funcionamento dos exibidores
-
-| Exibidor |                      | Exibidor |                       | Exibidores  |
-| POA      |--> Dados Seriais --> | Flops    | --> Dados Seriais --> | das praças  |
-|          |       Puros          |          |     Identificados     | do interior |
-     |                                                                     ^
-      ------------------------- Dados Seriais Puros ------------------------
+São utilizados sincronizadores de tempo NTP em todas as maquinas, e os erros sao verificados por meio de analise do timestamp de registros dos logs.
 
 Uma chave nos exibidores do interior define quais Dados estão chegando (Dados Seriais Puros ou Dados Seriais Identificados)
 O log nos permite descobrir se a chave está na posição correta, ou se existe um erro de conexão.
@@ -20,8 +14,8 @@ Etapas do projeto:
  - Desenvolvimento do arquivo de import de configurações 'config.ini'; OK
  - Desenvolvimento da abertura do arquivo de log e tratamento das informações; OK
  - Desenvolvimento da engine Zabbix para envio dos alarmes; OK
- - Desenvolvimento do mecanismo inteligente para analise dos dados;
- - Desenvolvimento da Interface do Usuário;
+ - Desenvolvimento do mecanismo inteligente para analise dos dados; OK
+ - Desenvolvimento da Interface do Usuário; OK
  - Demais etapas ainda a serem definidas
 
 Atualizações:
@@ -35,11 +29,13 @@ Atualizações:
 - Criado arquivo de teste para operacoes em tempo real no log do winradio (finalizado com sucesso sem causar erros no sistema)
 - Alteração do sistema para permitir a configuração de multiplas praças 
 - Alterado sistema config e bibliotecas
+- Sistema multiframe concluido em branch multiframe
 
 
 Pendentes:
  - Alterar todas as bibliotecas para uso como classes (resolvido)
  - Realizar o parsing dos logs em duas funções, uma trazendo somente texto e outra trazendo a lista com o resultado (resolvido)
  - Resolver problema com wx task relacionado ao locale (resolvido)
- - Comentar as funcoes e adicionar as descricoes (WRUserInterf.py->OK)
- - Elaborar e integrar icones da interface de usuario
+ - Comentar as funcoes e adicionar as descricoes (WRUserInterf.py->OK, WRZabbixSender.py->OK, )
+ - Elaborar e integrar icones da interface de usuario (resolvido)
+ - Testes pré produção

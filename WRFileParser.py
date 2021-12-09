@@ -26,12 +26,12 @@ class WRFileParse:
         try:
             arquivo_de_log = self.get_log_filename(description)
             conteudo = []
-            with FileReadBackwards(arquivo_de_log, encoding='utf-8') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
-                for idx, linha in enumerate(frb):
+            with open(arquivo_de_log, mode='r', encoding='utf-8', errors='ignore') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
+                for idx, linha in enumerate(reversed(frb.readlines())):
                     conteudo.append(f'{idx} - {linha}')
             return conteudo
         except Exception as Err:
-            print(Err)
+            print(f'Erro durante o carregamento do arquivo de log, {arquivo_de_log} - {Err}')
 
     def get_last_flag_line(self, description='master'):
         """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
