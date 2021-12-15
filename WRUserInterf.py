@@ -63,7 +63,7 @@ class MyFrame(wx.Frame):
         texto011.SetBackgroundColour('black')
         texto011.SetForegroundColour('white')
         box_linha01.Add(texto011, proportion=0, flag=wx.TOP, border=10)   #adiciona elemento de texto na linha01 
-
+      
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(panel, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
         self.texto01b1b = wx.StaticText(panel, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
@@ -246,10 +246,17 @@ if __name__ == '__main__':
     Este trecho do código permite testar a biblioteca individualmente e fornece também exemplos de uso.
     """
     app = wx.App(useBestVisual=True)
+
     frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
+    
     frame.carrega_informacoes('teste', selecao='master')
+    frame.carrega_informacoes('teste2', selecao='slave')
+
+
     frame.informa_erro(True)
+    
     frame_names = {'nome_do_perfil' : 'apelido'}
     frames_dict = {'nome_do_perfil' :frame}
+
     TaskBarIcon("WR LogWatcher - ATL_JOI", frame_names, frames_dict)
     app.MainLoop()

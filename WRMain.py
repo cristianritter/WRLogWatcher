@@ -1,22 +1,21 @@
 import wx
 import time
-
-from wx.core import Frame
 from WRFileParser import WRFileParse
 from WRDataAnalyser import WRAnalizer
 from WRZabbixSender import WRZabbixSender
+from WRFileLogger import WRLogger
 import parse_config
 from threading import Thread
 from WRUserInterf import TaskBarIcon as TBI
 from WRUserInterf import MyFrame as MF
 
+Logger = WRLogger()
 
 try:
     configuration = parse_config.ConfPacket()
     configs = configuration.load_config(
     #carrega configuracoes do arquivo config.ini
-    'default, nomes, default_modes, offsets_ms, diretorios, zabbix_keys, zabbix'  
-    )
+    'default, nomes, default_modes, offsets_ms, diretorios, zabbix_keys, zabbix'  )
     FLAG = configs['default']['flag_string']
     FLAG_MAX_TIME = int(configs['default']['flag_max_time_seconds'])
     NOMES = configs['nomes']
@@ -28,8 +27,7 @@ try:
         'metric_interval' :configs['zabbix']['send_metrics_interval'],
         'hostname' :configs['zabbix']['hostname'],
         'server' :configs['zabbix']['zabbix_server'],
-        'port' :configs['zabbix']['port']
-    }
+        'port' :configs['zabbix']['port']}
     FILEPARSER = {}
     ANALYZER = {}
     ZABBIXSENDER = {}
@@ -57,6 +55,8 @@ try:
    
 except Exception as Err:
     print("Erro: ", Err)
+    Logger.adiciona_linha_log('Inicialização das classes', Err)
+
 
 def loop_execucao(idx, name, frame, parser, analyzer):
     while True:
@@ -79,8 +79,11 @@ def loop_execucao(idx, name, frame, parser, analyzer):
             else:
                 frame.clear_error_led()
                 THREAD_STATUS[idx] = 0            
+
         except Exception as Err:
             print(f"{NOMES[nome]} - Erro: {Err}")
+            Logger.adiciona_linha_log(f'Execução dos loops: {name}', Err)
+
 
 if (__name__ == '__main__'):
     try:
@@ -94,3 +97,4 @@ if (__name__ == '__main__'):
         
     except Exception as Err:
         print("Erro1", Err)
+        Logger.adiciona_linha_log('Main:', Err)
