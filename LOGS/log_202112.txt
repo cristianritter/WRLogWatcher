@@ -1,3 +1,24 @@
 15/12/2021 08:25:41 - descricao do erro [nome]
 15/12/2021 08:25:54 - descricao do erro [nome]
 15/12/2021 08:26:42 - [nome] - descricao do erro 
+15/12/2021 10:09:07 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:09 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:09 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:09 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:10 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:12 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:14 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:14 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:15 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:15 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:17 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:19 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:19 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:20 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:20 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:22 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:24 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:24 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:25 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:25 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
+15/12/2021 10:09:27 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 

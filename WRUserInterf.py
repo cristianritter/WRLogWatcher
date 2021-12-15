@@ -44,7 +44,7 @@ class MyFrame(wx.Frame):
         super().__init__( # cria uma janela
             parent=None, 
             title=prog_name, 
-            style=wx.CAPTION,  #remove o botão de maximizar, minimizar ou fechar a janela
+            style=wx.CAPTION | wx.FRAME_TOOL_WINDOW,  #remove o botão de maximizar, minimizar ou fechar a janela
             size=(1200, 690)
         ) 
         #ROOT_DIR = os.path.dirname(os.path.abspath(__file__)) # This is your Project Root
