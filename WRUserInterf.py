@@ -3,6 +3,7 @@ import wx.adv
 import wx
 import os
 import locale
+import time
 
 def InitLocale(self):
     """
@@ -67,11 +68,11 @@ class MyFrame(wx.Frame):
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(panel, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
         self.texto01b1b = wx.StaticText(panel, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_master = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
+        self.logpanel_master = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         texto01b2 = wx.StaticText(panel, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,15))
         self.texto01b2b = wx.StaticText(panel, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_slave = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY, size=(500,400))  #cria um edit
+        self.logpanel_slave = wx.TextCtrl(panel, value='Carregando informações...', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
@@ -87,25 +88,37 @@ class MyFrame(wx.Frame):
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox1 = wx.ListBox(panel, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
         self.listbox1.Disable()
+        box_linha02.Add(wx.StaticText(panel, label='Modo de operação detectado:'), proportion=0, flag=wx.CENTER | wx.ALL, border=20)
+        box_linha02.Add(self.listbox1, proportion=0, flag=wx.CENTER | wx.ALL, border=20)
+        
         self.led1 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
         self.led1.SetBackgroundColour('gray')
-        box_linha02.Add(wx.StaticText(panel, label='Modo de operação detectado:'), proportion=0, flag=wx.ALL, border=10)
-        box_linha02.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=30)
-        box_linha02.Add(self.led1, proportion=0, flag=wx.ALL, border=10)
-        box_linha02.Add(wx.StaticText(panel, label='Status de funcionamento     (Green-> Tudo OK, Red->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02a = wx.BoxSizer(wx.HORIZONTAL)
+        box_linha02a.Add(self.led1, proportion=0, flag=wx.ALL, border=10)
+        box_linha02a.Add(wx.StaticText(panel, label='Status de funcionamento     (Verde-> OK, Verm->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+       
+        self.led2 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
+        self.led2.SetBackgroundColour('gray')
+        box_linha02b = wx.BoxSizer(wx.HORIZONTAL)
+        box_linha02b.Add(self.led2, proportion=0, flag=wx.ALL, border=10)
+        box_linha02b.Add(wx.StaticText(panel, label='Falha no historico de interpretação dos comandos     (Verde-> OK, Verm->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+       
 
+        box_coluna02a = wx.BoxSizer(wx.VERTICAL)
+        box_coluna02a.Add(box_linha02a, proportion=0, flag=wx.ALL, border=0)
+        box_coluna02a.Add(box_linha02b, proportion=0, flag=wx.ALL, border=0)
+
+        box_linha02.Add(box_coluna02a, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+        
         esconder_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
         self.texto02a = wx.StaticText(panel, label='Verifique a sincronização de horário dos sistemas de referência e/ou monitorados.')
         self.texto02a.Font = warning_font
         self.texto02a.BackgroundColour = 'red'
                    
         coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
-        coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
-        coluna.AddSpacer(10) 
-        coluna.Add(box_linha02, proportion=0, flag=wx.CENTER, border=0)
-        coluna.AddSpacer(5) 
-        coluna.Add(self.texto02a, proportion=0, flag=wx.CENTER, border=5) 
-        coluna.AddSpacer(5) 
+        coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
+        coluna.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
+        coluna.Add(self.texto02a, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
         coluna.Add(esconder_bt, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         
         panel.SetSizer(coluna)
@@ -119,14 +132,20 @@ class MyFrame(wx.Frame):
         """Funcao executada ao pressionar o botao Esconder"""
         self.Hide()
 
-    def set_error_led(self):
+    def set_error_led(self, selecao='led1'):
         """Funcao que pinta o led de vermelho"""
-        self.led1.SetBackgroundColour('Red')
+        if selecao.lower() == 'led1':
+            self.led1.SetBackgroundColour('Red')
+        if selecao.lower() == 'led2':
+            self.led2.SetBackgroundColour('Red')    
         self.Refresh()
 
-    def clear_error_led(self):
+    def clear_error_led(self, selecao='led1'):
         """Funcao que pinta o led de verde"""
-        self.led1.SetBackgroundColour('Green')
+        if selecao.lower() == 'led1':
+            self.led1.SetBackgroundColour('Green')
+        if selecao.lower() == 'led2':
+            self.led2.SetBackgroundColour('Green')
         self.Refresh()
 
     def set_interface_paths(self, paths):
@@ -147,33 +166,48 @@ class MyFrame(wx.Frame):
             if mode in content:
                 self.listbox1.Select(idx)
 
-    def carrega_informacoes(self, conteudo, selecao='master'):
+    def adiciona_informacoes(self, conteudo, estilo_do_texto, selecao='master'):
         """Funcao que atualiza o painel de informacoes do log. \n
         Recebe uma string contendo o conteudo do log\n
         a selecao suporta as opcoes 'master' ou 'slave' para escolher o destino das informacoes.
         """
         if selecao == 'master':
-            painel = self.logpanel_master
+            painel = self.logpanel_master    
         
         elif selecao == 'slave':
             painel = self.logpanel_slave
 
         else:
             raise(NameError, 'parametro incorreto')
-
+          
         if (not conteudo in painel.Value):
-            painel.Value=conteudo
+            if estilo_do_texto == 'FLAG':
+                painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.WHITE))
+            else:
+                painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.LIGHT_GREY))
+            painel.AppendText(conteudo)
         self.Refresh()
 
-    def informa_erro(self, estado):
+    def limpa_informacoes(self, selecao='master'):
+        if selecao == 'master':
+            self.logpanel_master.Clear()
+        
+        elif selecao == 'slave':
+            self.logpanel_slave.Clear()
+
+        else:
+            raise(NameError, 'parametro incorreto')
+
+
+   # def informa_erro(self, estado):
         """
         Função que informa o status de erros do sistema.\n
         Recebe um booleano contendo True se existem erros, e False se nao existem.
         """
-        if (estado == True):
-            self.set_error_led()
-        else:
-            self.clear_error_led()
+   #     if (estado == True):
+   #         self.set_error_led()
+   #     else:
+   #         self.clear_error_led()
     
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
@@ -249,12 +283,11 @@ if __name__ == '__main__':
 
     frame = MyFrame("WR LogWatcher")  #criacao do frame recebe o nome da janela
     
-    frame.carrega_informacoes('teste', selecao='master')
-    frame.carrega_informacoes('teste2', selecao='slave')
+    frame.adiciona_informacoes('teste', estilo_do_texto='FLAG', selecao='master')
+    frame.adiciona_informacoes('teste2', estilo_do_texto='NENHUM', selecao='slave')
+    print(frame.logpanel_master.GetLastPosition())
+#    frame.logpanel_master.
 
-
-    frame.informa_erro(True)
-    
     frame_names = {'nome_do_perfil' : 'apelido'}
     frames_dict = {'nome_do_perfil' :frame}
 

@@ -22,3 +22,64 @@
 15/12/2021 10:09:25 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
 15/12/2021 10:09:25 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
 15/12/2021 10:09:27 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+16/12/2021 10:25:08 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+16/12/2021 10:43:40 - [Execução dos loops: praca05] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:40 - [Execução dos loops: praca04] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:40 - [Execução dos loops: praca01] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:40 - [Execução dos loops: praca02] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:40 - [Execução dos loops: praca03] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:45 - [Execução dos loops: praca03] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:45 - [Execução dos loops: praca02] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:45 - [Execução dos loops: praca04] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:45 - [Execução dos loops: praca01] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:43:45 - [Execução dos loops: praca05] - adiciona_informacoes() got multiple values for argument 'selecao' 
+16/12/2021 10:53:18 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:18 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:18 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:18 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:18 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:23 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:23 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:23 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:23 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:53:23 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:39 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:39 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:39 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:39 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:39 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:44 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:44 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:44 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:44 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:54:44 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:52 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:52 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:52 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:52 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:52 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:57 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:57 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:57 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:57 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:55:57 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:58:05 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:58:05 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:58:05 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:58:05 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 10:58:05 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:53 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:53 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:53 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:53 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:53 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:58 - [Execução dos loops: praca03] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:58 - [Execução dos loops: praca05] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:58 - [Execução dos loops: praca04] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:58 - [Execução dos loops: praca01] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:03:58 - [Execução dos loops: praca02] - C++ assertion "idx < m_size" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(493) in wxVector<int>::at():  
+16/12/2021 11:25:20 - [Main:] - 'MyFrame' object has no attribute 'limpa_informaçoes' 
+16/12/2021 12:06:25 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+16/12/2021 13:08:37 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+16/12/2021 13:08:37 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+16/12/2021 13:08:54 - [Execução dos loops: praca01] - C++ assertion "first < end() && last <= end()" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(566) in wxVector<int>::erase():  

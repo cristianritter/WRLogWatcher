@@ -22,13 +22,18 @@ class WRFileParse:
         return log_fullfilepath
 
     def get_conteudo_log(self, description='master'):
-        """Retorna a quantidade de linhas informada do arquivo de log como uma string"""
+        """Retorna a quantidade de linhas informada do arquivo de log como uma lista de strings"""
         try:
             arquivo_de_log = self.get_log_filename(description)
             conteudo = []
             with open(arquivo_de_log, mode='r', encoding='utf-8', errors='ignore') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
-                for idx, linha in enumerate(reversed(frb.readlines())):
-                    conteudo.append(f'{idx} - {linha}')
+                for idx, linha in enumerate((frb.readlines())):  #reversed removed
+                    if (self.FLAG in linha):
+                        estilo = 'FLAG'
+                    else:
+                        estilo = 'NENHUM'
+                    
+                    conteudo.append([f'{idx} - {linha}', estilo])
             return conteudo
         except Exception as Err:
             print(f'Erro durante o carregamento do arquivo de log, {arquivo_de_log} - {Err}')
@@ -37,21 +42,21 @@ class WRFileParse:
         """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
         try:
             data_list = []  #criacao de um dicionario para armazenar os dados
-            for linha in self.get_conteudo_log(description):
-                line_data = linha.replace(" - ", "-").split('-')  #separa dos dados da linha em uma lista 
+            for linha in reversed(self.get_conteudo_log(description)):  #adicionado reversed
+                line_data = linha[0].replace(" - ", "-").split('-')  #separa dos dados da linha em uma lista 
                 data_list.append (line_data)  #adiciona os dados em uma lista global
             for linha in data_list:    #itera sobre a lista contendo todos os dados organizados
                 if (self.FLAG in ' '.join(linha)):  #procura pela Flag 
                     return linha  #caso encontre retorna as informações da linha
             return 0
         except Exception as Err:
-            print(Err)
+            print(f'Erro em get_last_flag_line: {Err}')
 
     def get_some_reg(self, finded_reg, descricao='master'):
         """Procura pela existencia de um registro especifico em um log com base em um disparo registrado em outro log"""
         for linha in self.get_conteudo_log(descricao):
-            if (finded_reg[3] in linha):
-                return linha.replace(" - ", "-").split('-')
+            if (finded_reg[3] in linha[0]):
+                return linha[0].replace(" - ", "-").split('-')
   
 if (__name__ == '__main__'):
     import parse_config
@@ -63,6 +68,7 @@ if (__name__ == '__main__'):
     pathlog_list = configs['diretorios']['praca01'].split(', ')
     parser = WRFileParse(FLAG, pathlog_list)
     somereg = parser.get_last_flag_line('slave')
-    print(somereg)
-    print(parser.get_some_reg(somereg, 'master'))
+    #print(somereg)
+    #print(parser.get_some_reg(somereg, 'master'))
+    #print(parser.get_conteudo_log('master'))
     

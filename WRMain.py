@@ -51,6 +51,7 @@ try:
             status= THREAD_STATUS
         )
         FRAMES[nome] = MF(f"WR LogWatcher - {NOMES[nome]}")  #criacao do frame recebe o nome da janela
+        FRAMES[nome].set_interface_paths(LOG_PATHS)
     TBI(f"WR LogWatcher", NOMES, FRAMES)
    
 except Exception as Err:
@@ -62,8 +63,17 @@ def loop_execucao(idx, name, frame, parser, analyzer):
     while True:
         time.sleep(5)
         try:
-            frame.carrega_informacoes(''.join(parser.get_conteudo_log('master')), selecao='master')
-            frame.carrega_informacoes(''.join(parser.get_conteudo_log('slave')), selecao='slave')
+            mastercontent = parser.get_conteudo_log('master')
+            slavecontent = parser.get_conteudo_log('slave')
+            if len(mastercontent) != len(slavecontent):
+                frame.set_error_led('led2')
+            else:
+                frame.clear_error_led('led2')                       
+
+            for linha in mastercontent:
+                frame.adiciona_informacoes(linha[0], linha[1], selecao='master')
+            for linha in slavecontent:
+                frame.adiciona_informacoes(linha[0], linha[1], selecao='slave')
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)
@@ -74,12 +84,13 @@ def loop_execucao(idx, name, frame, parser, analyzer):
             operacao_detectada = analyzer.mode_detect(OFFSETS_MS[name], current_offset[0])
             frame.set_listbox_selected(operacao_detectada)           
             if (not operacao_detectada in DEFAULT_MODES[name]):
-                frame.set_error_led()
+                frame.set_error_led('led1')
                 THREAD_STATUS[idx] = 1   #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
             else:
-                frame.clear_error_led()
-                THREAD_STATUS[idx] = 0            
-
+                frame.clear_error_led('led1')
+                THREAD_STATUS[idx] = 0    
+            
+           
         except Exception as Err:
             print(f"{NOMES[nome]} - Erro: {Err}")
             Logger.adiciona_linha_log(f'Execução dos loops: {name}', Err)
@@ -89,7 +100,8 @@ if (__name__ == '__main__'):
     try:
         t = []
         for idx, nome in enumerate(NOMES):
-            pass
+            FRAMES[nome].limpa_informacoes('master')
+            FRAMES[nome].limpa_informacoes('slave')
             t.append( Thread(target=loop_execucao, args=[idx, nome, FRAMES[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
             t[idx].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix
