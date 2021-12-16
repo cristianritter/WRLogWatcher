@@ -91,17 +91,17 @@ class MyFrame(wx.Frame):
         box_linha02.Add(wx.StaticText(panel, label='Modo de operação detectado:'), proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         box_linha02.Add(self.listbox1, proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         
-        self.led1 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
+        self.led1 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,10))
         self.led1.SetBackgroundColour('gray')
         box_linha02a = wx.BoxSizer(wx.HORIZONTAL)
-        box_linha02a.Add(self.led1, proportion=0, flag=wx.ALL, border=10)
-        box_linha02a.Add(wx.StaticText(panel, label='Status de funcionamento     (Verde-> OK, Verm->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02a.Add(self.led1, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
+        box_linha02a.Add(wx.StaticText(panel, label='Posição da botoneira   '), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
-        self.led2 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,15))
+        self.led2 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,10))
         self.led2.SetBackgroundColour('gray')
         box_linha02b = wx.BoxSizer(wx.HORIZONTAL)
-        box_linha02b.Add(self.led2, proportion=0, flag=wx.ALL, border=10)
-        box_linha02b.Add(wx.StaticText(panel, label='Falha no historico de interpretação dos comandos     (Verde-> OK, Verm->Problemas)'), proportion=0, flag=wx.ALL, border=10)
+        box_linha02b.Add(self.led2, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
+        box_linha02b.Add(wx.StaticText(panel, label='Falha no historico de interpretação dos comandos'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
 
         box_coluna02a = wx.BoxSizer(wx.VERTICAL)
@@ -285,7 +285,7 @@ if __name__ == '__main__':
     
     frame.adiciona_informacoes('teste', estilo_do_texto='FLAG', selecao='master')
     frame.adiciona_informacoes('teste2', estilo_do_texto='NENHUM', selecao='slave')
-    print(frame.logpanel_master.GetLastPosition())
+    #print()
 #    frame.logpanel_master.
 
     frame_names = {'nome_do_perfil' : 'apelido'}
