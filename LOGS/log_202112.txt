@@ -86,3 +86,23 @@
 17/12/2021 07:52:19 - [Execução dos loops: praca02] - wrapped C/C++ object of type StaticText has been deleted 
 17/12/2021 09:45:33 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
 17/12/2021 10:01:36 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
+17/12/2021 12:26:57 - [Inicialização das classes] - 'list' object has no attribute 'values' 
+17/12/2021 12:26:57 - [Main:] - name 'FRAMES' is not defined 
+17/12/2021 12:37:05 - [Execução dos loops: praca03] - name 'frame' is not defined 
+17/12/2021 12:37:05 - [Execução dos loops: praca05] - name 'frame' is not defined 
+17/12/2021 12:37:05 - [Execução dos loops: praca04] - name 'frame' is not defined 
+17/12/2021 12:37:05 - [Execução dos loops: praca01] - name 'frame' is not defined 
+17/12/2021 12:37:05 - [Execução dos loops: praca02] - name 'frame' is not defined 
+17/12/2021 12:39:34 - [Execução dos loops: praca05] - name 'frame' is not defined 
+17/12/2021 12:39:34 - [Execução dos loops: praca04] - name 'frame' is not defined 
+17/12/2021 12:39:34 - [Execução dos loops: praca01] - name 'frame' is not defined 
+17/12/2021 12:39:34 - [Execução dos loops: praca03] - name 'frame' is not defined 
+17/12/2021 12:39:34 - [Execução dos loops: praca02] - name 'frame' is not defined 
+17/12/2021 12:41:36 - [Inicialização das classes] - 'str' object has no attribute 'tab_text' 
+17/12/2021 12:41:36 - [Main:] - 'praca02' 
+17/12/2021 12:41:39 - [Inicialização das classes] - 'str' object has no attribute 'tab_text' 
+17/12/2021 12:41:39 - [Main:] - 'praca02' 
+17/12/2021 13:08:47 - [Execução dos loops: praca04] - wrapped C/C++ object of type TextCtrl has been deleted 
+17/12/2021 13:08:47 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+17/12/2021 13:12:31 - [Execução dos loops: praca05] - wrapped C/C++ object of type TextCtrl has been deleted 
+17/12/2021 13:24:17 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 

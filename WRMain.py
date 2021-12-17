@@ -31,7 +31,7 @@ try:
     FILEPARSER = {}
     ANALYZER = {}
     ZABBIXSENDER = {}
-    FRAMES = {}
+    TABS = {}
     THREAD_STATUS = []
 
     app = wx.App()   
@@ -50,46 +50,46 @@ try:
             idx= idx_,
             status= THREAD_STATUS
         )
-        FRAMES[nome] = MF(f"WR LogWatcher - {NOMES[nome]}")  #criacao do frame recebe o nome da janela
-        FRAMES[nome].set_interface_paths(LOG_PATHS)
-    TBI(f"WR LogWatcher", NOMES, FRAMES)
+    FRAME = MF("WR LogWatcher", TABS, NOMES)  #arquivo tabs é criado aqui dentro por ponteiro
+    TBI(f"WR LogWatcher", FRAME, TABS, NOMES)
+    
    
 except Exception as Err:
     print("Erro: ", Err)
     Logger.adiciona_linha_log('Inicialização das classes', Err)
 
 
-def loop_execucao(idx, name, frame, parser, analyzer):
+def loop_execucao(idx, name, tab, parser, analyzer):
     while True:
         time.sleep(5)
         try:
             mastercontent = parser.get_conteudo_log('master')
             slavecontent = parser.get_conteudo_log('slave')
             if len(mastercontent) != len(slavecontent):
-                frame.set_error_led('led2')
+                tab.set_error_led('led2')
             else:
-                frame.clear_error_led('led2')                       
+                tab.clear_error_led('led2')                       
 
             for linha in mastercontent:
-                frame.adiciona_informacoes(linha[0], linha[1], selecao='master')
+                tab.adiciona_informacoes(linha[0], linha[1], selecao='master')
                 time.sleep(0.04)
             for linha in slavecontent:
-                frame.adiciona_informacoes(linha[0], linha[1], selecao='slave')
+                tab.adiciona_informacoes(linha[0], linha[1], selecao='slave')
                 time.sleep(0.04)
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)
             if current_offset[1] == -1:  # exibe aviso se erro de sinc de horario nos pcs monitorados
-                frame.texto02a.Show()
+                tab.texto02a.Show()
             else:
-                frame.texto02a.Hide()
+                tab.texto02a.Hide()
             operacao_detectada = analyzer.mode_detect(OFFSETS_MS[name], current_offset[0])
-            frame.set_listbox_selected(operacao_detectada)           
+            tab.set_listbox_selected(operacao_detectada)           
             if (not operacao_detectada in DEFAULT_MODES[name]):
-                frame.set_error_led('led1')
+                tab.set_error_led('led1')
                 THREAD_STATUS[idx] = 1   #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
             else:
-                frame.clear_error_led('led1')
+                tab.clear_error_led('led1')
                 THREAD_STATUS[idx] = 0    
             
            
@@ -102,9 +102,7 @@ if (__name__ == '__main__'):
     try:
         t = []
         for idx, nome in enumerate(NOMES):
-            FRAMES[nome].limpa_informacoes('master')
-            FRAMES[nome].limpa_informacoes('slave')
-            t.append( Thread(target=loop_execucao, args=[idx, nome, FRAMES[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
+            t.append( Thread(target=loop_execucao, args=[idx, nome, TABS[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
             t[idx].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix
         app.MainLoop()

@@ -7,14 +7,12 @@ class TabPanel(wx.Panel):
         """"""
         wx.Panel.__init__(self, parent=parent)
         
-        colors = ["red", "blue", "gray", "yellow", "green"]
-        self.SetBackgroundColour(random.choice(colors))
-        
         btn = wx.Button(self, label="Press Me")
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(btn, 0, wx.ALL, 10)
         self.SetSizer(sizer)
 ########################################################################
+
 class DemoFrame(wx.Frame):
     """
     Frame that holds all other widgets
@@ -29,6 +27,7 @@ class DemoFrame(wx.Frame):
         panel = wx.Panel(self)
         
         notebook = wx.Notebook(panel)
+    
         tabOne = TabPanel(notebook)
         notebook.AddPage(tabOne, "Tab 1")
         
