@@ -72,8 +72,10 @@ def loop_execucao(idx, name, frame, parser, analyzer):
 
             for linha in mastercontent:
                 frame.adiciona_informacoes(linha[0], linha[1], selecao='master')
+                time.sleep(0.04)
             for linha in slavecontent:
                 frame.adiciona_informacoes(linha[0], linha[1], selecao='slave')
+                time.sleep(0.04)
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)

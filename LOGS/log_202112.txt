@@ -83,3 +83,6 @@
 16/12/2021 13:08:37 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
 16/12/2021 13:08:37 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 
 16/12/2021 13:08:54 - [Execução dos loops: praca01] - C++ assertion "first < end() && last <= end()" failed at C:\PROJECTS\bb2\dist-win32-py38\build\ext\wxWidgets\include\wx/vector.h(566) in wxVector<int>::erase():  
+17/12/2021 07:52:19 - [Execução dos loops: praca02] - wrapped C/C++ object of type StaticText has been deleted 
+17/12/2021 09:45:33 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+17/12/2021 10:01:36 - [Execução dos loops: praca03] - wrapped C/C++ object of type TextCtrl has been deleted 

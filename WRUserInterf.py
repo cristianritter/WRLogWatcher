@@ -95,19 +95,20 @@ class MyFrame(wx.Frame):
         self.led1.SetBackgroundColour('gray')
         box_linha02a = wx.BoxSizer(wx.HORIZONTAL)
         box_linha02a.Add(self.led1, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
-        box_linha02a.Add(wx.StaticText(panel, label='Posição da botoneira   '), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+        box_linha02a.Add(wx.StaticText(panel, label='Posição da botoneira'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
         self.led2 =  wx.StaticText(panel, wx.ID_ANY, label='', size=(20,10))
         self.led2.SetBackgroundColour('gray')
         box_linha02b = wx.BoxSizer(wx.HORIZONTAL)
         box_linha02b.Add(self.led2, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
-        box_linha02b.Add(wx.StaticText(panel, label='Falha no historico de interpretação dos comandos'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+        box_linha02b.Add(wx.StaticText(panel, label='Historico de interpretação dos comandos'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
 
         box_coluna02a = wx.BoxSizer(wx.VERTICAL)
         box_coluna02a.Add(box_linha02a, proportion=0, flag=wx.ALL, border=0)
         box_coluna02a.Add(box_linha02b, proportion=0, flag=wx.ALL, border=0)
-
+        
+        box_linha02.AddSpacer(50)
         box_linha02.Add(box_coluna02a, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
         
         esconder_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
