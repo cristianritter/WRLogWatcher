@@ -51,9 +51,7 @@ try:
             status= THREAD_STATUS
         )
     FRAME = MF("WR LogWatcher", TABS, NOMES)  #arquivo tabs é criado aqui dentro por ponteiro
-    TBI(f"WR LogWatcher", FRAME, TABS, NOMES)
-    
-   
+    TBI(f"WR LogWatcher", FRAME, TABS, NOMES) 
 except Exception as Err:
     print("Erro: ", Err)
     Logger.adiciona_linha_log('Inicialização das classes', Err)
@@ -61,7 +59,6 @@ except Exception as Err:
 
 def loop_execucao(idx, name, tab, parser, analyzer):
     while True:
-        time.sleep(5)
         try:
             mastercontent = parser.get_conteudo_log('master')
             slavecontent = parser.get_conteudo_log('slave')
@@ -72,10 +69,10 @@ def loop_execucao(idx, name, tab, parser, analyzer):
 
             for linha in mastercontent:
                 tab.adiciona_informacoes(linha[0], linha[1], selecao='master')
-                time.sleep(0.04)
+                time.sleep(0.01)
             for linha in slavecontent:
                 tab.adiciona_informacoes(linha[0], linha[1], selecao='slave')
-                time.sleep(0.04)
+                time.sleep(0.01)
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)
@@ -90,9 +87,10 @@ def loop_execucao(idx, name, tab, parser, analyzer):
                 THREAD_STATUS[idx] = 1   #envia metrica para zabbix -> 1 se houver erro, 0 se tudo estiver bem
             else:
                 tab.clear_error_led('led1')
-                THREAD_STATUS[idx] = 0    
+                THREAD_STATUS[idx] = 0
+            #tab.Refresh()    
+            time.sleep(5)
             
-           
         except Exception as Err:
             print(f"{NOMES[nome]} - Erro: {Err}")
             Logger.adiciona_linha_log(f'Execução dos loops: {name}', Err)
@@ -102,6 +100,8 @@ if (__name__ == '__main__'):
     try:
         t = []
         for idx, nome in enumerate(NOMES):
+            TABS[nome].clear_content()
+            TABS[nome].set_interface_paths(DIRETORIOS[nome].split(', '))
             t.append( Thread(target=loop_execucao, args=[idx, nome, TABS[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
             t[idx].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix

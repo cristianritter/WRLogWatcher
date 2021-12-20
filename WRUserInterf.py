@@ -20,14 +20,12 @@ def InitLocale(self):
         wx.LogError("Unable to set default locale: '{}'".format(ex))
         wx.Log.SetActiveTarget(orig)
 wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
-
       
 class TabPanel(wx.Panel):
     def __init__(self, parent, tab_text):
         """
         """
         self.tab_text = tab_text
-        tittle_font = wx.Font(19, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
         super().__init__(parent=parent) 
@@ -36,11 +34,7 @@ class TabPanel(wx.Panel):
 
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
-        #texto011 = wx.StaticText(self, label=prog_name, style=wx.ALIGN_CENTER, size=(600,33))
-        #texto011.SetBackgroundColour('black')
-        #texto011.SetForegroundColour('white')
-        #box_linha01.Add(texto011, proportion=0, flag=wx.TOP, border=10)   #adiciona elemento de texto na linha01 
-      
+    
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
         self.texto01b1b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
@@ -97,8 +91,6 @@ class TabPanel(wx.Panel):
         coluna.Add(self.texto02a, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
         
         self.SetSizer(coluna)
-        
-        #texto011.SetFont(tittle_font)
         self.Show()
     
     def set_error_led(self, selecao='led1'):
@@ -152,21 +144,20 @@ class TabPanel(wx.Panel):
         if (not conteudo in painel.Value):
             if estilo_do_texto == 'FLAG':
                 painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.WHITE))
+            elif estilo_do_texto == 'ERROR':
+                painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.RED))
             else:
                 painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.LIGHT_GREY))
             painel.AppendText(conteudo)
+        #self.Refresh()
+    
+    def refresh(self):
         self.Refresh()
 
-    def limpa_informacoes(self, selecao='master'):
-        if selecao == 'master':
-            self.logpanel_master.Clear()
-        
-        elif selecao == 'slave':
+    def clear_content(self):
+            self.logpanel_master.Clear()  
             self.logpanel_slave.Clear()
 
-        else:
-            raise(NameError, 'parametro incorreto')
-    
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     """
@@ -174,11 +165,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     """
     def __init__(self, prog_name, frame, tabs_dict, names):
         """
-        Funcao que inicializa o tray do sistema \n
-        prog_name recebe uma string com o nome do programa a ser apresentado no icone tray\n
-        frame_names recebe um dicionario no estilo chave :key {profile_name :apelido_praca}\n
-        list_of_frames recebe um dicionario no estilo chave :key {profile_name :instancia de inicializacao do frame}\n
-        
+        Funcao que inicializa o tray do sistema \n  
         """
         self.frame = frame
         self.tabs_dict = tabs_dict
@@ -220,13 +207,12 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
     def on_right_down(self, event, tab):
         """
         Metodo executado ao clicar com o botao direito em submenus\n
-        button_label recebe o frame especifico de casa submenu
-        a funcao frame.Show() realiza a exibicao da janela especificada 
+        button_label recebe a tab especifica de cada submenu 
         """
         self.frame.Show()
         for idx, name in enumerate(self.names):
             if name == tab:
-                self.frame.notebook.SetSelection(idx)
+                self.frame.notebook.SetSelection(idx)  #seleciona a tab selecionada
       
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
@@ -264,15 +250,12 @@ class MyFrame(wx.Frame):
         hide_bt.Bind(wx.EVT_BUTTON, self.on_press)  #associa funcao ao botao
 
         panel.SetSizer(sizer)
-        self.Layout()
-        
+        self.Layout()     
         self.Show()
 
     def on_press(self, event):
         """Funcao executada ao pressionar o botao Esconder"""
-        self.Hide()
-
-        
+        self.Hide()      
 
 
 if __name__ == '__main__':
@@ -285,13 +268,8 @@ if __name__ == '__main__':
     tabs_dict = {}
     frame = MyFrame("WR LogWatcher", tabs_dict, names)  #criacao do frame recebe o nome da janela
     
-    #frame.tabs[names[0]].adiciona_informacoes('teste', estilo_do_texto='FLAG', selecao='master')
-    #frame.tabs[0].adiciona_informacoes('teste2', estilo_do_texto='NENHUM', selecao='slave')
-
     frame_names = {'nome_do_perfil' : 'apelido'}
     frames_dict = {'nome_do_perfil' :frame}
     TaskBarIcon("WR LogWatcher - ATL_JOI", frame, tabs_dict, names)
-
-    #TabPanel.SetF
 
     app.MainLoop()

@@ -22,7 +22,7 @@ class WRFileParse:
         return log_fullfilepath
 
     def get_conteudo_log(self, description='master'):
-        """Retorna a quantidade de linhas informada do arquivo de log como uma lista de strings"""
+        """Retorna uma lista com o conteudo do log, retorna também uma informacao com a especie de linha, se erro, flag ou nenhuma especial"""
         try:
             arquivo_de_log = self.get_log_filename(description)
             conteudo = []
@@ -30,6 +30,8 @@ class WRFileParse:
                 for idx, linha in enumerate((frb.readlines())):  #reversed removed
                     if (self.FLAG in linha):
                         estilo = 'FLAG'
+                    elif ('Error' in linha or 'filtrado' in linha):
+                        estilo = 'ERROR'
                     else:
                         estilo = 'NENHUM'
                     
@@ -68,7 +70,4 @@ if (__name__ == '__main__'):
     pathlog_list = configs['diretorios']['praca01'].split(', ')
     parser = WRFileParse(FLAG, pathlog_list)
     somereg = parser.get_last_flag_line('slave')
-    #print(somereg)
-    #print(parser.get_some_reg(somereg, 'master'))
-    #print(parser.get_conteudo_log('master'))
     
