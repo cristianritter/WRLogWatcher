@@ -1,10 +1,10 @@
 import wx
 import time
+import parse_config
 from WRFileParser import WRFileParse
 from WRDataAnalyser import WRAnalizer
 from WRZabbixSender import WRZabbixSender
 from WRFileLogger import WRLogger
-import parse_config
 from threading import Thread
 from WRUserInterf import TaskBarIcon as TBI
 from WRUserInterf import MyFrame as MF
@@ -50,29 +50,35 @@ try:
             idx= idx_,
             status= THREAD_STATUS
         )
-    FRAME = MF("WR LogWatcher", TABS, NOMES)  #arquivo tabs é criado aqui dentro por ponteiro
+    FRAME = MF("WR LogWatcher", TABS, NOMES, DIRETORIOS, FLAG)  #arquivo tabs é criado aqui dentro por ponteiro
     TBI(f"WR LogWatcher", FRAME, TABS, NOMES) 
 except Exception as Err:
-    print("Erro: ", Err)
+    print("Inicializacao das classes. Erro: ", Err)
     Logger.adiciona_linha_log('Inicialização das classes', Err)
 
 
 def loop_execucao(idx, name, tab, parser, analyzer):
+    time.sleep((idx+1)/3) #cria um tempo minimo entre as leituras do arquivo master para evitar conflitos de leitura
+    tab.clear_content()
+    tab.set_interface_paths(DIRETORIOS[nome].split(', '))      
+    last_day = time.strftime('%d')
     while True:
         try:
+            if last_day != time.strftime('%d'):  #limpa o painel de informações na virada do dia
+                tab.clear_content()
+                last_day = time.strftime('%d')
+                time.sleep(20)
+
             mastercontent = parser.get_conteudo_log('master')
             slavecontent = parser.get_conteudo_log('slave')
             if len(mastercontent) != len(slavecontent):
                 tab.set_error_led('led2')
             else:
                 tab.clear_error_led('led2')                       
-
             for linha in mastercontent:
                 tab.adiciona_informacoes(linha[0], linha[1], selecao='master')
-                time.sleep(0.01)
             for linha in slavecontent:
                 tab.adiciona_informacoes(linha[0], linha[1], selecao='slave')
-                time.sleep(0.01)
             dados_do_log_master = parser.get_last_flag_line('master')
             dados_do_log_slave = parser.get_last_flag_line('slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)
@@ -88,20 +94,19 @@ def loop_execucao(idx, name, tab, parser, analyzer):
             else:
                 tab.clear_error_led('led1')
                 THREAD_STATUS[idx] = 0
-            #tab.Refresh()    
+            tab.Refresh()    
             time.sleep(5)
             
         except Exception as Err:
-            print(f"{NOMES[nome]} - Erro: {Err}")
+            print(f"{NOMES[nome]} - Erro execucao loops: {Err}")
             Logger.adiciona_linha_log(f'Execução dos loops: {name}', Err)
+            time.sleep(30)
 
 
 if (__name__ == '__main__'):
     try:
         t = []
         for idx, nome in enumerate(NOMES):
-            TABS[nome].clear_content()
-            TABS[nome].set_interface_paths(DIRETORIOS[nome].split(', '))
             t.append( Thread(target=loop_execucao, args=[idx, nome, TABS[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
             t[idx].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix

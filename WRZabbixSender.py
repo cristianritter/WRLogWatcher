@@ -42,6 +42,7 @@ class WRZabbixSender:
                     print(f"Falha de conexão com o Zabbix - {Err}")
         except Exception as Err:
             print(f"Erro: {Err}")
+            time.sleep(30)
 
     def start_zabbix_thread(self):
         """

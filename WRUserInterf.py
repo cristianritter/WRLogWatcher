@@ -1,8 +1,12 @@
 """Biblioteca de criacao da interface do usuario"""
+from sys import path
 import wx.adv
 import wx
 import os
 import locale
+#import time
+
+from wx.core import Panel
 
 def InitLocale(self):
     """
@@ -22,10 +26,9 @@ def InitLocale(self):
 wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
       
 class TabPanel(wx.Panel):
-    def __init__(self, parent, tab_text):
+    def __init__(self, parent):
         """
         """
-        self.tab_text = tab_text
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
         super().__init__(parent=parent) 
@@ -139,7 +142,7 @@ class TabPanel(wx.Panel):
             painel = self.logpanel_slave
 
         else:
-            raise(NameError, 'parametro incorreto')
+            raise(NameError, 'parametro incorreto em adiciona informacoes')
           
         if (not conteudo in painel.Value):
             if estilo_do_texto == 'FLAG':
@@ -151,12 +154,136 @@ class TabPanel(wx.Panel):
             painel.AppendText(conteudo)
         #self.Refresh()
     
-    def refresh(self):
-        self.Refresh()
-
     def clear_content(self):
             self.logpanel_master.Clear()  
             self.logpanel_slave.Clear()
+
+
+class TabView(wx.Panel):
+    def __init__(self, parent, names, lista_paths, flag):
+        """
+        """
+        warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
+
+        super().__init__(parent=parent) 
+        self.FLAG = flag
+        coluna = wx.BoxSizer(wx.VERTICAL) #cria uma coluna dentro do painel
+        self.lista_paths = lista_paths
+        self.names = names
+        """Criação dos itens da janela"""
+        box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
+    
+        box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
+        texto01b1 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b1b = wx.StaticText(self, label="Selecione a praça para agilizar a busca do arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.logpanel_master = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
+        texto01b2 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b2b = wx.StaticText(self, label="Selecione a praça para agilizar a busca do arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.logpanel_slave = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
+        list_choices = list(names.values())
+        list_choices.append('CABEÇA de REDE')
+        self.listbox1 = wx.ListBox(self, choices=list_choices)
+        self.filepick01 = wx.FilePickerCtrl(self, path="",
+               message="Selecione o arquivo de log", size=(390,25), style=wx.FLP_USE_TEXTCTRL)
+        self.listbox2 = wx.ListBox(self, choices=list_choices)
+        self.filepick02 = wx.FilePickerCtrl(self, path="",
+               message="Selecione o arquivo de log", size=(390,25), style=wx.FLP_USE_TEXTCTRL)
+        
+        coluna01a = wx.BoxSizer(wx.VERTICAL)
+        coluna01b = wx.BoxSizer(wx.VERTICAL)   
+        coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
+        coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.texto01b1b, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
+        coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+
+        coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
+        coluna01b.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
+        coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
+        coluna01b.Add(self.listbox2, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
+        coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+
+        box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
+        box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
+
+        box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
+                   
+        coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
+        coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
+        coluna.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
+        
+        self.listbox1.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox1'))  #associa funcao ao botao
+        self.listbox2.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox2'))  #associa funcao ao botao
+        self.filepick01.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick01'))  #associa funcao ao botao
+        self.filepick02.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick02'))  #associa funcao ao botao
+        self.SetSizer(coluna)
+        self.Show()
+    
+    def on_select(self, event, selecao):
+        if selecao == 'listbox1':
+            listbox = self.listbox1
+            filepick = self.filepick01
+
+        elif selecao == 'listbox2':
+            listbox = self.listbox2
+            filepick = self.filepick02
+        
+        text = listbox.GetStringSelection()
+        for item in self.names:
+            if (self.names[item] == text):
+                filepick.Path = os.path.join(self.lista_paths[item].split(', ')[1], '') 
+                break
+            else:
+                filepick.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
+
+    def on_open(self, event, selecao):
+        if (selecao == 'filepick01'):    
+            filepick = self.filepick01
+            self.texto01b1b.SetLabel(filepick.Path)
+            self.logpanel_master.Clear()  
+            self.adiciona_informacoes(filepick.Path, 'filepick01')
+ 
+        elif (selecao == 'filepick02'):
+            filepick = self.filepick02
+            self.texto01b2b.SetLabel(filepick.Path)
+            self.logpanel_slave.Clear()  
+            self.adiciona_informacoes(filepick.Path, 'filepick02')
+ 
+        
+
+    def adiciona_informacoes(self, arquivo_de_log, selecao='filepick01'):
+        """Funcao que atualiza o painel de informacoes do log. \n
+        Recebe uma string contendo o conteudo do log\n
+        a selecao suporta as opcoes 'master' ou 'slave' para escolher o destino das informacoes.
+        """
+        if selecao == 'filepick01':
+            painel = self.logpanel_master    
+        
+        elif selecao == 'filepick02':
+            painel = self.logpanel_slave
+
+        else:
+            raise(NameError, 'parametro incorreto em adiciona informacoes')
+
+        with open(arquivo_de_log, mode='r', encoding='utf-8', errors='ignore') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
+            for idx, linha in enumerate((frb.readlines())):  #reversed removed
+                if (self.FLAG in linha):
+                    painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.WHITE))
+                elif ('Error' in linha or 'filtrado' in linha or 'Set' in linha):
+                    painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.RED))
+                else:
+                    painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.LIGHT_GREY))
+          
+                painel.AppendText(f'{idx} - {linha}')                
+    def clear_content(self):
+        self.logpanel_master.SetLabel('Sem informações para exibir')  
+        self.logpanel_slave.SetLabel('Sem informações para exibir')
+        self.filepick01.SetPath("")
+        self.filepick02.SetPath("")
+        
+
 
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
@@ -202,8 +329,9 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         Metodo executado ao clicar com o botao esquerdo
         """
         self.frame.Show()
-        pass
-
+        self.frame.Raise()
+        self.frame.notebook.SetSelection(1)  #seleciona a tab selecionada
+      
     def on_right_down(self, event, tab):
         """
         Metodo executado ao clicar com o botao direito em submenus\n
@@ -227,21 +355,24 @@ class MyFrame(wx.Frame):
     Frame that holds all other widgets
     """
     #----------------------------------------------------------------------
-    def __init__(self, prog_name, tabs, names):
+    def __init__(self, prog_name, tabs, names, paths, flag):
         """Constructor"""     
         super().__init__(None, style=wx.CAPTION | wx.FRAME_TOOL_WINDOW, 
                           title=prog_name,
                           size=(1050,720)
                           ) 
            
-        self.Centre()    #centraliza a janela          
+        self.Centre()    #centraliza a janela    
         panel = wx.Panel(self)    
         notebook = wx.Notebook(panel)
         self.tabs = tabs
         self.notebook = notebook
         for nome in names:
-            tabs[nome] = TabPanel(notebook, names[nome])
-            notebook.AddPage(tabs[nome], tabs[nome].tab_text)
+            tabs[nome] = TabPanel(notebook)
+            notebook.AddPage(tabs[nome], names[nome])
+        self.log_analyzer = TabView(notebook, names=names, lista_paths=paths, flag=flag)
+        notebook.AddPage(self.log_analyzer, "ANTIGOS")
+
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(notebook, proportion=0, flag=wx.ALL, border=5)
@@ -255,6 +386,7 @@ class MyFrame(wx.Frame):
 
     def on_press(self, event):
         """Funcao executada ao pressionar o botao Esconder"""
+        self.log_analyzer.clear_content()
         self.Hide()      
 
 
@@ -265,8 +397,9 @@ if __name__ == '__main__':
     app = wx.App(useBestVisual=True)
 
     names = {'praca01': 'WINRADIO ATL BLU', 'praca02': 'WINRADIO ATL CHA', 'praca03': 'WINRADIO ATL CRI', 'praca04': 'WINRADIO ATL JOI', 'praca05': 'WINRADIO BKP'}
+    paths = {'praca01': 'C:\\, C:\\', 'praca02': 'C:\\, C:\\', 'praca03': 'C:\\, C:\\', 'praca04': 'C:\\, C:\\', 'praca05': 'C:\\, C:\\'}
     tabs_dict = {}
-    frame = MyFrame("WR LogWatcher", tabs_dict, names)  #criacao do frame recebe o nome da janela
+    frame = MyFrame("WR LogWatcher", tabs_dict, names, paths)  #criacao do frame recebe o nome da janela
     
     frame_names = {'nome_do_perfil' : 'apelido'}
     frames_dict = {'nome_do_perfil' :frame}

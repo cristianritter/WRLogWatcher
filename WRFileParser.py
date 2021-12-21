@@ -1,7 +1,7 @@
 """parse_file function returns fata from the last line with the flag or 0 if no flags found"""
 import os
+import time
 from datetime import datetime
-from file_read_backwards import FileReadBackwards
 
 class WRFileParse:
     def __init__(self, flag, log_paths):
@@ -24,13 +24,14 @@ class WRFileParse:
     def get_conteudo_log(self, description='master'):
         """Retorna uma lista com o conteudo do log, retorna também uma informacao com a especie de linha, se erro, flag ou nenhuma especial"""
         try:
+            time.sleep(0.5)
             arquivo_de_log = self.get_log_filename(description)
             conteudo = []
             with open(arquivo_de_log, mode='r', encoding='utf-8', errors='ignore') as frb:  #le o arquivo em ordem inversa pois os valores atuais estao nas ultimas linhas
                 for idx, linha in enumerate((frb.readlines())):  #reversed removed
                     if (self.FLAG in linha):
                         estilo = 'FLAG'
-                    elif ('Error' in linha or 'filtrado' in linha):
+                    elif ('Error' in linha or 'filtrado' in linha or 'Set' in linha):
                         estilo = 'ERROR'
                     else:
                         estilo = 'NENHUM'
@@ -39,6 +40,7 @@ class WRFileParse:
             return conteudo
         except Exception as Err:
             print(f'Erro durante o carregamento do arquivo de log, {arquivo_de_log} - {Err}')
+            return 0
 
     def get_last_flag_line(self, description='master'):
         """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
