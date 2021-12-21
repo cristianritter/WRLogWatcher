@@ -175,20 +175,20 @@ class TabView(wx.Panel):
     
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
-        self.texto01b1b = wx.StaticText(self, label="Selecione a praça para agilizar a busca do arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b1b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_master = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         texto01b2 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
-        self.texto01b2b = wx.StaticText(self, label="Selecione a praça para agilizar a busca do arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.texto01b2b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_slave = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
         self.listbox1 = wx.ListBox(self, choices=list_choices)
-        self.filepick01 = wx.FilePickerCtrl(self, path="",
+        self.filepick01 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
                message="Selecione o arquivo de log", size=(390,25), style=wx.FLP_USE_TEXTCTRL)
         self.listbox2 = wx.ListBox(self, choices=list_choices)
-        self.filepick02 = wx.FilePickerCtrl(self, path="",
+        self.filepick02 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
                message="Selecione o arquivo de log", size=(390,25), style=wx.FLP_USE_TEXTCTRL)
         
         coluna01a = wx.BoxSizer(wx.VERTICAL)
@@ -280,8 +280,12 @@ class TabView(wx.Panel):
     def clear_content(self):
         self.logpanel_master.SetLabel('Sem informações para exibir')  
         self.logpanel_slave.SetLabel('Sem informações para exibir')
+        self.texto01b1b.SetLabel("Selecione a praça para buscar o arquivo")
+        self.texto01b2b.SetLabel("Selecione a praça para buscar o arquivo")
         self.filepick01.SetPath("")
         self.filepick02.SetPath("")
+        self.listbox1.Selection = -1
+        self.listbox2.Selection = -1
         
 
 
