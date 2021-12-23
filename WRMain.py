@@ -38,7 +38,7 @@ try:
     for idx_, nome in enumerate(NOMES):    # loop que inicia todas as instancias de config encontradas 
         LOG_PATHS=DIRETORIOS[nome].split(', ')
         ZABBIX_KEY=ZABBIX_KEYS[nome]
-        FILEPARSER[nome] = WRFileParse(FLAG, LOG_PATHS)
+        FILEPARSER[nome] = WRFileParse(FLAG)
         ANALYZER[nome] =WRAnalizer(FLAG_MAX_TIME)
         THREAD_STATUS.append(1)  #enviar erro como estado inicial
         ZABBIXSENDER[nome] = WRZabbixSender(
@@ -59,28 +59,28 @@ except Exception as Err:
 
 def loop_execucao(idx, name, tab, parser, analyzer):
     time.sleep((idx+1)/3) #cria um tempo minimo entre as leituras do arquivo master para evitar conflitos de leitura
-    tab.clear_content()
-    tab.set_interface_paths(DIRETORIOS[nome].split(', '))      
+    diretorios_list = DIRETORIOS[name].split(', ')
+            
+    tab.set_interface_paths(diretorios_list)      
     last_day = time.strftime('%d')
     while True:
         try:
             if last_day != time.strftime('%d'):  #limpa o painel de informações na virada do dia
                 tab.clear_content()
                 last_day = time.strftime('%d')
-                time.sleep(20)
-
-            mastercontent = parser.get_conteudo_log('master')
-            slavecontent = parser.get_conteudo_log('slave')
+                time.sleep(10)
+            mastercontent = parser.get_conteudo_log(diretorios_list[0])
+            slavecontent = parser.get_conteudo_log(diretorios_list[1])
             if len(mastercontent) != len(slavecontent):
                 tab.set_error_led('led2')
             else:
                 tab.clear_error_led('led2')                       
-            for linha in mastercontent:
-                tab.adiciona_informacoes(linha[0], linha[1], selecao='master')
-            for linha in slavecontent:
-                tab.adiciona_informacoes(linha[0], linha[1], selecao='slave')
-            dados_do_log_master = parser.get_last_flag_line('master')
-            dados_do_log_slave = parser.get_last_flag_line('slave')
+            tab.adiciona_informacoes(conteudo = mastercontent, flag=FLAG, selecao='master')
+            tab.adiciona_informacoes(conteudo = slavecontent, flag=FLAG, selecao='slave')
+            tab.Refresh()    
+            
+            dados_do_log_master = tab.get_last_flag_line(flag=FLAG, seletor='master')
+            dados_do_log_slave = tab.get_last_flag_line(flag=FLAG, seletor='slave')
             current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)
             if current_offset[1] == -1:  # exibe aviso se erro de sinc de horario nos pcs monitorados
                 tab.texto02a.Show()
@@ -94,7 +94,6 @@ def loop_execucao(idx, name, tab, parser, analyzer):
             else:
                 tab.clear_error_led('led1')
                 THREAD_STATUS[idx] = 0
-            tab.Refresh()    
             time.sleep(5)
             
         except Exception as Err:

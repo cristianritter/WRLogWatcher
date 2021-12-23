@@ -17120,3 +17120,212 @@
 21/12/2021 11:10:46 - [Inicialização das classes] - ListBox(): arguments did not match any overloaded call:
   overload 1: too many arguments
   overload 2: argument 'choices' has unexpected type 'NoneType' 
+22/12/2021 10:20:08 - [Inicialização das classes] - __init__() takes 2 positional arguments but 3 were given 
+22/12/2021 10:20:08 - [Main:] - 'praca01' 
+22/12/2021 13:42:55 - [Execução dos loops: praca01] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:42:55 - [Execução dos loops: praca02] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:42:56 - [Execução dos loops: praca03] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:42:56 - [Execução dos loops: praca04] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:42:56 - [Execução dos loops: praca05] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:44:03 - [Execução dos loops: praca01] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:44:03 - [Execução dos loops: praca02] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:44:04 - [Execução dos loops: praca03] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:44:04 - [Execução dos loops: praca04] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:44:04 - [Execução dos loops: praca05] - adiciona_informacoes() missing 1 required positional argument: 'conteudo' 
+22/12/2021 13:45:37 - [Execução dos loops: praca01] - adiciona_informacoes() missing 1 required positional argument: 'self' 
+22/12/2021 13:45:37 - [Execução dos loops: praca02] - adiciona_informacoes() missing 1 required positional argument: 'self' 
+22/12/2021 13:45:37 - [Execução dos loops: praca03] - adiciona_informacoes() missing 1 required positional argument: 'self' 
+22/12/2021 13:45:38 - [Execução dos loops: praca04] - adiciona_informacoes() missing 1 required positional argument: 'self' 
+22/12/2021 13:45:38 - [Execução dos loops: praca05] - adiciona_informacoes() missing 1 required positional argument: 'self' 
+22/12/2021 13:47:52 - [Execução dos loops: praca01] - adiciona_informacoes() got an unexpected keyword argument 'conteudo' 
+22/12/2021 13:47:53 - [Execução dos loops: praca02] - adiciona_informacoes() got an unexpected keyword argument 'conteudo' 
+22/12/2021 13:47:53 - [Execução dos loops: praca03] - adiciona_informacoes() got an unexpected keyword argument 'conteudo' 
+22/12/2021 13:47:53 - [Execução dos loops: praca04] - adiciona_informacoes() got an unexpected keyword argument 'conteudo' 
+22/12/2021 13:47:54 - [Execução dos loops: praca05] - adiciona_informacoes() got an unexpected keyword argument 'conteudo' 
+22/12/2021 13:48:52 - [Execução dos loops: praca01] - 'TabPanel' object has no attribute 'FLAG' 
+22/12/2021 13:48:53 - [Execução dos loops: praca02] - 'TabPanel' object has no attribute 'FLAG' 
+22/12/2021 13:48:53 - [Execução dos loops: praca03] - 'TabPanel' object has no attribute 'FLAG' 
+22/12/2021 13:48:53 - [Execução dos loops: praca04] - 'TabPanel' object has no attribute 'FLAG' 
+22/12/2021 13:48:54 - [Execução dos loops: praca05] - 'TabPanel' object has no attribute 'FLAG' 
+22/12/2021 13:51:48 - [Execução dos loops: praca01] - adiciona_informacoes() missing 1 required positional argument: 'flag' 
+22/12/2021 13:51:48 - [Execução dos loops: praca02] - adiciona_informacoes() missing 1 required positional argument: 'flag' 
+22/12/2021 13:51:48 - [Execução dos loops: praca03] - adiciona_informacoes() missing 1 required positional argument: 'flag' 
+22/12/2021 13:51:49 - [Execução dos loops: praca04] - adiciona_informacoes() missing 1 required positional argument: 'flag' 
+22/12/2021 13:51:49 - [Execução dos loops: praca05] - adiciona_informacoes() missing 1 required positional argument: 'flag' 
+22/12/2021 13:52:16 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:16 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:17 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:17 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:17 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:52 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:52 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:53 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:52:53 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:13 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:13 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:14 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:14 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:43 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:44 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:44 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:44 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:55:45 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+22/12/2021 13:56:43 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:56:43 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:56:44 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:56:44 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:00 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:01 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:01 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:01 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:02 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:37 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:37 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:37 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:38 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:38 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:53 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:54 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:54 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:54 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+22/12/2021 13:57:55 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+22/12/2021 14:05:11 - [Execução dos loops: praca01] - get_last_flag_line() missing 1 required positional argument: 'fullfilepath' 
+22/12/2021 14:05:11 - [Execução dos loops: praca02] - get_last_flag_line() missing 1 required positional argument: 'fullfilepath' 
+22/12/2021 14:05:11 - [Execução dos loops: praca03] - get_last_flag_line() missing 1 required positional argument: 'fullfilepath' 
+22/12/2021 14:05:12 - [Execução dos loops: praca04] - get_last_flag_line() missing 1 required positional argument: 'fullfilepath' 
+22/12/2021 14:05:12 - [Execução dos loops: praca05] - get_last_flag_line() missing 1 required positional argument: 'fullfilepath' 
+22/12/2021 14:08:36 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:08:36 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:08:36 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:08:36 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:08:37 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:09:25 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:09:26 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:09:26 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:09:26 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:09:27 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:10:19 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:10:19 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:10:19 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:10:19 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:10:20 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:14:02 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:14:02 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:14:02 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:14:02 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:14:03 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:14:25 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:14:25 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:14:25 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:14:26 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:14:26 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:15:11 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:15:11 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:15:11 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:15:11 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:15:12 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+22/12/2021 14:16:23 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+22/12/2021 14:16:23 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+22/12/2021 14:16:24 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+22/12/2021 14:16:24 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+22/12/2021 14:16:24 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:27:49 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 07:27:49 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 07:27:49 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 07:27:50 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 07:27:50 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:29:00 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 07:29:00 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 07:29:00 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 07:29:01 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 07:29:01 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:30:21 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 07:30:21 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 07:30:21 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 07:30:22 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 07:30:22 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:34:45 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 07:34:45 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 07:34:45 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 07:34:45 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 07:34:46 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:34:54 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 07:34:54 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 07:34:55 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 07:34:55 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 07:34:55 - [Execução dos loops: praca05] - 'int' object is not subscriptable 
+23/12/2021 07:38:45 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 07:38:45 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 07:38:45 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 07:38:46 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 07:38:46 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:19 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:19 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:20 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:20 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:51 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:52 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:52 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:52 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 07:39:53 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 07:41:17 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 07:41:18 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 07:41:18 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 07:41:18 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 07:41:19 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:16:32 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:16:32 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:16:33 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:16:33 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:16:33 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:17:57 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:17:57 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:17:57 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:17:58 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:17:58 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:27 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:27 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:27 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:28 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:28 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:57 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:57 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:57 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:58 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:18:58 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:03 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:03 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:03 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:03 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:04 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:23 - [Execução dos loops: praca01] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:23 - [Execução dos loops: praca02] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:24 - [Execução dos loops: praca03] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:24 - [Execução dos loops: praca04] - 'NoneType' object is not subscriptable 
+23/12/2021 08:20:24 - [Execução dos loops: praca05] - 'NoneType' object is not subscriptable 
+23/12/2021 08:21:19 - [Execução dos loops: praca01] - 'int' object is not subscriptable 
+23/12/2021 08:21:20 - [Execução dos loops: praca02] - 'int' object is not subscriptable 
+23/12/2021 08:21:20 - [Execução dos loops: praca03] - 'int' object is not subscriptable 
+23/12/2021 08:21:20 - [Execução dos loops: praca04] - 'int' object is not subscriptable 
+23/12/2021 12:06:29 - [Execução dos loops: praca01] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:06:29 - [Execução dos loops: praca02] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:06:29 - [Execução dos loops: praca03] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:06:30 - [Execução dos loops: praca04] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:06:30 - [Execução dos loops: praca05] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:07:05 - [Execução dos loops: praca01] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:07:06 - [Execução dos loops: praca02] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:07:06 - [Execução dos loops: praca03] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:07:06 - [Execução dos loops: praca04] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:07:06 - [Execução dos loops: praca05] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:08:05 - [Execução dos loops: praca01] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:08:06 - [Execução dos loops: praca02] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:08:06 - [Execução dos loops: praca03] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:08:06 - [Execução dos loops: praca04] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:08:06 - [Execução dos loops: praca05] - 'in <string>' requires string as left operand, not tuple 
+23/12/2021 12:59:36 - [Execução dos loops: praca01] - local variable 'error_flag' referenced before assignment 
+23/12/2021 12:59:36 - [Execução dos loops: praca02] - local variable 'error_flag' referenced before assignment 
+23/12/2021 12:59:37 - [Execução dos loops: praca03] - local variable 'error_flag' referenced before assignment 
+23/12/2021 12:59:37 - [Execução dos loops: praca04] - local variable 'error_flag' referenced before assignment 
+23/12/2021 12:59:37 - [Execução dos loops: praca05] - local variable 'error_flag' referenced before assignment 
+23/12/2021 13:07:47 - [Inicialização das classes] - __init__() missing 1 required positional argument: 'errors_list' 
+23/12/2021 13:08:56 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
