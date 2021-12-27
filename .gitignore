@@ -1,5 +1,6 @@
+.gitignore
 # Byte-compiled / optimized / DLL files
-__pycache__/
+.__pycache__/
 *.py[cod]
 
 # C extensions
@@ -7,9 +8,9 @@ __pycache__/
 
 # Distribution / packaging
 bin/
-build/
+.build/
 develop-eggs/
-dist/
+.dist/
 eggs/
 lib/
 lib64/

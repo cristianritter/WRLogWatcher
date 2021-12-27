@@ -17,7 +17,6 @@ try:
     #carrega configuracoes do arquivo config.ini
     'default, nomes, default_modes, offsets_ms, diretorios, zabbix_keys, zabbix'  )
     FLAG = configs['default']['flag_string']
-    FLAG_MAX_TIME = int(configs['default']['flag_max_time_seconds'])
     NOMES = configs['nomes']
     DEFAULT_MODES = configs['default_modes']
     OFFSETS_MS = configs['offsets_ms']
@@ -39,7 +38,7 @@ try:
         LOG_PATHS=DIRETORIOS[nome].split(', ')
         ZABBIX_KEY=ZABBIX_KEYS[nome]
         FILEPARSER[nome] = WRFileParse(FLAG)
-        ANALYZER[nome] =WRAnalizer(FLAG_MAX_TIME)
+        ANALYZER[nome] =WRAnalizer()
         THREAD_STATUS.append(1)  #enviar erro como estado inicial
         ZABBIXSENDER[nome] = WRZabbixSender(
             metric_interval= ZABBIX_CONFIG['metric_interval'],

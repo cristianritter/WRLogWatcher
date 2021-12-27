@@ -1,5 +1,4 @@
 """Biblioteca de criacao da interface do usuario"""
-from sys import path
 import wx.adv
 import wx
 import os
