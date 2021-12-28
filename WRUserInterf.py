@@ -23,7 +23,8 @@ def InitLocale(self):
 wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro por um metodo vazio
 
 def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['Error', 'filtrado', 'Set']):
-    """Funcao que atualiza o painel de informacoes do log. \n"""
+    """Funcao que acrescenta dados aos paineis de informacoes da tab,
+    retorna uma flag que indica se existem erros nos dados adicionados"""
     found_errors_flag = False
     if selecao == 'master':
         painel = self.logpanel_master    
@@ -34,7 +35,7 @@ def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['E
     else:
         raise(NameError, 'parametro incorreto em adiciona informacoes')
 
-    for _, linha in enumerate(conteudo):  #reversed removed
+    for _, linha in enumerate(conteudo):  
         error_flag = False
         for erro in errors_list:
             if (erro.lower() in linha.lower()):
@@ -51,9 +52,8 @@ def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['E
     return found_errors_flag   
 
 class TabPanel(wx.Panel):
+    """Classe de criação de uma tab de instancia de WINRADIO monitorado"""
     def __init__(self, parent):
-        """
-        """
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
         super().__init__(parent=parent) 
@@ -156,7 +156,7 @@ class TabPanel(wx.Panel):
                 self.listbox1.Select(idx)
 
     def adiciona_informacoes(self):
-        """Funcao que atualiza o painel de informacoes do log. \n"""
+        """Funcao que atualiza o painel de informacoes do log."""
         pass
     
     def clear_content(self):
@@ -181,8 +181,9 @@ class TabPanel(wx.Panel):
 
 
 class TabView(wx.Panel):
+    """Classe de criação de uma tab de pesquisa de arquivos antigos"""
+   
     def __init__(self, parent, names, lista_paths, flag):
-        """ """
         super().__init__(parent=parent) 
         self.FLAG = flag
         coluna = wx.BoxSizer(wx.VERTICAL) #cria uma coluna dentro do painel
@@ -256,7 +257,7 @@ class TabView(wx.Panel):
                 filepick.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
 
     def on_open(self, event, selecao):
-        parser_ = WRFileParse(self.FLAG)
+        parser_ = WRFileParse()
         if (selecao == 'filepick01'):    
             filepick = self.filepick01
             self.textoMasterPath.SetLabel(filepick.Path)

@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
 
 class WRAnalizer:   
-    """
-    Clasee que realiza a analise dos dados do log e reporta se existem problemas
-    """
+    """    Classe que realiza a analise dos dados do log   """
     def __init__(self):
         pass
+
     def get_datahora_registro(self, registro):
         '''Recebe em registro uma lista de tamanho 4 no formato
         [indice no log, data, hora, flag]
@@ -28,6 +27,7 @@ class WRAnalizer:
             return 0
 
     def get_time_offset(self, regMaster, regSlave):
+        '''Retorna a diferença de tempo entre dois registros informados (time offset)'''
         last_flag_time_slave = self.get_datahora_registro(regSlave)
         last_flag_time_master = self.get_datahora_registro(regMaster)
         if last_flag_time_master > last_flag_time_slave:  ## se master estiver atrasado com relacao a slave
@@ -39,6 +39,8 @@ class WRAnalizer:
         return offset
 
     def mode_detect(self, config_offsets, current_offset):
+        '''Detecta o modo de operacao com base no offset de tempo entre os disparos,
+        recebe os parametros de tempo para realizacao da analise.'''
         avaiable_modes = ["SAT POA", "BARIX", "SAT REG", "LINK DOWN"]
         offsets = config_offsets.split(', ')
         if (current_offset <= timedelta(milliseconds=int(offsets[0]))):

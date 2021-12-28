@@ -7,8 +7,8 @@ Os problemas detectados serão encaminhados para uma plataforma de monitoramento
 
 São utilizados sincronizadores de tempo NTP em todas as maquinas, e os erros sao verificados por meio de analise do timestamp de registros dos logs.
 
-Uma chave nos exibidores do interior define quais Dados estão chegando (Dados Seriais Puros ou Dados Seriais Identificados)
-O log nos permite descobrir se a chave está na posição correta, ou se existe um erro de conexão.
+Uma chave nos exibidores do interior define o roteamento dos disparos recebidos e enviados
+A analise executada deste aplicativo nos permite descobrir se a chave está na posição correta e se os disparos estão sendo recebidos corretamente.
 
 Etapas do projeto:
  - Desenvolvimento do arquivo de import de configurações 'config.ini'; OK

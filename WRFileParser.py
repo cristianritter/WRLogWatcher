@@ -3,7 +3,8 @@ import os
 from datetime import datetime
 
 class WRFileParse:
-    def __init__(self):
+    '''Classe que realiza a leitura dos arquivos de log'''
+    def __init__(self, ):
         pass
 
     def get_log_filename(self, path):

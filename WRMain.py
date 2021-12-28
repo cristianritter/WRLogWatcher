@@ -55,7 +55,7 @@ try:
         ZABBIX_KEY=ZABBIX_KEYS[nome]
         FILEPARSER[nome] = WRFileParse()
         ANALYZER[nome] =WRAnalizer()
-        THREAD_STATUS.append(1)  #enviar erro como estado inicial
+        THREAD_STATUS.append(0)  #enviar OK como estado inicial
         ZABBIXSENDER[nome] = WRZabbixSender(
             metric_interval= ZABBIX_CONFIG['metric_interval'],
             hostname= ZABBIX_CONFIG['hostname'],
