@@ -30,12 +30,15 @@ Atualizações:
 - Alteração do sistema para permitir a configuração de multiplas praças 
 - Alterado sistema config e bibliotecas
 - Sistema multiframe concluido em branch multiframe
+- Migrados todos os frames para main
+- Alterações de documentação, adicionadas informações de autor e descrição das funções
 
 
 Pendentes:
  - Alterar todas as bibliotecas para uso como classes (resolvido)
  - Realizar o parsing dos logs em duas funções, uma trazendo somente texto e outra trazendo a lista com o resultado (resolvido)
  - Resolver problema com wx task relacionado ao locale (resolvido)
- - Comentar as funcoes e adicionar as descricoes (WRUserInterf.py->OK, WRZabbixSender.py->OK, )
+ - Comentar as funcoes e adicionar as descricoes (WRUserInterf.py->OK, WRZabbixSender.py->OK, ) resolvido
  - Elaborar e integrar icones da interface de usuario (resolvido)
  - Testes pré produção
+ - fix para erro que informa erro de interpretação caso o tamanho das listas nao seja igual (resolvido)

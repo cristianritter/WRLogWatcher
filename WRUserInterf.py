@@ -24,6 +24,7 @@ wx.App.InitLocale = InitLocale   #substituindo metodo que estava gerando erro po
 
 def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['Error', 'filtrado', 'Set']):
     """Funcao que atualiza o painel de informacoes do log. \n"""
+    found_errors_flag = False
     if selecao == 'master':
         painel = self.logpanel_master    
     
@@ -42,10 +43,12 @@ def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['E
             painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.WHITE))
         elif (error_flag):
             painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.RED))
+            found_errors_flag = True
         else:
             painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.LIGHT_GREY))
         if (linha not in painel.GetValue()):
-            painel.AppendText(f'{linha}')   
+            painel.AppendText(f'{linha}')
+    return found_errors_flag   
 
 class TabPanel(wx.Panel):
     def __init__(self, parent):
@@ -62,7 +65,7 @@ class TabPanel(wx.Panel):
     
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
-        self.texto01b1b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,15))
@@ -73,7 +76,7 @@ class TabPanel(wx.Panel):
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
         coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
-        coluna01a.Add(self.texto01b1b, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
         coluna01b.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
@@ -86,16 +89,16 @@ class TabPanel(wx.Panel):
         box_linha02.Add(wx.StaticText(self, label='Modo de operação detectado:'), proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         box_linha02.Add(self.listbox1, proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         
-        self.led1 =  wx.StaticText(self, wx.ID_ANY, label='', size=(20,10))
-        self.led1.SetBackgroundColour('gray')
+        self.ledErroModoOperacao =  wx.StaticText(self, wx.ID_ANY, label='', size=(20,10))
+        self.ledErroModoOperacao.SetBackgroundColour('gray')
         box_linha02a = wx.BoxSizer(wx.HORIZONTAL)
-        box_linha02a.Add(self.led1, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
+        box_linha02a.Add(self.ledErroModoOperacao, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         box_linha02a.Add(wx.StaticText(self, label='Posição da botoneira'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
-        self.led2 =  wx.StaticText(self, wx.ID_ANY, label='', size=(20,10))
-        self.led2.SetBackgroundColour('gray')
+        self.ledErroInterpretaSerial =  wx.StaticText(self, wx.ID_ANY, label='', size=(20,10))
+        self.ledErroInterpretaSerial.SetBackgroundColour('gray')
         box_linha02b = wx.BoxSizer(wx.HORIZONTAL)
-        box_linha02b.Add(self.led2, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
+        box_linha02b.Add(self.ledErroInterpretaSerial, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         box_linha02b.Add(wx.StaticText(self, label='Historico de interpretação dos comandos'), proportion=0, flag=wx.ALL | wx.CENTER, border=5)
        
 
@@ -106,32 +109,32 @@ class TabPanel(wx.Panel):
         box_linha02.AddSpacer(50)
         box_linha02.Add(box_coluna02a, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
         
-        self.texto02a = wx.StaticText(self, label='Verifique a sincronização de horário dos sistemas de referência e/ou monitorados.')
-        self.texto02a.Font = warning_font
-        self.texto02a.BackgroundColour = 'red'
+        self.textoErroTimeSync = wx.StaticText(self, label='Verifique a sincronização de horário dos sistemas de referência e/ou monitorados.')
+        self.textoErroTimeSync.Font = warning_font
+        self.textoErroTimeSync.BackgroundColour = 'red'
                    
         coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
         coluna.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
-        coluna.Add(self.texto02a, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
+        coluna.Add(self.textoErroTimeSync, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
         
         self.SetSizer(coluna)
         self.Show()
     
-    def set_error_led(self, selecao='led1'):
+    def set_error_led(self, selecao='ledErroModoOperacao'):
         """Funcao que pinta o led de vermelho"""
-        if selecao.lower() == 'led1':
-            self.led1.SetBackgroundColour('Red')
-        if selecao.lower() == 'led2':
-            self.led2.SetBackgroundColour('Red')    
+        if selecao == 'ledErroModoOperacao':
+            self.ledErroModoOperacao.SetBackgroundColour('Red')
+        if selecao == 'ledErroInterpretaSerial':
+            self.ledErroInterpretaSerial.SetBackgroundColour('Red')    
         self.Refresh()
 
-    def clear_error_led(self, selecao='led1'):
+    def clear_error_led(self, selecao='ledErroModoOperacao'):
         """Funcao que pinta o led de verde"""
-        if selecao.lower() == 'led1':
-            self.led1.SetBackgroundColour('Green')
-        if selecao.lower() == 'led2':
-            self.led2.SetBackgroundColour('Green')
+        if selecao == 'ledErroModoOperacao':
+            self.ledErroModoOperacao.SetBackgroundColour('Green')
+        if selecao == 'ledErroInterpretaSerial':
+            self.ledErroInterpretaSerial.SetBackgroundColour('Green')
         self.Refresh()
 
     def set_interface_paths(self, paths):
@@ -139,7 +142,7 @@ class TabPanel(wx.Panel):
         Funcao que seta o texto da interface que indica os paths monitorados
         Recebe uma lista no estilo [path master, path slave]
         """
-        self.texto01b1b.SetLabel(paths[0])
+        self.textoMasterPath.SetLabel(paths[0])
         self.texto01b2b.SetLabel(paths[1])
 
     def set_listbox_selected(self, mode):
@@ -189,7 +192,7 @@ class TabView(wx.Panel):
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
-        self.texto01b1b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.textoMasterPath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_master = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         texto01b2 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
@@ -209,7 +212,7 @@ class TabView(wx.Panel):
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
         coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
-        coluna01a.Add(self.texto01b1b, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
         coluna01a.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
 
@@ -256,7 +259,7 @@ class TabView(wx.Panel):
         parser_ = WRFileParse(self.FLAG)
         if (selecao == 'filepick01'):    
             filepick = self.filepick01
-            self.texto01b1b.SetLabel(filepick.Path)
+            self.textoMasterPath.SetLabel(filepick.Path)
             self.logpanel_master.Clear()  
             seletor = 'master'
             
@@ -275,7 +278,7 @@ class TabView(wx.Panel):
     def clear_content(self):
         self.logpanel_master.SetLabel('Sem informações para exibir')  
         self.logpanel_slave.SetLabel('Sem informações para exibir')
-        self.texto01b1b.SetLabel("Selecione a praça para buscar o arquivo")
+        self.textoMasterPath.SetLabel("Selecione a praça para buscar o arquivo")
         self.texto01b2b.SetLabel("Selecione a praça para buscar o arquivo")
         self.filepick01.SetPath("")
         self.filepick02.SetPath("")

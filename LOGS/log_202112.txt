@@ -31829,3 +31829,7 @@
 27/12/2021 06:03:22 - [Execução dos loops: praca04] - object of type 'int' has no len() 
 27/12/2021 10:49:01 - [Inicialização das classes] - int() argument must be a string, a bytes-like object or a number, not 'dict' 
 27/12/2021 10:49:01 - [Main:] - name 'NOMES' is not defined 
+28/12/2021 08:41:35 - [Inicialização das classes] - __init__() takes 1 positional argument but 2 were given 
+28/12/2021 08:41:35 - [Main:] - 'praca01' 
+28/12/2021 08:41:42 - [Inicialização das classes] - __init__() takes 1 positional argument but 2 were given 
+28/12/2021 08:41:42 - [Main:] - 'praca01' 
