@@ -27,12 +27,12 @@ try:
     '''Carregamento das informações do arquivo config.ini'''
     configuration = parse_config.ConfPacket() 
     configs = configuration.load_config(
-    'default, nomes, default_modes, offsets_ms, diretorios, zabbix_keys, zabbix'  )
+    'default, nomes, default_modes, offsets_ms, diretorios_disparos, zabbix_keys, zabbix'  )
     FLAG = configs['default']['flag_string']
     NOMES = configs['nomes']
     DEFAULT_MODES = configs['default_modes']
     OFFSETS_MS = configs['offsets_ms']
-    DIRETORIOS = configs['diretorios']  #carrega o diretorio dos logs 
+    DIRETORIOS_DISPARO = configs['diretorios_disparos']  #carrega o diretorio dos logs 
     ZABBIX_KEYS = configs['zabbix_keys']
     ZABBIX_CONFIG = {
         'metric_interval' :configs['zabbix']['send_metrics_interval'],
@@ -46,12 +46,12 @@ try:
     ZABBIXSENDER = {}
     TABS = {}
     THREAD_STATUS = []
-
+  
     app = wx.App()   #criação da interface gráfica
 
     '''Criando as instancias de serviços que rodam paralelamente'''
     for idx_, nome in enumerate(NOMES):      
-        LOG_PATHS=DIRETORIOS[nome].split(', ')
+    #    LOG_PATHS=DIRETORIOS_DISPARO[nome].split(', ')
         ZABBIX_KEY=ZABBIX_KEYS[nome]
         FILEPARSER[nome] = WRFileParse()
         ANALYZER[nome] =WRAnalizer()
@@ -67,7 +67,7 @@ try:
         )
     
     '''Criação do frame principal da interface gráfica'''
-    FRAME = MF("WR LogWatcher", TABS, NOMES, DIRETORIOS, FLAG)  #arquivo tabs é um set vazio, vai ser preenchido pela classe MF
+    FRAME = MF("WR LogWatcher", TABS, NOMES, DIRETORIOS_DISPARO, FLAG)  #arquivo tabs é um set vazio, vai ser preenchido pela classe MF
     
     '''Criação do TaskBar'''
     TBI(f"WR LogWatcher", FRAME, TABS, NOMES) 
@@ -80,7 +80,7 @@ except Exception as Err:
 '''Definição de rotinas de serviços que são executados em loop por threads'''
 def instancia_de_treading(idx, name, tab, parser, analyzer):
     time.sleep((idx+1)/3)   #cria um tempo minimo entre as leituras do arquivo master para evitar conflitos de leitura
-    diretorios_list = DIRETORIOS[name].split(', ')       
+    diretorios_list = DIRETORIOS_DISPARO[name].split(', ')       
     tab.set_interface_paths(diretorios_list)    #seta label da tab da interface grafica com os diretórios
     last_day = time.strftime('%d')     #armazena o dia atual para limpeza de paineis na virada de data
     
