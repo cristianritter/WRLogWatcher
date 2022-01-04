@@ -292,7 +292,7 @@ class TabComercial(wx.Panel):
     """Classe de criação de uma tab de pesquisa de arquivos antigos"""
    
     def __init__(self, parent, names, lista_paths, flag):
-        panel_font = wx.Font(wx.FontInfo(7))
+        panel_font = wx.Font(wx.FontInfo(8))
         super().__init__(parent=parent) 
         coluna_geral = wx.BoxSizer(wx.VERTICAL) #cria uma coluna dentro do painel
         self.lista_paths = lista_paths
@@ -303,13 +303,13 @@ class TabComercial(wx.Panel):
         texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(300,15))
         texto_exibido = wx.StaticText(self, label='Executados', style=wx.ALIGN_CENTER, size=(300,15))
         self.textoselecaopraca = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(300,400))  #cria um edit
+        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,400))  #cria um edit
         self.panel_playlist.SetBackgroundColour(wx.Colour(190,190,170))
-        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(360,400))  #cria um edit
+        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(360,400))  #cria um edit
         self.panel_exibido.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido.SetFont(panel_font)
         texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(300,400))  #cria um edit
+        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,400))  #cria um edit
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
