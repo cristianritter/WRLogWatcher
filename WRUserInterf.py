@@ -193,13 +193,11 @@ class TabDisparoArquivo(wx.Panel):
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        texto01b1 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
         self.textoMasterPath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_master = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_master = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
-        texto01b2 = wx.StaticText(self, label='Log de eventos', style=wx.ALIGN_CENTER, size=(500,15))
         self.texto01b2b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_slave = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_slave = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
@@ -213,16 +211,14 @@ class TabDisparoArquivo(wx.Panel):
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
-        coluna01a.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
         coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
         coluna01a.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
-        coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+        coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
         coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
-        coluna01b.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.listbox2, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
-        coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
+        coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
         box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
         box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
@@ -278,8 +274,8 @@ class TabDisparoArquivo(wx.Panel):
         pass
 
     def clear_content(self):
-        self.logpanel_master.SetLabel('Sem informações para exibir')  
-        self.logpanel_slave.SetLabel('Sem informações para exibir')
+        self.logpanel_master.SetLabel('Sem informações de disparo para exibir')  
+        self.logpanel_slave.SetLabel('Sem informações de disparo para exibir')
         self.textoMasterPath.SetLabel("Selecione a praça para buscar o arquivo")
         self.texto01b2b.SetLabel("Selecione a praça para buscar o arquivo")
         self.filepick01.SetPath("")
@@ -301,25 +297,25 @@ class TabComercial(wx.Panel):
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(300,15))
-        texto_exibido = wx.StaticText(self, label='Executados', style=wx.ALIGN_CENTER, size=(300,15))
-        self.textoselecaopraca = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,400))  #cria um edit
+        texto_exibido = wx.StaticText(self, label='Comprovantes', style=wx.ALIGN_CENTER, size=(300,15))
+        self.textoselecaopraca = wx.StaticText(self, label="Selecione a praça para facilitar a busca de arquivos", style=wx.ALIGN_CENTER, size=(300,15))
+        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,420))  #cria um edit
         self.panel_playlist.SetBackgroundColour(wx.Colour(190,190,170))
-        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(360,400))  #cria um edit
+        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(410,420))  #cria um edit
         self.panel_exibido.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido.SetFont(panel_font)
         texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,400))  #cria um edit
+        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,420))  #cria um edit
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
-        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(-1, 40))
+        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(-1, 60))
         self.filepick01 = wx.FilePickerCtrl(self, path="", wildcard="*.pl1",
-               message="Selecione o arquivo de PLaylist", size=(190,25), style=wx.FLP_USE_TEXTCTRL)
+               message="Selecione o arquivo de Playlist", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
         self.filepick02 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
-               message="Selecione o arquivo de Disparo", size=(190,25), style=wx.FLP_USE_TEXTCTRL)
+               message="Selecione o arquivo de Disparo", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
         self.filepick03 = wx.FilePickerCtrl(self, path="", wildcard="*.LOG",
-               message="Selecione o arquivo de Log da Exibição", size=(190,25), style=wx.FLP_USE_TEXTCTRL)
+               message="Selecione o arquivo de Log da Exibição", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
         
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
@@ -336,17 +332,20 @@ class TabComercial(wx.Panel):
         coluna01c.Add(texto_exibido, proportion=0, flag=wx.ALL, border=5)        
         coluna01c.Add(self.filepick03, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
 
-        box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
-        box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
-        box_linha01b.Add(coluna01c, proportion=0, flag=wx.ALL, border=5)
+        box_linha01b.Add(coluna01a, proportion=0, flag=wx.TOP, border=5)
+        box_linha01b.Add(coluna01b, proportion=0, flag=wx.TOP, border=5)
+        box_linha01b.Add(coluna01c, proportion=0, flag=wx.TOP, border=5)
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
-                   
+
+        linha_selecao_praca = wx.BoxSizer(wx.HORIZONTAL)
+        linha_selecao_praca.Add(self.textoselecaopraca, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
+        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=300)
+
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
         coluna_geral.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
-        coluna_geral.Add(self.textoselecaopraca, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
-        coluna_geral.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
+        coluna_geral.Add(linha_selecao_praca, flag=wx.ALIGN_CENTER | wx.CENTER | wx.ALL, border=30)        
         
         
         self.listbox1.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox1'))  #associa funcao ao botao
@@ -409,19 +408,22 @@ class TabComercial(wx.Panel):
         else:
             raise(NameError, 'parametro incorreto em adiciona informacoes')
 
-        jogar_fora = True 
+        jogar_fora = False 
         estilo = ''
+
         for _, linha in enumerate(conteudo):  
-            #if ('INICIO' in linha):
-            #    continue
-            if ('Bloco Musical' in linha):
-                jogar_fora = True
-            if ('BREAK COMERCIAL' in linha or "Serial" in linha):
+            
+            if ('.mp3' in linha or 'Serial' in linha):
+                estilo = 1 #branco
+            
+            elif ('BREAK COMERCIAL' in linha or 'Thread' in linha or 'filtrado' in linha.lower() or 'LOAD PLAYLIST' in linha):
                 jogar_fora = False
-                estilo = 2
-            if ('.mp3' in linha):
-                estilo = 1
-            if jogar_fora:
+                estilo = 2 #vermelho
+
+            else:
+                estilo = 3 #cinza
+
+            if jogar_fora and not '<CS>' in linha:
                 continue
 
             if (estilo == 1):    #alterar
@@ -430,20 +432,25 @@ class TabComercial(wx.Panel):
                 painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.RED))
             else:
                 painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.LIGHT_GREY))
+            
             if (linha not in painel.GetValue()):
                 painel.AppendText(f'{linha}')
+
+            if ('Bloco Musical' in linha):
+                jogar_fora = True #filtrado
+
+
         return 0   
 
     def clear_content(self):
         self.panel_playlist.SetLabel('Sem informações para exibir')  
         self.panel_disparo.SetLabel('Sem informações para exibir')
-        self.textoMasterPath.SetLabel("Selecione a praça para buscar o arquivo")
-        self.texto_disparob.SetLabel("Selecione a praça para buscar o arquivo")
+        self.panel_exibido.SetLabel('Sem informações para exibir')
         self.filepick01.SetPath("")
         self.filepick02.SetPath("")
+        self.filepick03.SetPath("")
         self.listbox1.Selection = -1
-        self.listbox2.Selection = -1
-
+      
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
     """
@@ -475,8 +482,12 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         menu = wx.Menu()
         for name in self.tabs_dict.keys():
             # definindo metodos para cada submenu criado, funcao lambda permite enviar parametros especificos para cada submenu
-            self.create_menu_item(menu, f'View {self.names[name]}', lambda evt, temp=name: self.on_right_down(evt, temp)) 
-        
+            if name in self.names.keys():   #verifica se essa tab é do arquivo de configuracoes ou se é uma tab fixa
+              self.create_menu_item(menu, f'View {self.names[name]}', lambda evt, temp=name: self.on_right_down(evt, temp))      
+
+        menu.AppendSeparator()
+        self.create_menu_item(menu, f'Analisar Disparos', lambda evt, temp='disparos_dual_tab': self.on_right_down(evt, temp))      
+        self.create_menu_item(menu, f'Analisar Comprovantes', lambda evt, temp='exibicao_tripla_tab': self.on_right_down(evt, temp))      
         menu.AppendSeparator()
         self.create_menu_item(menu, 'Fechar a aplicação', self.on_exit) #on exit program clique
         menu.AppendSeparator()
@@ -489,7 +500,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         """
         self.frame.Show()
         self.frame.Raise()
-        self.frame.notebook.SetSelection(1)  #seleciona a tab selecionada
+        #self.frame.notebook.SetSelection(1)  #seleciona a tab selecionada
       
     def on_right_down(self, event, tab):
         """
@@ -497,9 +508,9 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
         button_label recebe a tab especifica de cada submenu 
         """
         self.frame.Show()
-        for idx, name in enumerate(self.names):
-            if name == tab:
-                self.frame.notebook.SetSelection(idx)  #seleciona a tab selecionada
+        for idx, tab_name in enumerate(self.tabs_dict.keys()):
+            if tab_name == tab:
+                self.frame.notebook.SetSelection(idx)  #seleciona a tab selecionada 
       
     def on_exit(self, event):
         wx.CallAfter(self.Destroy)
@@ -524,16 +535,15 @@ class MyFrame(wx.Frame):
         self.Centre()    #centraliza a janela    
         panel = wx.Panel(self)      #cria um painel
         notebook = wx.Notebook(panel)    #cria um caderno de abas
-        #self.tabs = tabs    #armazena as abas criadas na variavel tabs
+        self.tabs = tabs    #armazena as abas criadas na variavel tabs
         self.notebook = notebook
         for nome in names:
-            tabs[nome] = TabDisparoPraca(notebook)
-            notebook.AddPage(tabs[nome], names[nome])
-        self.disparos_antigos_tab = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
-        notebook.AddPage(self.disparos_antigos_tab, "Histórico - Disparo")
-        self.logs_exibicao = TabComercial(notebook, names=names, lista_paths=paths, flag=flag)
-        notebook.AddPage(self.logs_exibicao, "Histórico - Comercial")
-
+            self.tabs[nome] = TabDisparoPraca(notebook)
+            notebook.AddPage(self.tabs[nome], names[nome])
+        self.tabs['disparos_dual_tab'] = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
+        notebook.AddPage(self.tabs['disparos_dual_tab'], "Análise Histórica - Disparos")
+        self.tabs['exibicao_tripla_tab'] = TabComercial(notebook, names=names, lista_paths=paths, flag=flag)
+        notebook.AddPage(self.tabs['exibicao_tripla_tab'], "Análise Histórica - Comprovantes")
 
         sizer = wx.BoxSizer(wx.VERTICAL)
         sizer.Add(notebook, proportion=0, flag=wx.ALL, border=5)
@@ -547,7 +557,8 @@ class MyFrame(wx.Frame):
 
     def on_press(self, event):
         """Funcao executada ao pressionar o botao Esconder"""
-        self.disparos_antigos_tab.clear_content()
+        self.tabs['disparos_dual_tab'].clear_content()
+        self.tabs['exibicao_tripla_tab'].clear_content()
         self.Hide()      
 
 TabDisparoPraca.adiciona_informacoes = adiciona_informacoes
