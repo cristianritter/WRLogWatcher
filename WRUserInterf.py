@@ -3,6 +3,8 @@ import wx.adv
 import wx
 import os
 import locale
+
+from wx.core import StaticText, Validator
 from WRFileParser import WRFileParse
 import time
 
@@ -65,13 +67,13 @@ class TabDisparoPraca(wx.Panel):
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
     
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(500,15))
-        self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(600,15))
+        self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(600,15))
+        self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(600,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
-        texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(500,15))
-        self.texto01b2b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_slave = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(600,15))
+        self.texto01b2b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(600,15))
+        self.logpanel_slave = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(600,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         coluna_ref_panel = wx.BoxSizer(wx.VERTICAL)
         coluna_sec_panel = wx.BoxSizer(wx.VERTICAL)   
@@ -82,7 +84,7 @@ class TabDisparoPraca(wx.Panel):
         coluna_sec_panel.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
         coluna_sec_panel.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
         box_linha01b.Add(coluna_ref_panel, proportion=0, flag=wx.ALL, border=5)
-        box_linha01b.Add(coluna_sec_panel, proportion=0, flag=wx.ALL, border=5)
+        box_linha01b.Add(coluna_sec_panel, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox1 = wx.ListBox(self, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
@@ -299,13 +301,13 @@ class TabComercial(wx.Panel):
         texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(300,15))
         texto_exibido = wx.StaticText(self, label='Comprovantes', style=wx.ALIGN_CENTER, size=(300,15))
         self.textoselecaopraca = wx.StaticText(self, label="Selecione a praça para facilitar a busca de arquivos", style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,420))  #cria um edit
+        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
         self.panel_playlist.SetBackgroundColour(wx.Colour(190,190,170))
-        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(410,420))  #cria um edit
+        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(480,420))  #cria um edit
         self.panel_exibido.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido.SetFont(panel_font)
         texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(300,15))
-        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(300,420))  #cria um edit
+        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
@@ -336,28 +338,45 @@ class TabComercial(wx.Panel):
         box_linha01b.Add(coluna01b, proportion=0, flag=wx.TOP, border=5)
         box_linha01b.Add(coluna01c, proportion=0, flag=wx.TOP, border=5)
 
-        box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
+        self.timepicker1 = wx.adv.TimePickerCtrl(self)
+        self.timepicker1.SetTime(0, 0, 0)
+        self.timepicker2 = wx.adv.TimePickerCtrl(self)
+        self.timepicker2.SetTime(23,59,00)
+        self.filterbutton = wx.Button(self, label='Filtrar por período')
 
         linha_selecao_praca = wx.BoxSizer(wx.HORIZONTAL)
+        linha_selecao_praca.Add(StaticText(self, label='Inicio: '))
+        linha_selecao_praca.Add(self.timepicker1, flag=wx.ALL, border=10)
+        linha_selecao_praca.Add(StaticText(self, label='Fim: '))
+        linha_selecao_praca.Add(self.timepicker2, flag=wx.ALL, border=10)
+        linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)
+        linha_selecao_praca.AddSpacer(30)
         linha_selecao_praca.Add(self.textoselecaopraca, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
         linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=300)
+        
 
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
-        coluna_geral.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
-        coluna_geral.Add(linha_selecao_praca, flag=wx.ALIGN_CENTER | wx.CENTER | wx.ALL, border=30)        
+        coluna_geral.AddSpacer(40)
+        coluna_geral.Add(linha_selecao_praca, flag=wx.LEFT, border=130)        
         
         
         self.listbox1.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox1'))  #associa funcao ao botao
         self.filepick01.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick01'))  #associa funcao ao botao
         self.filepick02.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick02'))  #associa funcao ao botao
         self.filepick03.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick03'))  #associa funcao ao botao
-      
+        self.filterbutton.Bind(wx.EVT_BUTTON, self.onFilter)
+
         self.panel_disparo.SetFont(panel_font)
         self.panel_exibido.SetFont(panel_font)
         self.panel_playlist.SetFont(panel_font)
         self.SetSizer(coluna_geral)        
         self.Show()
+
+    def onFilter(self, event):
+        self.on_open(None, 'filepick01')
+        self.on_open(None, 'filepick02')
+        self.on_open(None, 'filepick03')
     
     def on_select(self, event, selecao):
         listbox = self.listbox1   
@@ -391,11 +410,18 @@ class TabComercial(wx.Panel):
             seletor = 'exibido'
 
         conteudo = parser_.get_conteudo_log(filepick.Path)
-        self.adiciona_informacoes(conteudo, seletor)
+        if (conteudo != 0):
+            self.adiciona_informacoes(conteudo, seletor)
         
     def adiciona_informacoes(self, conteudo, selecao):
         """Funcao que acrescenta dados aos paineis de informacoes da tab,
         retorna uma flag que indica se existem erros nos dados adicionados"""
+        filtro_inicio = str(self.timepicker1.GetValue())[-8:-3]
+        filtro_fim = str(self.timepicker2.GetValue())[-8:-3]
+      #  print((filtro_inicio))
+      #  print((filtro_fim))
+        
+
         if selecao == 'playlist':
             painel = self.panel_playlist    
 
@@ -407,24 +433,35 @@ class TabComercial(wx.Panel):
 
         else:
             raise(NameError, 'parametro incorreto em adiciona informacoes')
-
-        jogar_fora = False 
-        estilo = ''
-
-        for _, linha in enumerate(conteudo):  
+        filtrar = True
+        for _, linha in enumerate(conteudo):
+            linha2 = linha.replace('-',' ')
+            horario_bloco = linha2.split(' ')
+            for item in horario_bloco:
+                if ('>' in item):
+                    continue
+                if (':' in item[:5]):
+               #     print(item)
+                    timeinicio = int(filtro_inicio.replace(':', ''))
+                    timefim = int(filtro_fim.replace(':', ''))
+                    timelinha = int(item[:5].replace(':', ''))
+                    if (timelinha > timeinicio):
+                        filtrar = False
+                    if (timelinha > timefim):
+                        filtrar = True
             
+            if (filtrar):
+                continue
+
+                    
             if ('.mp3' in linha or 'Serial' in linha):
                 estilo = 1 #branco
             
             elif ('BREAK COMERCIAL' in linha or 'Thread' in linha or 'filtrado' in linha.lower() or 'LOAD PLAYLIST' in linha):
-                jogar_fora = False
                 estilo = 2 #vermelho
 
             else:
                 estilo = 3 #cinza
-
-            if jogar_fora and not '<CS>' in linha:
-                continue
 
             if (estilo == 1):    #alterar
                 painel.SetDefaultStyle(wx.TextAttr(wx.NullColour, wx.WHITE))
@@ -435,11 +472,6 @@ class TabComercial(wx.Panel):
             
             if (linha not in painel.GetValue()):
                 painel.AppendText(f'{linha}')
-
-            if ('Bloco Musical' in linha):
-                jogar_fora = True #filtrado
-
-
         return 0   
 
     def clear_content(self):
@@ -529,7 +561,7 @@ class MyFrame(wx.Frame):
         """Constructor"""     
         super().__init__(None, style=wx.CAPTION | wx.FRAME_TOOL_WINDOW, 
                           title=prog_name,
-                          size=(1050,720)
+                          size=(1280,720)
                           ) 
            
         self.Centre()    #centraliza a janela    
