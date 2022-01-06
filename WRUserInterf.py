@@ -311,7 +311,7 @@ class TabComercial(wx.Panel):
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         list_choices.append('CABEÇA de REDE')
-        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(-1, 60))
+        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(450, 70))
         self.filepick01 = wx.FilePickerCtrl(self, path="", wildcard="*.pl1",
                message="Selecione o arquivo de Playlist", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
         self.filepick02 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
