@@ -561,7 +561,7 @@ class MyFrame(wx.Frame):
         """Constructor"""     
         super().__init__(None, style=wx.CAPTION | wx.FRAME_TOOL_WINDOW, 
                           title=prog_name,
-                          size=(1280,720)
+                          size=(1280,760)
                           ) 
            
         self.Centre()    #centraliza a janela    
