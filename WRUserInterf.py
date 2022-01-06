@@ -352,7 +352,7 @@ class TabComercial(wx.Panel):
         linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)
         linha_selecao_praca.AddSpacer(30)
         linha_selecao_praca.Add(self.textoselecaopraca, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
-        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=300)
+        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=200)
         
 
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
