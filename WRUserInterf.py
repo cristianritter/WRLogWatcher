@@ -445,9 +445,9 @@ class TabComercial(wx.Panel):
                     timeinicio = int(filtro_inicio.replace(':', ''))
                     timefim = int(filtro_fim.replace(':', ''))
                     timelinha = int(item[:5].replace(':', ''))
-                    if (timelinha > timeinicio):
+                    if (timelinha >= timeinicio):
                         filtrar = False
-                    if (timelinha > timefim):
+                    if (timelinha >= timefim):
                         filtrar = True
             
             if (filtrar):
