@@ -293,3 +293,46 @@
   overload 6: argument 1 has unexpected type 'int'
   overload 7: argument 1 has unexpected type 'int' 
 04/01/2022 13:03:07 - [Execução dos loops: praca02] - wrapped C/C++ object of type TextCtrl has been deleted 
+31/01/2022 11:23:49 - [Main:] - list index out of range 
+31/01/2022 11:53:17 - [Main:] - list index out of range 
+31/01/2022 11:55:45 - [Main:] - list index out of range 
+31/01/2022 11:56:21 - [Main:] - list index out of range 
+31/01/2022 11:58:27 - [Main:] - list index out of range 
+31/01/2022 12:01:31 - [Main:] - list index out of range 
+31/01/2022 12:08:36 - [Inicialização das classes] - 'diretorios' 
+31/01/2022 12:08:36 - [Main:] - name 'TABS' is not defined 
+31/01/2022 12:09:12 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:09:12 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:09:13 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:09:13 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:09:13 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:10:27 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:10:27 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:10:27 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:10:28 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:10:28 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:11:09 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:11:09 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:11:09 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:11:10 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:11:10 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:11:39 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:11:40 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:11:40 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:11:40 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:11:40 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:12:46 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:12:46 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:12:47 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:12:47 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:12:47 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:13:33 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:13:33 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:13:34 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:13:34 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:13:34 - [Execução dos loops: praca05] - 'int' object is not iterable 
+31/01/2022 12:13:56 - [Execução dos loops: praca01] - 'int' object is not iterable 
+31/01/2022 12:13:56 - [Execução dos loops: praca02] - 'int' object is not iterable 
+31/01/2022 12:13:57 - [Execução dos loops: praca03] - 'int' object is not iterable 
+31/01/2022 12:13:57 - [Execução dos loops: praca04] - 'int' object is not iterable 
+31/01/2022 12:13:57 - [Execução dos loops: praca05] - 'int' object is not iterable 

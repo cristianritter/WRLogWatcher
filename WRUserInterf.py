@@ -4,9 +4,8 @@ import wx
 import os
 import locale
 
-from wx.core import StaticText, Validator
+from wx.core import ALIGN_CENTER, StaticText, Validator
 from WRFileParser import WRFileParse
-import time
 
 def InitLocale(self):
     """
@@ -202,7 +201,6 @@ class TabDisparoArquivo(wx.Panel):
         self.logpanel_slave = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
-        list_choices.append('CABEÇA de REDE')
         self.listbox1 = wx.ListBox(self, choices=list_choices)
         self.filepick01 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
                message="Selecione o arquivo de log", size=(390,25), style=wx.FLP_USE_TEXTCTRL)
@@ -298,42 +296,31 @@ class TabComercial(wx.Panel):
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(300,15))
-        texto_exibido = wx.StaticText(self, label='Comprovantes', style=wx.ALIGN_CENTER, size=(300,15))
-        self.textoselecaopraca = wx.StaticText(self, label="Selecione a praça para facilitar a busca de arquivos", style=wx.ALIGN_CENTER, size=(300,15))
+        texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(-1,-1))
+        texto_exibido = wx.StaticText(self, label='Comprovantes', style=wx.ALIGN_CENTER, size=(-1,-1))
         self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
         self.panel_playlist.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(480,420))  #cria um edit
         self.panel_exibido.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido.SetFont(panel_font)
-        texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(300,15))
+        texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(-1,-1))
         self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
-        list_choices.append('CABEÇA de REDE')
-        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(450, 70))
-        self.filepick01 = wx.FilePickerCtrl(self, path="", wildcard="*.pl1",
-               message="Selecione o arquivo de Playlist", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
-        self.filepick02 = wx.FilePickerCtrl(self, path="", wildcard="COMM*",
-               message="Selecione o arquivo de Disparo", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
-        self.filepick03 = wx.FilePickerCtrl(self, path="", wildcard="*.LOG",
-               message="Selecione o arquivo de Log da Exibição", size=(250,25), style=wx.FLP_USE_TEXTCTRL)
+        self.listbox1 = wx.ListBox(self, choices=list_choices, size=(-1, -1))
         
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01c = wx.BoxSizer(wx.VERTICAL)   
+        coluna01a.Add(texto_playlist, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01a.Add(self.panel_playlist, proportion=0, flag=wx.ALL, border=0)
-        coluna01a.Add(texto_playlist, proportion=0, flag=wx.ALL, border=5)        
-        coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
-
+        
+        coluna01b.Add(texto_disparo, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01b.Add(self.panel_disparo, proportion=0, flag=wx.ALL, border=0)
-        coluna01b.Add(texto_disparo, proportion=0, flag=wx.ALL, border=5)        
-        coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
-
+        
+        coluna01c.Add(texto_exibido, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01c.Add(self.panel_exibido, proportion=0, flag=wx.ALL, border=0)
-        coluna01c.Add(texto_exibido, proportion=0, flag=wx.ALL, border=5)        
-        coluna01c.Add(self.filepick03, proportion=0, flag=wx.ALL | wx.CENTER, border=5)
-
+        
         box_linha01b.Add(coluna01a, proportion=0, flag=wx.TOP, border=5)
         box_linha01b.Add(coluna01b, proportion=0, flag=wx.TOP, border=5)
         box_linha01b.Add(coluna01c, proportion=0, flag=wx.TOP, border=5)
@@ -342,29 +329,32 @@ class TabComercial(wx.Panel):
         self.timepicker1.SetTime(0, 0, 0)
         self.timepicker2 = wx.adv.TimePickerCtrl(self)
         self.timepicker2.SetTime(23,59,00)
-        self.filterbutton = wx.Button(self, label='Filtrar por período')
+        self.filterbutton = wx.Button(self, label='Consultar')
+
+        self.calendar = wx.adv.CalendarCtrl(self)
 
         linha_selecao_praca = wx.BoxSizer(wx.HORIZONTAL)
-        linha_selecao_praca.Add(StaticText(self, label='Inicio: '))
+        linha_selecao_praca.Add(wx.StaticText(self, label="Praça: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
+        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.ALL, border=5)
+        linha_selecao_praca.AddSpacer(20)
+        linha_selecao_praca.Add(wx.StaticText(self, label="Data: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
+        linha_selecao_praca.Add(self.calendar)
+        linha_selecao_praca.AddSpacer(20)
+        linha_selecao_praca.Add(wx.StaticText(self, label="Horário de inicio e fim: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.TOP, border=15)
         linha_selecao_praca.Add(self.timepicker1, flag=wx.ALL, border=10)
-        linha_selecao_praca.Add(StaticText(self, label='Fim: '))
+        linha_selecao_praca.Add(StaticText(self, label='-', style=ALIGN_CENTER), flag=wx.TOP, border=15)
         linha_selecao_praca.Add(self.timepicker2, flag=wx.ALL, border=10)
-        linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)
         linha_selecao_praca.AddSpacer(30)
-        linha_selecao_praca.Add(self.textoselecaopraca, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
-        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.RIGHT, border=200)
+        linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)
+        linha_selecao_praca.AddSpacer(10)
         
 
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
-        coluna_geral.AddSpacer(40)
-        coluna_geral.Add(linha_selecao_praca, flag=wx.LEFT, border=130)        
+        coluna_geral.AddSpacer(10)
+        coluna_geral.Add(linha_selecao_praca, flag=wx.ALIGN_CENTER, border=5)        
         
         
-        self.listbox1.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox1'))  #associa funcao ao botao
-        self.filepick01.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick01'))  #associa funcao ao botao
-        self.filepick02.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick02'))  #associa funcao ao botao
-        self.filepick03.Bind(wx.EVT_FILEPICKER_CHANGED, lambda event: self.on_open(event, 'filepick03'))  #associa funcao ao botao
         self.filterbutton.Bind(wx.EVT_BUTTON, self.onFilter)
 
         self.panel_disparo.SetFont(panel_font)
@@ -374,52 +364,41 @@ class TabComercial(wx.Panel):
         self.Show()
 
     def onFilter(self, event):
-        self.on_open(None, 'filepick01')
-        self.on_open(None, 'filepick02')
-        self.on_open(None, 'filepick03')
-    
-    def on_select(self, event, selecao):
-        listbox = self.listbox1   
-        text = listbox.GetStringSelection()
+        self.on_open(None)
+      
+    def on_open(self, event):
+        parser_ = WRFileParse()
+        self.panel_playlist.Clear()  
+        self.panel_disparo.Clear()  
+        self.panel_exibido.Clear()  
+
+        data = str(self.calendar.Date).split()[0].split('/')
+      
+        text = self.listbox1.GetStringSelection()
         for item in self.names:
             if (self.names[item] == text):
-                self.filepick01.Path = os.path.join(self.lista_paths[item].split(', ')[2], '') 
-                self.filepick02.Path = os.path.join(self.lista_paths[item].split(', ')[1], '') 
-                self.filepick03.Path = os.path.join(self.lista_paths[item].split(', ')[3], '') 
+                playlist_filepath = os.path.join(self.lista_paths[item].split(', ')[1], f'{data[1]}{data[0]}.pl1') 
+                disparo_filepath = os.path.join(self.lista_paths[item].split(', ')[0], f'Comm_{data[2]}_{data[1]}_{data[0]}.txt') 
+                exibido_filepath = os.path.join(self.lista_paths[item].split(', ')[2], f'{data[2]}{data[1]}{data[0]}WRC.LOG') 
                 break
-            else:
-                self.filepick01.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
-                self.filepick02.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
-                self.filepick03.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
-
-    def on_open(self, event, selecao):
-        parser_ = WRFileParse()
-        if (selecao == 'filepick01'):    
-            filepick = self.filepick01
-            self.panel_playlist.Clear()  
-            seletor = 'playlist'
-            
-        elif (selecao == 'filepick02'):
-            filepick = self.filepick02
-            self.panel_disparo.Clear()  
-            seletor = 'disparo'
-       
-        elif (selecao == 'filepick03'):
-            filepick = self.filepick03
-            self.panel_exibido.Clear()  
-            seletor = 'exibido'
-
-        conteudo = parser_.get_conteudo_log(filepick.Path)
+   
+        conteudo = parser_.get_conteudo_log(playlist_filepath)
         if (conteudo != 0):
-            self.adiciona_informacoes(conteudo, seletor)
+            self.adiciona_informacoes(conteudo, 'playlist')
+       
+        conteudo = parser_.get_conteudo_log(disparo_filepath)
+        if (conteudo != 0):
+            self.adiciona_informacoes(conteudo, 'disparo')
+       
+        conteudo = parser_.get_conteudo_log(exibido_filepath)
+        if (conteudo != 0):
+            self.adiciona_informacoes(conteudo, 'exibido')
         
     def adiciona_informacoes(self, conteudo, selecao):
         """Funcao que acrescenta dados aos paineis de informacoes da tab,
         retorna uma flag que indica se existem erros nos dados adicionados"""
         filtro_inicio = str(self.timepicker1.GetValue())[-8:-3]
         filtro_fim = str(self.timepicker2.GetValue())[-8:-3]
-      #  print((filtro_inicio))
-      #  print((filtro_fim))
         
 
         if selecao == 'playlist':
@@ -441,7 +420,6 @@ class TabComercial(wx.Panel):
                 if ('>' in item):
                     continue
                 if (':' in item[:5]):
-               #     print(item)
                     timeinicio = int(filtro_inicio.replace(':', ''))
                     timefim = int(filtro_fim.replace(':', ''))
                     timelinha = int(item[:5].replace(':', ''))
@@ -569,7 +547,9 @@ class MyFrame(wx.Frame):
         notebook = wx.Notebook(panel)    #cria um caderno de abas
         self.tabs = tabs    #armazena as abas criadas na variavel tabs
         self.notebook = notebook
-        for nome in names:
+        for idx, nome in enumerate(names):
+            if idx == 0:
+                continue
             self.tabs[nome] = TabDisparoPraca(notebook)
             notebook.AddPage(self.tabs[nome], names[nome])
         self.tabs['disparos_dual_tab'] = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
