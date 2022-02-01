@@ -97,6 +97,9 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             '''leitura do conteudo dos logs'''
             mastercontent = parser.get_conteudo_log(DIRETORIOS[ list(NOMES.keys())[0] ].split(', ')[0])
             slavecontent = parser.get_conteudo_log(diretorios_list[0])
+
+            if (mastercontent == 0 or slavecontent == 0):
+                return
             
             '''adicao das informacoes nos paineis'''
             errors_founded_master = tab.adiciona_informacoes(conteudo=mastercontent, flag=FLAG, selecao='master')

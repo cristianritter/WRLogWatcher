@@ -1,0 +1,10 @@
+01/02/2022 06:01:15 - [Execução dos loops: praca01] - 'int' object is not iterable 
+01/02/2022 06:01:16 - [Execução dos loops: praca02] - 'int' object is not iterable 
+01/02/2022 06:01:16 - [Execução dos loops: praca03] - 'int' object is not iterable 
+01/02/2022 06:01:16 - [Execução dos loops: praca04] - 'int' object is not iterable 
+01/02/2022 06:01:16 - [Execução dos loops: praca05] - 'int' object is not iterable 
+01/02/2022 06:01:25 - [Execução dos loops: praca01] - 'int' object is not iterable 
+01/02/2022 06:01:25 - [Execução dos loops: praca02] - 'int' object is not iterable 
+01/02/2022 06:01:26 - [Execução dos loops: praca03] - 'int' object is not iterable 
+01/02/2022 06:01:26 - [Execução dos loops: praca04] - 'int' object is not iterable 
+01/02/2022 06:01:26 - [Execução dos loops: praca05] - 'int' object is not iterable 

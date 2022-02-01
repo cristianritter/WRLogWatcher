@@ -114,6 +114,7 @@ class TabDisparoPraca(wx.Panel):
         self.textoErroTimeSync = wx.StaticText(self, label='Verifique a sincronização de horário dos sistemas de referência e/ou monitorados.')
         self.textoErroTimeSync.Font = warning_font
         self.textoErroTimeSync.BackgroundColour = 'red'
+        self.textoErroTimeSync.Hide()
                    
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
@@ -248,10 +249,10 @@ class TabDisparoArquivo(wx.Panel):
         text = listbox.GetStringSelection()
         for item in self.names:
             if (self.names[item] == text):
-                filepick.Path = os.path.join(self.lista_paths[item].split(', ')[1], '') 
+                filepick.Path = os.path.join(self.lista_paths[item].split(', ')[0], '') 
                 break
             else:
-                filepick.Path = os.path.join(self.lista_paths[item].split(',')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
+                filepick.Path = os.path.join(self.lista_paths[ list(self.lista_paths.keys())[0] ].split(', ')[0], '') #se nao for nenhuma anterior entao é cabeça de rede
 
     def on_open(self, event, selecao):
         parser_ = WRFileParse()
@@ -375,24 +376,30 @@ class TabComercial(wx.Panel):
         data = str(self.calendar.Date).split()[0].split('/')
       
         text = self.listbox1.GetStringSelection()
+        if (len(text) == 0):
+            wx.MessageBox("Selecione uma praça antes de tentar realizar a consulta", "Atenção!")
+            return
+
         for item in self.names:
             if (self.names[item] == text):
                 playlist_filepath = os.path.join(self.lista_paths[item].split(', ')[1], f'{data[1]}{data[0]}.pl1') 
                 disparo_filepath = os.path.join(self.lista_paths[item].split(', ')[0], f'Comm_{data[2]}_{data[1]}_{data[0]}.txt') 
                 exibido_filepath = os.path.join(self.lista_paths[item].split(', ')[2], f'{data[2]}{data[1]}{data[0]}WRC.LOG') 
                 break
-   
-        conteudo = parser_.get_conteudo_log(playlist_filepath)
-        if (conteudo != 0):
-            self.adiciona_informacoes(conteudo, 'playlist')
-       
-        conteudo = parser_.get_conteudo_log(disparo_filepath)
-        if (conteudo != 0):
-            self.adiciona_informacoes(conteudo, 'disparo')
-       
-        conteudo = parser_.get_conteudo_log(exibido_filepath)
-        if (conteudo != 0):
-            self.adiciona_informacoes(conteudo, 'exibido')
+                
+        conteudo_playlist = parser_.get_conteudo_log(playlist_filepath)
+        conteudo_disparo = parser_.get_conteudo_log(disparo_filepath)
+        conteudo_exibido = parser_.get_conteudo_log(exibido_filepath)
+  
+        if (conteudo_playlist != 0 and conteudo_exibido != 0 and conteudo_disparo != 0):
+            self.adiciona_informacoes(conteudo_playlist, 'playlist')      
+            self.adiciona_informacoes(conteudo_disparo, 'disparo')
+            self.adiciona_informacoes(conteudo_exibido, 'exibido')
+        else:
+            wx.MessageBox(f"Um ou mais arquivos não foram encontrados, verifique a existencia ou tente novamente mais tarde.\
+            \n{playlist_filepath} \n{disparo_filepath} \n{exibido_filepath}", "File not found")
+
+        
         
     def adiciona_informacoes(self, conteudo, selecao):
         """Funcao que acrescenta dados aos paineis de informacoes da tab,
