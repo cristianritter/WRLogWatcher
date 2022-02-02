@@ -87,6 +87,8 @@ class TabDisparoPraca(wx.Panel):
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox1 = wx.ListBox(self, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
+        self.listbox1.SetForegroundColour(wx.WHITE)
+        self.listbox1.SetBackgroundColour(wx.BLACK)
         self.listbox1.Disable()
         box_linha02.Add(wx.StaticText(self, label='Modo de operação detectado:'), proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         box_linha02.Add(self.listbox1, proportion=0, flag=wx.CENTER | wx.ALL, border=20)

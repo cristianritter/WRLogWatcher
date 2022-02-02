@@ -8,3 +8,6 @@
 01/02/2022 06:01:26 - [Execução dos loops: praca03] - 'int' object is not iterable 
 01/02/2022 06:01:26 - [Execução dos loops: praca04] - 'int' object is not iterable 
 01/02/2022 06:01:26 - [Execução dos loops: praca05] - 'int' object is not iterable 
+01/02/2022 08:30:45 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
+02/02/2022 10:19:00 - [Inicialização das classes] - Window.SetBackgroundColour(): argument 1 has unexpected type 'Brush' 
+02/02/2022 10:19:01 - [Main:] - 'praca01' 
