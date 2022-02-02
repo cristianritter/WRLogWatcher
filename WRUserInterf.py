@@ -3,8 +3,6 @@ import wx.adv
 import wx
 import os
 import locale
-
-from wx.core import ALIGN_CENTER, StaticText, Validator
 from WRFileParser import WRFileParse
 
 def InitLocale(self):
@@ -64,7 +62,7 @@ class TabDisparoPraca(wx.Panel):
 
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
-    
+        self.listboxmode = ''
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(600,15))
         self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(600,15))
@@ -87,9 +85,6 @@ class TabDisparoPraca(wx.Panel):
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox1 = wx.ListBox(self, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
-        self.listbox1.SetForegroundColour(wx.BLACK)
-        self.listbox1.SetBackgroundColour(wx.WHITE)
-        self.listbox1.Disable()
         box_linha02.Add(wx.StaticText(self, label='Modo de operação detectado:'), proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         box_linha02.Add(self.listbox1, proportion=0, flag=wx.CENTER | wx.ALL, border=20)
         
@@ -123,8 +118,14 @@ class TabDisparoPraca(wx.Panel):
         coluna_geral.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
         coluna_geral.Add(self.textoErroTimeSync, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
         
+        self.listbox1.Bind(wx.EVT_LISTBOX, self.on_select)  #associa funcao ao botao
+        
         self.SetSizer(coluna_geral)
         self.Show()
+
+    def on_select(self, event):
+        self.set_listbox_selected(self.listboxmode)
+        pass
     
     def set_error_led(self, selecao='ledErroModoOperacao'):
         """Funcao que pinta o led de vermelho"""
@@ -156,6 +157,7 @@ class TabDisparoPraca(wx.Panel):
         Recebe uma string com o nome do modo de servico. Suporta as opcoes listadas no listbox\n
         SAT POA, SAT REG, BARIX, LINK DOWN
         """
+        self.listboxmode = mode
         for idx, content in enumerate(self.listbox1.GetItems()):
             if mode in content:
                 self.listbox1.Select(idx)
@@ -345,7 +347,7 @@ class TabComercial(wx.Panel):
         linha_selecao_praca.AddSpacer(20)
         linha_selecao_praca.Add(wx.StaticText(self, label="Horário de inicio e fim: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.TOP, border=15)
         linha_selecao_praca.Add(self.timepicker1, flag=wx.ALL, border=10)
-        linha_selecao_praca.Add(StaticText(self, label='-', style=ALIGN_CENTER), flag=wx.TOP, border=15)
+        linha_selecao_praca.Add(wx.StaticText(self, label='-', style=wx.ALIGN_CENTER), flag=wx.TOP, border=15)
         linha_selecao_praca.Add(self.timepicker2, flag=wx.ALL, border=10)
         linha_selecao_praca.AddSpacer(30)
         linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)

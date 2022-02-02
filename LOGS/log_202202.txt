@@ -11,3 +11,14 @@
 01/02/2022 08:30:45 - [Execução dos loops: praca01] - wrapped C/C++ object of type TextCtrl has been deleted 
 02/02/2022 10:19:00 - [Inicialização das classes] - Window.SetBackgroundColour(): argument 1 has unexpected type 'Brush' 
 02/02/2022 10:19:01 - [Main:] - 'praca01' 
+02/02/2022 10:25:46 - [Inicialização das classes] - ListBox.SetItemBackgroundColour(): argument 1 has unexpected type 'Colour' 
+02/02/2022 10:25:46 - [Main:] - 'praca01' 
+02/02/2022 10:25:48 - [Inicialização das classes] - ListBox.SetItemBackgroundColour(): argument 1 has unexpected type 'Colour' 
+02/02/2022 10:25:48 - [Main:] - 'praca01' 
+02/02/2022 10:25:52 - [Inicialização das classes] - ListBox.SetItemBackgroundColour(): argument 1 has unexpected type 'Colour' 
+02/02/2022 10:25:52 - [Main:] - 'praca01' 
+02/02/2022 10:26:14 - [Inicialização das classes] - ListBox.SetItemBackgroundColour(): argument 1 has unexpected type 'Colour' 
+02/02/2022 10:26:14 - [Main:] - 'praca01' 
+02/02/2022 10:26:32 - [Inicialização das classes] - name 'StaticText' is not defined 
+02/02/2022 10:26:59 - [Inicialização das classes] - name 'StaticText' is not defined 
+02/02/2022 10:27:17 - [Inicialização das classes] - name 'StaticText' is not defined 
