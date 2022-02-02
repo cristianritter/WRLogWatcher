@@ -467,9 +467,6 @@ class TabComercial(wx.Panel):
         self.panel_playlist.SetLabel('Sem informações para exibir')  
         self.panel_disparo.SetLabel('Sem informações para exibir')
         self.panel_exibido.SetLabel('Sem informações para exibir')
-        self.filepick01.SetPath("")
-        self.filepick02.SetPath("")
-        self.filepick03.SetPath("")
         self.listbox1.Selection = -1
       
 
