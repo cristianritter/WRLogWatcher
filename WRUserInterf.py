@@ -53,11 +53,12 @@ def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['E
 
 class TabDisparoPraca(wx.Panel):
     """Classe de criação de uma tab de instancia de WINRADIO monitorado"""
-    def __init__(self, parent):
+    def __init__(self, parent, names, paths):
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
         super().__init__(parent=parent) 
-       
+        self.names = names
+        self.paths = paths
         coluna_geral = wx.BoxSizer(wx.VERTICAL) #cria uma coluna dentro do painel
 
         """Criação dos itens da janela"""
@@ -148,7 +149,7 @@ class TabDisparoPraca(wx.Panel):
         Funcao que seta o texto da interface que indica os paths monitorados
         Recebe uma lista no estilo [path master, path slave]
         """
-        self.textoMasterPath.SetLabel(paths[0])
+        self.textoMasterPath.SetLabel(self.paths[ list(self.names.keys())[0] ].split(', ')[0])
         self.texto01b2b.SetLabel(paths[1])
 
     def set_listbox_selected(self, mode):
@@ -558,7 +559,7 @@ class MyFrame(wx.Frame):
         for idx, nome in enumerate(names):
             if idx == 0:
                 continue
-            self.tabs[nome] = TabDisparoPraca(notebook)
+            self.tabs[nome] = TabDisparoPraca(notebook, names, paths)
             notebook.AddPage(self.tabs[nome], names[nome])
         self.tabs['disparos_dual_tab'] = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
         notebook.AddPage(self.tabs['disparos_dual_tab'], "Análise Histórica - Disparos")

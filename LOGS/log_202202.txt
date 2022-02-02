@@ -22,3 +22,7 @@
 02/02/2022 10:26:32 - [Inicialização das classes] - name 'StaticText' is not defined 
 02/02/2022 10:26:59 - [Inicialização das classes] - name 'StaticText' is not defined 
 02/02/2022 10:27:17 - [Inicialização das classes] - name 'StaticText' is not defined 
+02/02/2022 10:57:54 - [Inicialização das classes] - __init__() takes 2 positional arguments but 4 were given 
+02/02/2022 10:57:54 - [Main:] - 'praca01' 
+02/02/2022 10:57:58 - [Inicialização das classes] - __init__() takes 2 positional arguments but 4 were given 
+02/02/2022 10:57:58 - [Main:] - 'praca01' 
