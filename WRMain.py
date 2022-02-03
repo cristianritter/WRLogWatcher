@@ -45,7 +45,7 @@ try:
     ZABBIXSENDER = {}
     TABS = {}
     THREAD_STATUS = []
-    FLAG = 'Received'
+    FLAG = 'Serial'
   
     app = wx.App()   #criação da interface gráfica
 
