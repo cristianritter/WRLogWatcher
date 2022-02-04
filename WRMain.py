@@ -89,7 +89,7 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
     while True:
         try:
             '''limpeza dos paineis de informações na virada do dia'''
-            if last_day != time.strftime('%d'):  
+            if (last_day != time.strftime('%d')):  
                 tab.clear_content()
                 last_day = time.strftime('%d')
                 time.sleep(10)
@@ -99,7 +99,7 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             slavecontent = parser.get_conteudo_log(diretorios_list[0])
 
             if (mastercontent == 0 or slavecontent == 0):
-                return
+                continue
             
             '''adicao das informacoes nos paineis'''
             errors_founded_master = tab.adiciona_informacoes(conteudo=mastercontent, flag=FLAG, selecao='master')
