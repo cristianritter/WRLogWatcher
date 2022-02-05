@@ -188,6 +188,26 @@ class TabDisparoPraca(wx.Panel):
             print(f'Erro em get_last_flag_line: {Err}')
 
 
+    def get_2last_flag_lines(self, flag, seletor='master'):
+        """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
+        if (seletor == 'master'):
+            painel = self.logpanel_master
+        elif (seletor == 'slave'):
+            painel = self.logpanel_slave
+        
+        try:
+            data_list = painel.GetValue().split('\n')  #criacao de um dicionario para armazenar os dados
+            tobereturned = []
+            for linha in reversed(data_list):  #adicionado reversed
+                if (flag in linha):  #procura pela Flag 
+                    tobereturned.append(linha.replace(" - ", "-").split('-'))
+                    if ( len(tobereturned) >= 2 ):
+                        return tobereturned  # retorna as informações das ultimas duas linhas
+            return 0
+        except Exception as Err:
+            print(f'Erro em get_last_flag_line: {Err}')
+
+
 class TabDisparoArquivo(wx.Panel):
     """Classe de criação de uma tab de pesquisa de arquivos antigos"""
    

@@ -106,13 +106,15 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             errors_founded_slave = tab.adiciona_informacoes(conteudo=slavecontent, flag=FLAG, selecao='slave')
             
             '''Processa os dados e verifica o offset de tempo entre os disparos recebidos'''
-            dados_do_log_master = tab.get_last_flag_line(flag=FLAG, seletor='master')
-            dados_do_log_slave = tab.get_last_flag_line(flag=FLAG, seletor='slave')
-            current_offset = analyzer.get_time_offset(dados_do_log_master, dados_do_log_slave)    
+            dados_do_log_master = tab.get_2last_flag_lines(flag=FLAG, seletor='master')
+            dados_do_log_slave = tab.get_2last_flag_lines(flag=FLAG, seletor='slave')
+            last_line_offset = analyzer.get_time_offset(dados_do_log_master[0], dados_do_log_slave[0])
+            last_but_one_line_offset =  analyzer.get_time_offset(dados_do_log_master[1], dados_do_log_slave[1])
 
             '''Detecta o modo de operação do sistema e atualiza o painel com essa informação'''
-            operacao_detectada = analyzer.mode_detect(OFFSETS_MS[name], current_offset[0])
-            tab.set_listbox_selected(operacao_detectada)           
+            operacao_last_line = analyzer.mode_detect(OFFSETS_MS[name], last_line_offset[0])
+            operacao_last_but_one_line = analyzer.mode_detect(OFFSETS_MS[name], last_but_one_line_offset[0])
+            tab.set_listbox_selected(operacao_last_line)           
             
             '''Seta led de erro em caso de problemas de interpretação dos comandos seriais'''
             if (errors_founded_master or errors_founded_slave):           
@@ -123,7 +125,7 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             '''Seta led de erro caso o modo de operação atual não seja o modo padrão programado
             Atualiza também essa informação na variável de métrica do zabbix
             '''
-            if (not operacao_detectada in DEFAULT_MODES[name]):
+            if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
                 tab.set_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
             else:
@@ -133,7 +135,7 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             '''Apresenta informação em texto caso hajam problemas de sincronismo de horário nos computadores dos WINRADIOS
             timestamp do slave menor do que do master [viagem no tempo]
             '''
-            if current_offset[1] == -1:  
+            if last_line_offset[1] == -1 and last_but_one_line_offset[1] == -1:  
                 tab.textoErroTimeSync.Show()
             else:
                 tab.textoErroTimeSync.Hide()

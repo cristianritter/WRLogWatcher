@@ -10,7 +10,7 @@
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
-AppId={{DDC95771-714E-47EB-8574-ED2061E8DDF3}
+AppId={{7A9D4FF2-6839-4788-88B8-20451E6C663C}
 AppName={#MyAppName}
 AppVersion={#MyAppVersion}
 ;AppVerName={#MyAppName} {#MyAppVersion}
@@ -19,15 +19,14 @@ AppPublisherURL={#MyAppURL}
 AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
+DisableDirPage=yes
 DisableProgramGroupPage=yes
-LicenseFile=C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\README.md
-InfoBeforeFile=C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\Pre-install-text.txt
+LicenseFile=C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\Installer
 OutputBaseFilename=WR_Setup
-SetupIconFile=C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\icon.ico
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -109,6 +108,8 @@ Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatc
 Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatcher\wxbase315u_vc140.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatcher\wxmsw315u_core_vc140.dll"; DestDir: "{app}"; Flags: ignoreversion
 Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatcher\wxmsw315u_html_vc140.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatcher\LOGS\*"; DestDir: "{app}\LOGS"; Flags: ignoreversion
+Source: "C:\Users\cristian_ritter\Documents\PROJETOS\WRLogWatcher\dist\WRLogWatcher\wx\*"; DestDir: "{app}\wx"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
