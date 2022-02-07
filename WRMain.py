@@ -10,6 +10,7 @@ __email__ = "cristianritter@gmail.com"
 __status__ = "Production"
 
 '''Importando classes utilizadas'''
+from asyncio.log import logger
 import wx
 import time
 from threading import Thread
@@ -51,10 +52,9 @@ try:
 
     '''Criando as instancias de serviços que rodam paralelamente'''
     for idx_, nome in enumerate(NOMES):      
-    #    LOG_PATHS=DIRETORIOS[nome].split(', ')
         ZABBIX_KEY=ZABBIX_KEYS[nome]
         FILEPARSER[nome] = WRFileParse()
-        ANALYZER[nome] =WRAnalizer()
+        ANALYZER[nome] =WRAnalizer(Logger)
         THREAD_STATUS.append(0)  #enviar OK como estado inicial
         ZABBIXSENDER[nome] = WRZabbixSender(
             metric_interval= ZABBIX_CONFIG['metric_interval'],
@@ -67,7 +67,7 @@ try:
         )
     
     '''Criação do frame principal da interface gráfica'''
-    FRAME = MF("WR LogWatcher", TABS, NOMES, DIRETORIOS, FLAG)  #arquivo tabs é um set vazio, vai ser preenchido pela classe MF
+    FRAME = MF("WR LogWatcher", TABS, NOMES, DIRETORIOS, FLAG, Logger)  #arquivo tabs é um set vazio, vai ser preenchido pela classe MF
     
     '''Criação do TaskBar'''
     TBI(f"WR LogWatcher", FRAME, TABS, NOMES) 

@@ -1,0 +1,2 @@
+pyinstaller -D --onedir --ico=icon.ico --version-file=version.vfl --windowed --name=WRLogWatcher WRMain.py
+

@@ -53,14 +53,15 @@ def adiciona_informacoes(self, conteudo, flag, selecao='master', errors_list=['E
 
 class TabDisparoPraca(wx.Panel):
     """Classe de criação de uma tab de instancia de WINRADIO monitorado"""
-    def __init__(self, parent, names, paths):
+    def __init__(self, parent, names, paths, logger):
         warning_font = wx.Font(12, wx.DECORATIVE, wx.NORMAL, wx.BOLD)
 
         super().__init__(parent=parent) 
         self.names = names
         self.paths = paths
+        self.logger = logger
         coluna_geral = wx.BoxSizer(wx.VERTICAL) #cria uma coluna dentro do painel
-
+   
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         self.listboxmode = ''
@@ -186,6 +187,7 @@ class TabDisparoPraca(wx.Panel):
             return 0
         except Exception as Err:
             print(f'Erro em get_last_flag_line: {Err}')
+            self.logger.adiciona_linha_log(f'Erro em get_last_flag_line: {Err}')
 
 
     def get_2last_flag_lines(self, flag, seletor='master'):
@@ -200,12 +202,15 @@ class TabDisparoPraca(wx.Panel):
             tobereturned = []
             for linha in reversed(data_list):  #adicionado reversed
                 if (flag in linha):  #procura pela Flag 
+                    if ('Thread' in linha or 'filtrado' in linha.lower() ):
+                        continue
                     tobereturned.append(linha.replace(" - ", "-").split('-'))
                     if ( len(tobereturned) >= 2 ):
                         return tobereturned  # retorna as informações das ultimas duas linhas
             return 0
         except Exception as Err:
-            print(f'Erro em get_last_flag_line: {Err}')
+            print(f'Erro em get_2last_flag_lines: {Err}')
+            self.logger.adiciona_linha_log(f'Erro em get_2last_flag_lines: {Err}')
 
 
 class TabDisparoArquivo(wx.Panel):
@@ -564,7 +569,7 @@ class MyFrame(wx.Frame):
     Frame that holds all other widgets
     """
     #----------------------------------------------------------------------
-    def __init__(self, prog_name, tabs, names, paths, flag):
+    def __init__(self, prog_name, tabs, names, paths, flag, logger):
         """Constructor"""     
         super().__init__(None, style=wx.CAPTION | wx.FRAME_TOOL_WINDOW, 
                           title=prog_name,
@@ -574,12 +579,13 @@ class MyFrame(wx.Frame):
         self.Centre()    #centraliza a janela    
         panel = wx.Panel(self)      #cria um painel
         notebook = wx.Notebook(panel)    #cria um caderno de abas
+        self.logger = logger
         self.tabs = tabs    #armazena as abas criadas na variavel tabs
         self.notebook = notebook
         for idx, nome in enumerate(names):
             if idx == 0:
                 continue
-            self.tabs[nome] = TabDisparoPraca(notebook, names, paths)
+            self.tabs[nome] = TabDisparoPraca(notebook, names, paths, self.logger)
             notebook.AddPage(self.tabs[nome], names[nome])
         self.tabs['disparos_dual_tab'] = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
         notebook.AddPage(self.tabs['disparos_dual_tab'], "Análise Histórica - Disparos")
@@ -610,11 +616,14 @@ if __name__ == '__main__':
     Este trecho do código permite testar a biblioteca individualmente e fornece também exemplos de uso.
     """
     app = wx.App(useBestVisual=True)
+    from WRFileLogger import WRLogger
+    Logger = WRLogger()
+
 
     names = {'praca01': 'WINRADIO ATL BLU', 'praca02': 'WINRADIO ATL CHA', 'praca03': 'WINRADIO ATL CRI', 'praca04': 'WINRADIO ATL JOI', 'praca05': 'WINRADIO BKP'}
     paths = {'praca01': 'C:\\, C:\\', 'praca02': 'C:\\, C:\\', 'praca03': 'C:\\, C:\\', 'praca04': 'C:\\, C:\\', 'praca05': 'C:\\, C:\\'}
     tabs_dict = {}
-    frame = MyFrame(prog_name="WR LogWatcher", tabs=tabs_dict, names=names, paths=paths, flag="Received")  #criacao do frame recebe o nome da janela
+    frame = MyFrame(prog_name="WR LogWatcher", tabs=tabs_dict, names=names, paths=paths, flag="Received", logger=Logger)  #criacao do frame recebe o nome da janela
     
     frame_names = {'nome_do_perfil' : 'apelido'}
     frames_dict = {'nome_do_perfil' :frame}

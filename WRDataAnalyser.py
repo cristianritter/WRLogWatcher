@@ -2,7 +2,8 @@ from datetime import datetime, timedelta
 
 class WRAnalizer:   
     """    Classe que realiza a analise dos dados do log   """
-    def __init__(self):
+    def __init__(self, logger):
+        self.logger = logger
         pass
 
     def get_datahora_registro(self, registro):
@@ -23,7 +24,8 @@ class WRAnalizer:
             datahora_atual = datetime.now()
             return datahora_atual - self.get_datahora_registro(registro)
         except Exception as Err:
-            print(Err)
+            print(f'Erro em tempo desde flag: {Err}')
+            self.logger.adiciona_linha_log(f'Erro em tempo desde flag: {Err}')
             return 0
 
     def get_time_offset(self, regMaster, regSlave):
@@ -39,20 +41,24 @@ class WRAnalizer:
         return offset
 
     def mode_detect(self, config_offsets, current_offset):
-        '''Detecta o modo de operacao com base no offset de tempo entre os disparos,
-        recebe os parametros de tempo para realizacao da analise.'''
-        avaiable_modes = ["SAT POA", "BARIX", "SAT REG", "LINK DOWN"]
-        offsets = config_offsets.split(', ')
-        if (current_offset <= timedelta(milliseconds=int(offsets[0]))):
-            return avaiable_modes[0]
-        elif (current_offset < timedelta(milliseconds=int(offsets[1]))):
-            return avaiable_modes[1]
-        elif (current_offset < timedelta(milliseconds=int(offsets[2]))):
-            return avaiable_modes[2]
-        else:
-            return avaiable_modes[3]
-
-
+        try:
+            '''Detecta o modo de operacao com base no offset de tempo entre os disparos,
+            recebe os parametros de tempo para realizacao da analise.'''
+            avaiable_modes = ["SAT POA", "BARIX", "SAT REG", "LINK DOWN"]
+            offsets = config_offsets.split(', ')
+            if (current_offset <= timedelta(milliseconds=int(offsets[0]))):
+                return avaiable_modes[0]
+            elif (current_offset < timedelta(milliseconds=int(offsets[1]))):
+                return avaiable_modes[1]
+            elif (current_offset < timedelta(milliseconds=int(offsets[2]))):
+                return avaiable_modes[2]
+            else:
+                return avaiable_modes[3]
+        except Exception as Err:
+            self.logger.adiciona_linha_log(f'Erro em mode_detect: {Err}')
+            print(f'Erro em mode_detect: {Err}')
+  
+  
 if (__name__ == "__main__"):    #exemplo de uso da biblioteca
     analizer = WRAnalizer()
     data_ = [209, '24/11/2021', '06:05:37,430', 'WAIT 2']
