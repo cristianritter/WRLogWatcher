@@ -206,6 +206,7 @@ class TabDisparoPraca(wx.Panel):
                         continue
                     tobereturned.append(linha.replace(" - ", "-").split('-'))
                     if ( len(tobereturned) >= 2 ):
+                        print(tobereturned)
                         return tobereturned  # retorna as informações das ultimas duas linhas
             return 0
         except Exception as Err:
