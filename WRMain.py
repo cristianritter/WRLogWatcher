@@ -160,7 +160,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             '''Atualiza o painel e finaliza aguardando pelo próximo ciclo'''
             debug = 9
             tab.Refresh()    
-            time.sleep(5)
+            time.sleep(60)
             
         except Exception as Err:
             print(f"{NOMES[nome]} - Execucao dos Loops: {Err}")
@@ -176,8 +176,6 @@ if (__name__ == '__main__'):
             if idx == 0:
                 continue
             t.append( Thread(target=instancia_de_treading, args=[idx, nome, TABS[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
-            #print(nome)
-            #print(NOMES[nome])
             t[idx-1].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix
         
