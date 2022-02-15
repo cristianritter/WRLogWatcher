@@ -13,11 +13,25 @@ class WRLogger:
         print(f'{dataFormatada} - [{nome}] - {texto} \n')
         try:
             log_file = os.path.join(self.LOGS_DIR, f'log{mes_ano}.txt')
-            f = open(log_file, "a")
-            f.write(f'{dataFormatada} - [{nome}] - {texto} \n')
-            f.close()
+            with open(log_file, "a") as f:
+                f.write(f'{dataFormatada} - [{nome}] - {texto} \n')
         except Exception as err:
             print(f'Erro durante registro no arquivo de log. {err}')
+
+    def get_last_line(self):
+        dataFormatada = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+        mes_ano = datetime.now().strftime('_%Y%m')
+        try:
+            log_file = os.path.join(self.LOGS_DIR, f'log{mes_ano}.txt')
+            with open(log_file, "r") as f:
+                lines = f.readlines()
+            if len(lines) > 0:
+                return lines[-1]
+            else:
+                return ""
+        except Exception as err:
+            print(f'Erro durante registro no arquivo de log. {err}')
+
          
 if __name__ == '__main__':
     pass

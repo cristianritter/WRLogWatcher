@@ -141,7 +141,9 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
                 tab.set_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
-                Logger.adiciona_linha_log(f"Modo de operação anormal detectado em {NOMES[nome]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}")
+                log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
+                if (log not in Logger.get_last_line()):
+                    Logger.adiciona_linha_log(log)
             else:
                 tab.clear_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 0
@@ -174,6 +176,8 @@ if (__name__ == '__main__'):
             if idx == 0:
                 continue
             t.append( Thread(target=instancia_de_treading, args=[idx, nome, TABS[nome], FILEPARSER[nome], ANALYZER[nome]], daemon=True)) # True executa o thread somente enquanto o programa estiver aberto
+            #print(nome)
+            #print(NOMES[nome])
             t[idx-1].start()
             ZABBIXSENDER[nome].start_zabbix_thread()   #inicia thread de envio das metricas pro zabbix
         
