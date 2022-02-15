@@ -7,10 +7,10 @@ class WRLogger:
     def __init__(self):
         self.LOGS_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'LOGS') 
 
-    def adiciona_linha_log(self, nome, texto):
+    def adiciona_linha_log(self, nome, texto=''):
         dataFormatada = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
         mes_ano = datetime.now().strftime('_%Y%m')
-        print(dataFormatada, texto)
+        print(f'{dataFormatada} - [{nome}] - {texto} \n')
         try:
             log_file = os.path.join(self.LOGS_DIR, f'log{mes_ano}.txt')
             f = open(log_file, "a")

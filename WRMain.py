@@ -10,16 +10,17 @@ __email__ = "cristianritter@gmail.com"
 __status__ = "Production"
 
 '''Importando classes utilizadas'''
-from asyncio.log import logger
 import wx
 import time
+from datetime import timedelta
+import sys
 from threading import Thread
 import parse_config
 from WRFileParser import WRFileParse
 from WRDataAnalyser import WRAnalizer
 from WRZabbixSender import WRZabbixSender
 from WRFileLogger import WRLogger
-from WRUserInterf import TaskBarIcon as TBI
+from WRUserInterf import TabDisparoPraca, TaskBarIcon as TBI
 from WRUserInterf import MyFrame as MF
 
 Logger = WRLogger()
@@ -74,12 +75,12 @@ try:
 
 except Exception as Err:
     print("Inicializacao das classes. Erro: ", Err)
-    Logger.adiciona_linha_log('Inicialização das classes', Err)
+    Logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
 
 
 '''Definição de rotinas de serviços que são executados em loop por threads'''
 
-def instancia_de_treading(idx, name, tab, parser, analyzer):
+def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRFileParse, analyzer: WRAnalizer):
     time.sleep((idx+1)/3)   #cria um tempo minimo entre as leituras do arquivo master para evitar conflitos de leitura
     diretorios_list = DIRETORIOS[name].split(', ')       
     
@@ -89,12 +90,14 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
     while True:
         try:
             '''limpeza dos paineis de informações na virada do dia'''
+            debug = 1
             if (last_day != time.strftime('%d')):  
                 tab.clear_content()
                 last_day = time.strftime('%d')
                 time.sleep(10)
             
             '''leitura do conteudo dos logs'''
+            debug = 2
             mastercontent = parser.get_conteudo_log(DIRETORIOS[ list(NOMES.keys())[0] ].split(', ')[0])
             slavecontent = parser.get_conteudo_log(diretorios_list[0])
 
@@ -102,21 +105,30 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
                 continue
             
             '''adicao das informacoes nos paineis'''
+            debug = 3
             errors_founded_master = tab.adiciona_informacoes(conteudo=mastercontent, flag=FLAG, selecao='master')
             errors_founded_slave = tab.adiciona_informacoes(conteudo=slavecontent, flag=FLAG, selecao='slave')
-            
+
             '''Processa os dados e verifica o offset de tempo entre os disparos recebidos'''
+            debug = 4
             dados_do_log_master = tab.get_2last_flag_lines(flag=FLAG, seletor='master')
             dados_do_log_slave = tab.get_2last_flag_lines(flag=FLAG, seletor='slave')
+
+            if (dados_do_log_master == 0):
+                time.sleep(10)
+                continue
+
             last_line_offset = analyzer.get_time_offset(dados_do_log_master[0], dados_do_log_slave[0])
             last_but_one_line_offset =  analyzer.get_time_offset(dados_do_log_master[1], dados_do_log_slave[1])
 
             '''Detecta o modo de operação do sistema e atualiza o painel com essa informação'''
-            operacao_last_line = analyzer.mode_detect(OFFSETS_MS[name], last_line_offset[0])
-            operacao_last_but_one_line = analyzer.mode_detect(OFFSETS_MS[name], last_but_one_line_offset[0])
+            debug = 5
+            operacao_last_line = analyzer.mode_detect(OFFSETS_MS[name], last_line_offset)
+            operacao_last_but_one_line = analyzer.mode_detect(OFFSETS_MS[name], last_but_one_line_offset)
             tab.set_listbox_selected(operacao_last_line)           
             
             '''Seta led de erro em caso de problemas de interpretação dos comandos seriais'''
+            debug = 6
             if (errors_founded_master or errors_founded_slave):           
                 tab.set_error_led('ledErroInterpretaSerial')
             else:
@@ -125,6 +137,7 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             '''Seta led de erro caso o modo de operação atual não seja o modo padrão programado
             Atualiza também essa informação na variável de métrica do zabbix
             '''
+            debug = 7
             if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
                 tab.set_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
@@ -135,18 +148,20 @@ def instancia_de_treading(idx, name, tab, parser, analyzer):
             '''Apresenta informação em texto caso hajam problemas de sincronismo de horário nos computadores dos WINRADIOS
             timestamp do slave menor do que do master [viagem no tempo]
             '''
-            if last_line_offset[1] == -1 and last_but_one_line_offset[1] == -1:  
+            debug = 8
+            if last_line_offset < timedelta(microseconds = 0) and last_but_one_line_offset < timedelta(microseconds = 0):  
                 tab.textoErroTimeSync.Show()
             else:
                 tab.textoErroTimeSync.Hide()
  
             '''Atualiza o painel e finaliza aguardando pelo próximo ciclo'''
+            debug = 9
             tab.Refresh()    
             time.sleep(5)
             
         except Exception as Err:
-            print(f"{NOMES[nome]} - Erro execucao loops: {Err}")
-            Logger.adiciona_linha_log(f'Execução dos loops: {name}', Err)
+            print(f"{NOMES[nome]} - Execucao dos Loops: {Err}")
+            Logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}', debug)
             time.sleep(30)
 
 
@@ -166,4 +181,4 @@ if (__name__ == '__main__'):
         
     except Exception as Err:
         print("Erro do loop principal", Err)
-        Logger.adiciona_linha_log('Main:', Err)
+        Logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')

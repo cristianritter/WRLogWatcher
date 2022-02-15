@@ -2,6 +2,7 @@
 import wx.adv
 import wx
 import os
+import sys
 import locale
 from WRFileParser import WRFileParse
 
@@ -165,7 +166,6 @@ class TabDisparoPraca(wx.Panel):
                 self.listbox1.Select(idx)
 
     def adiciona_informacoes(self):
-        """Funcao que atualiza o painel de informacoes do log."""
         pass
     
     def clear_content(self):
@@ -187,7 +187,7 @@ class TabDisparoPraca(wx.Panel):
             return 0
         except Exception as Err:
             print(f'Erro em get_last_flag_line: {Err}')
-            self.logger.adiciona_linha_log(f'Erro em get_last_flag_line: {Err}')
+            self.logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
 
 
     def get_2last_flag_lines(self, flag, seletor='master'):
@@ -206,12 +206,11 @@ class TabDisparoPraca(wx.Panel):
                         continue
                     tobereturned.append(linha.replace(" - ", "-").split('-'))
                     if ( len(tobereturned) >= 2 ):
-                        print(tobereturned)
                         return tobereturned  # retorna as informações das ultimas duas linhas
             return 0
         except Exception as Err:
             print(f'Erro em get_2last_flag_lines: {Err}')
-            self.logger.adiciona_linha_log(f'Erro em get_2last_flag_lines: {Err}')
+            self.logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
 
 
 class TabDisparoArquivo(wx.Panel):
@@ -302,7 +301,6 @@ class TabDisparoArquivo(wx.Panel):
         self.adiciona_informacoes(conteudo, self.FLAG, seletor)
         
     def adiciona_informacoes(self, conteudo, selecao='master'):
-        """Funcao que atualiza o painel de informacoes do log. \n"""
         pass
 
     def clear_content(self):
