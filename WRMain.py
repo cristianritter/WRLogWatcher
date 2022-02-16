@@ -101,7 +101,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             mastercontent = parser.get_conteudo_log(DIRETORIOS[ list(NOMES.keys())[0] ].split(', ')[0])
             slavecontent = parser.get_conteudo_log(diretorios_list[0])
 
-            if (mastercontent == 0 or slavecontent == 0):
+            if (mastercontent == 0):
                 continue
             
             '''adicao das informacoes nos paineis'''
@@ -112,10 +112,10 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             '''Processa os dados e verifica o offset de tempo entre os disparos recebidos'''
             debug = 4
             dados_do_log_master = tab.get_2last_flag_lines(flag=FLAG, seletor='master')
+            time.sleep(int(OFFSETS_MS[name][2]))
             dados_do_log_slave = tab.get_2last_flag_lines(flag=FLAG, seletor='slave')
 
             if (dados_do_log_master == 0):
-                time.sleep(10)
                 continue
 
             last_line_offset = analyzer.get_time_offset(dados_do_log_master[0], dados_do_log_slave[0])
@@ -142,7 +142,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
                 tab.set_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
                 log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
-                if (log not in Logger.get_last_line()):
+                if (log not in Logger.get_last10_lines()):
                     Logger.adiciona_linha_log(log)
             else:
                 tab.clear_error_led('ledErroModoOperacao')

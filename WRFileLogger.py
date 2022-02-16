@@ -18,15 +18,14 @@ class WRLogger:
         except Exception as err:
             print(f'Erro durante registro no arquivo de log. {err}')
 
-    def get_last_line(self):
-        dataFormatada = datetime.now().strftime('%d/%m/%Y %H:%M:%S')
+    def get_last10_lines(self):
         mes_ano = datetime.now().strftime('_%Y%m')
         try:
             log_file = os.path.join(self.LOGS_DIR, f'log{mes_ano}.txt')
             with open(log_file, "r") as f:
                 lines = f.readlines()
             if len(lines) > 0:
-                return lines[-1]
+                return lines[-10:]
             else:
                 return ""
         except Exception as err:
