@@ -142,7 +142,11 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
                 tab.set_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
                 log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
-                if (log not in Logger.get_last10_lines()):
+                adicionar = True
+                for linha in Logger.get_last10_lines():
+                    if (log in linha):
+                        adicionar = False
+                if adicionar == True:
                     Logger.adiciona_linha_log(log)
             else:
                 tab.clear_error_led('ledErroModoOperacao')
