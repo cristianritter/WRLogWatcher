@@ -190,8 +190,8 @@ class TabDisparoPraca(wx.Panel):
             self.logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
 
 
-    def get_2last_flag_lines(self, flag, seletor='master'):
-        """retorna uma lista com o conteudo da ultima linha de log com a flag ou retorna 0 em caso de erro"""
+    def get_4last_flag_lines(self, flag, seletor='master'):
+        """retorna uma lista com o conteudo das ultimas linhas de log com a flag ou retorna 0 em caso de erro"""
         if (seletor == 'master'):
             painel = self.logpanel_master
         elif (seletor == 'slave'):
@@ -205,11 +205,10 @@ class TabDisparoPraca(wx.Panel):
                     if ('Thread' in linha or 'filtrado' in linha.lower() ):
                         continue
                     tobereturned.append(linha.replace(" - ", "-").split('-'))
-                    if ( len(tobereturned) >= 2 ):
+                    if ( len(tobereturned) >= 4 ):
                         return tobereturned  # retorna as informações das ultimas duas linhas
             return 0
         except Exception as Err:
-            print(f'Erro em get_2last_flag_lines: {Err}')
             self.logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
 
 

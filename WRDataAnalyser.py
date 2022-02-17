@@ -34,6 +34,14 @@ class WRAnalizer:
             self.logger.adiciona_linha_log(f'Erro em: {sys._getframe().f_code.co_name}, Descrição: {Err}')
             return 0
 
+
+    def get_similar_line(self, regMaster: str, slavelist):
+        comando_recebido = regMaster[3].split()[1]
+        for item in slavelist:
+            if comando_recebido in item[3]:
+                return item
+
+
     def get_time_offset(self, regMaster, regSlave):
         '''Retorna a diferança de tempo entre os registros informados timedelta, retorna 999 em caso de erros'''
         try:
