@@ -120,12 +120,12 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             if (dados_do_log_master == 0):
                 continue
             
-            last_line_slave = analyzer.get_similar_line(dados_do_log_master[-1], dados_do_log_slave)
-            last_but_one_line_slave = analyzer.get_similar_line(dados_do_log_master[-1], dados_do_log_slave)
+            last_line_slave = analyzer.get_similar_line(dados_do_log_master[0], dados_do_log_slave)
+            last_but_one_line_slave = analyzer.get_similar_line(dados_do_log_master[1], dados_do_log_slave)
             
             
-            last_line_offset = analyzer.get_time_offset(dados_do_log_master[-1], last_line_slave)  
-            last_but_one_line_offset =  analyzer.get_time_offset(dados_do_log_master[-2], last_but_one_line_slave)
+            last_line_offset = analyzer.get_time_offset(dados_do_log_master[0], last_line_slave)  
+            last_but_one_line_offset =  analyzer.get_time_offset(dados_do_log_master[1], last_but_one_line_slave)
 
             '''Detecta o modo de operação do sistema e atualiza o painel com essa informação'''
             debug = 5
