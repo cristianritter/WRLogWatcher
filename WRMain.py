@@ -86,7 +86,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
     
     tab.set_interface_paths(diretorios_list)    #seta label da tab da interface grafica com os diretórios
     last_day = time.strftime('%d')     #armazena o dia atual para limpeza de paineis na virada de data
-    
+    recorrente = False
     while True:
         try:
             '''limpeza dos paineis de informações na virada do dia'''
@@ -113,9 +113,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             debug = 4
             
             dados_do_log_master = tab.get_4last_flag_lines(flag=FLAG, seletor='master')
-            time.sleep(int(OFFSETS_MS[name][2]))
             dados_do_log_slave = tab.get_4last_flag_lines(flag=FLAG, seletor='slave')
-
 
             if (dados_do_log_master == 0):
                 continue
@@ -145,16 +143,20 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             '''
             debug = 7
             if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
-                tab.set_error_led('ledErroModoOperacao')
-                THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
-                log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
-                adicionar = True
-                for linha in Logger.get_last10_lines():
-                    if (log in linha):
-                        adicionar = False
-                if adicionar == True:
-                    Logger.adiciona_linha_log(log)
+                if recorrente == True:
+                    tab.set_error_led('ledErroModoOperacao')
+                    THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
+                    log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
+                    adicionar = True
+                    for linha in Logger.get_last10_lines():
+                        if (log in linha):
+                            adicionar = False
+                    if adicionar == True:
+                        Logger.adiciona_linha_log(log)
+                else:
+                    recorrente = True
             else:
+                recorrente = False
                 tab.clear_error_led('ledErroModoOperacao')
                 THREAD_STATUS[idx] = 0
 
