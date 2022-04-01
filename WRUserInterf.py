@@ -67,24 +67,24 @@ class TabDisparoPraca(wx.Panel):
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         self.listboxmode = ''
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(600,15))
-        self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(600,15))
-        self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(600,400))  #cria um edit
+        texto01b1 = wx.StaticText(self, label='Log de eventos do sistema de referência', style=wx.ALIGN_CENTER, size=(-1,15))
+        self.textoMasterPath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(-1,15))
+        self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 , size=(-1,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
-        texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(600,15))
-        self.texto01b2b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(600,15))
-        self.logpanel_slave = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(600,400))  #cria um edit
+        texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(-1,15))
+        self.texto01b2b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(-1,15))
+        self.logpanel_slave = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.EXPAND, size=(-1,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         coluna_ref_panel = wx.BoxSizer(wx.VERTICAL)
         coluna_sec_panel = wx.BoxSizer(wx.VERTICAL)   
-        coluna_ref_panel.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
-        coluna_ref_panel.Add(texto01b1, proportion=0, flag=wx.ALL, border=5)        
-        coluna_ref_panel.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
-        coluna_sec_panel.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
-        coluna_sec_panel.Add(texto01b2, proportion=0, flag=wx.ALL, border=5)        
-        coluna_sec_panel.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
-        box_linha01b.Add(coluna_ref_panel, proportion=0, flag=wx.ALL, border=5)
-        box_linha01b.Add(coluna_sec_panel, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)
+        coluna_ref_panel.Add(self.logpanel_master, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
+        coluna_ref_panel.Add(texto01b1, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
+        coluna_ref_panel.Add(self.textoMasterPath, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
+        coluna_sec_panel.Add(self.logpanel_slave, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
+        coluna_sec_panel.Add(texto01b2, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
+        coluna_sec_panel.Add(self.texto01b2b, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
+        box_linha01b.Add(coluna_ref_panel, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
+        box_linha01b.Add(coluna_sec_panel, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
         self.listbox1 = wx.ListBox(self, choices=["SAT POA", "SAT REG", "BARIX", "LINK DOWN"])
@@ -116,13 +116,12 @@ class TabDisparoPraca(wx.Panel):
         self.textoErroTimeSync.BackgroundColour = 'red'
         self.textoErroTimeSync.Hide()
                    
-        coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
-        coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
+        coluna_geral.Add(box_linha01, proportion=1, flag=wx.ALL |  wx.EXPAND, border=0)                      # adiciona itens à coluna
+        coluna_geral.Add(box_linha01b, proportion=1, flag=wx.ALL |  wx.EXPAND, border=0)
         coluna_geral.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
         coluna_geral.Add(self.textoErroTimeSync, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
         
         self.listbox1.Bind(wx.EVT_LISTBOX, self.on_select)  #associa funcao ao botao
-        
         self.SetSizer(coluna_geral)
         self.Show()
 
@@ -164,6 +163,7 @@ class TabDisparoPraca(wx.Panel):
         for idx, content in enumerate(self.listbox1.GetItems()):
             if mode in content:
                 self.listbox1.Select(idx)
+                
 
     def adiciona_informacoes(self):
         pass
@@ -225,10 +225,10 @@ class TabDisparoArquivo(wx.Panel):
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         self.textoMasterPath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_master = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_master = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2| wx.EXPAND, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         self.texto01b2b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
-        self.logpanel_slave = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2, size=(500,400))  #cria um edit
+        self.logpanel_slave = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2| wx.EXPAND, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         self.listbox1 = wx.ListBox(self, choices=list_choices)
@@ -240,23 +240,23 @@ class TabDisparoArquivo(wx.Panel):
         
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
-        coluna01a.Add(self.logpanel_master, proportion=0, flag=wx.ALL, border=5)
+        coluna01a.Add(self.logpanel_master, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
         coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
         coluna01a.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
-        coluna01b.Add(self.logpanel_slave, proportion=0, flag=wx.ALL, border=5)
+        coluna01b.Add(self.logpanel_slave, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
         coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
         coluna01b.Add(self.listbox2, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
-        box_linha01b.Add(coluna01a, proportion=0, flag=wx.ALL, border=5)
-        box_linha01b.Add(coluna01b, proportion=0, flag=wx.ALL, border=5)
+        box_linha01b.Add(coluna01a, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
+        box_linha01b.Add(coluna01b, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
 
         box_linha02 = wx.BoxSizer(wx.HORIZONTAL)
                    
-        coluna.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
-        coluna.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
+        coluna.Add(box_linha01, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)                      # adiciona itens à coluna
+        coluna.Add(box_linha01b, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         coluna.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
         
         self.listbox1.Bind(wx.EVT_LISTBOX, lambda event: self.on_select(event, 'listbox1'))  #associa funcao ao botao
@@ -327,13 +327,13 @@ class TabComercial(wx.Panel):
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
         texto_playlist = wx.StaticText(self, label='Playlist', style=wx.ALIGN_CENTER, size=(-1,-1))
         texto_exibido = wx.StaticText(self, label='Comprovantes', style=wx.ALIGN_CENTER, size=(-1,-1))
-        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
+        self.panel_playlist = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL | wx.EXPAND, size=(-1,420))  #cria um edit
         self.panel_playlist.SetBackgroundColour(wx.Colour(190,190,170))
-        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(480,420))  #cria um edit
+        self.panel_exibido = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL | wx.EXPAND, size=(-1,420))  #cria um edit
         self.panel_exibido.SetBackgroundColour(wx.Colour(190,190,170))
         self.panel_exibido.SetFont(panel_font)
         texto_disparo = wx.StaticText(self, label='Disparos', style=wx.ALIGN_CENTER, size=(-1,-1))
-        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL, size=(370,420))  #cria um edit
+        self.panel_disparo = wx.TextCtrl(self, value='Sem informações para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.HSCROLL| wx.EXPAND, size=(-1,420))  #cria um edit
         self.panel_disparo.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
         self.listbox1 = wx.ListBox(self, choices=list_choices, size=(-1, -1))
@@ -342,17 +342,17 @@ class TabComercial(wx.Panel):
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01c = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(texto_playlist, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
-        coluna01a.Add(self.panel_playlist, proportion=0, flag=wx.ALL, border=0)
+        coluna01a.Add(self.panel_playlist, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         
         coluna01b.Add(texto_disparo, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
-        coluna01b.Add(self.panel_disparo, proportion=0, flag=wx.ALL, border=0)
+        coluna01b.Add(self.panel_disparo, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         
         coluna01c.Add(texto_exibido, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
-        coluna01c.Add(self.panel_exibido, proportion=0, flag=wx.ALL, border=0)
+        coluna01c.Add(self.panel_exibido, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         
-        box_linha01b.Add(coluna01a, proportion=0, flag=wx.TOP, border=5)
-        box_linha01b.Add(coluna01b, proportion=0, flag=wx.TOP, border=5)
-        box_linha01b.Add(coluna01c, proportion=0, flag=wx.TOP, border=5)
+        box_linha01b.Add(coluna01a, proportion=1, flag=wx.TOP | wx.EXPAND, border=5)
+        box_linha01b.Add(coluna01b, proportion=1, flag=wx.TOP | wx.EXPAND, border=5)
+        box_linha01b.Add(coluna01c, proportion=1, flag=wx.TOP | wx.EXPAND, border=5)
 
         self.timepicker1 = wx.adv.TimePickerCtrl(self)
         self.timepicker1.SetTime(0, 0, 0)
@@ -378,8 +378,8 @@ class TabComercial(wx.Panel):
         linha_selecao_praca.AddSpacer(10)
         
 
-        coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.CENTER, border=0)                      # adiciona itens à coluna
-        coluna_geral.Add(box_linha01b, proportion=0, flag=wx.ALL | wx.CENTER, border=0)
+        coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.EXPAND, border=0)                      # adiciona itens à coluna
+        coluna_geral.Add(box_linha01b, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         coluna_geral.AddSpacer(10)
         coluna_geral.Add(linha_selecao_praca, flag=wx.ALIGN_CENTER, border=5)        
         
@@ -569,7 +569,7 @@ class MyFrame(wx.Frame):
     #----------------------------------------------------------------------
     def __init__(self, prog_name, tabs, names, paths, flag, logger):
         """Constructor"""     
-        super().__init__(None, style=wx.CAPTION | wx.FRAME_TOOL_WINDOW, 
+        super().__init__(None, style= wx.MINIMIZE_BOX | wx.MAXIMIZE_BOX | wx.RESIZE_BORDER | wx.SYSTEM_MENU | wx.CAPTION | wx.CLIP_CHILDREN, 
                           title=prog_name,
                           size=(1280,760)
                           ) 
@@ -581,17 +581,19 @@ class MyFrame(wx.Frame):
         self.tabs = tabs    #armazena as abas criadas na variavel tabs
         self.notebook = notebook
         for idx, nome in enumerate(names):
-            if idx == 0:
+            if idx == 0:                        #Ignora a praça de Florianópolis na criação das tabs
                 continue
             self.tabs[nome] = TabDisparoPraca(notebook, names, paths, self.logger)
             notebook.AddPage(self.tabs[nome], names[nome])
+        
         self.tabs['disparos_dual_tab'] = TabDisparoArquivo(notebook, names=names, lista_paths=paths, flag=flag)
         notebook.AddPage(self.tabs['disparos_dual_tab'], "Análise Histórica - Disparos")
+        
         self.tabs['exibicao_tripla_tab'] = TabComercial(notebook, names=names, lista_paths=paths, flag=flag)
         notebook.AddPage(self.tabs['exibicao_tripla_tab'], "Análise Histórica - Comprovantes")
 
         sizer = wx.BoxSizer(wx.VERTICAL)
-        sizer.Add(notebook, proportion=0, flag=wx.ALL, border=5)
+        sizer.Add(notebook, proportion=1, flag=wx.ALL | wx.CENTER | wx.EXPAND, border=5)
         hide_bt = wx.Button(panel, label='Esconder')  #cria botao de Esconder janela
         sizer.Add(hide_bt, proportion=0, flag=wx.ALL | wx.CENTER, border=10)
         hide_bt.Bind(wx.EVT_BUTTON, self.on_press)  #associa funcao ao botao

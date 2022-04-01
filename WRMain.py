@@ -89,18 +89,18 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
     recorrente = False
     while True:
         try:
-            '''limpeza dos paineis de informações na virada do dia'''
-            debug = 1
-            if (last_day != time.strftime('%d')):  
-                tab.clear_content()
-                last_day = time.strftime('%d')
-                time.sleep(10)
-            
             '''leitura do conteudo dos logs'''
-            debug = 2
+            debug = 1
             mastercontent = parser.get_conteudo_log(DIRETORIOS[ list(NOMES.keys())[0] ].split(', ')[0])
             slavecontent = parser.get_conteudo_log(diretorios_list[0])
 
+            '''limpeza dos paineis de informações na virada do dia'''
+            debug = 2
+            if (last_day != time.strftime('%d')):  
+                tab.clear_content()
+                last_day = time.strftime('%d')
+                time.sleep(10)            
+            
             if (mastercontent == 0):
                 continue
             
@@ -120,8 +120,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             
             last_line_slave = analyzer.get_similar_line(dados_do_log_master[0], dados_do_log_slave)
             last_but_one_line_slave = analyzer.get_similar_line(dados_do_log_master[1], dados_do_log_slave)
-            
-            
+                  
             last_line_offset = analyzer.get_time_offset(dados_do_log_master[0], last_line_slave)  
             last_but_one_line_offset =  analyzer.get_time_offset(dados_do_log_master[1], last_but_one_line_slave)
 
@@ -143,10 +142,12 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             '''
             debug = 7
             if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
-                if recorrente == True:
+                if recorrente == True:                
+             
                     tab.set_error_led('ledErroModoOperacao')
-                    THREAD_STATUS[idx] = 1   #metrica para zabbix -> 1 se houver erro, 0 se tudo ok
+                    THREAD_STATUS[idx] |= (1<<0)   #metrica para zabbix -> adiciona 1 se houver erro de posicao da botoneira
                     log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
+                    
                     adicionar = True
                     for linha in Logger.get_last10_lines():
                         if (log in linha):
@@ -158,20 +159,28 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             else:
                 recorrente = False
                 tab.clear_error_led('ledErroModoOperacao')
-                THREAD_STATUS[idx] = 0
+                THREAD_STATUS[idx] &= ~(1<<0)
+
+            debug = 8
+            '''Informa se o winradio master está com o botoneira na posição de geração'''
+            print('Serial' in dados_do_log_master[0][3])
+            if ('Serial' in dados_do_log_master[0][3] and not 'Received' in dados_do_log_master[0][3]):
+                THREAD_STATUS[idx] |= (1<<1)   #metrica para zabbix -> adiciona 1 se houver erro de posicao da botoneira
+            else:
+                THREAD_STATUS[idx] &= ~(1<<1)           
 
             '''Apresenta informação em texto caso hajam problemas de sincronismo de horário nos computadores dos WINRADIOS
             timestamp do slave menor do que do master [viagem no tempo]
             '''
-            debug = 8
+            debug = 9
             if last_line_offset < timedelta(microseconds = 0) and last_but_one_line_offset < timedelta(microseconds = 0):  
                 tab.textoErroTimeSync.Show()
             else:
                 tab.textoErroTimeSync.Hide()
  
             '''Atualiza o painel e finaliza aguardando pelo próximo ciclo'''
-            debug = 9
-            tab.Refresh()    
+            debug = 10
+            tab.Refresh()  
             time.sleep(60)
             
         except Exception as Err:

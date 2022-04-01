@@ -27,7 +27,7 @@ class WRLogger:
             if len(lines) > 0:
                 return lines[-10:]
             else:
-                return ""
+                return ['','']
         except Exception as err:
             print(f'Erro durante registro no arquivo de log. {err}')
 
