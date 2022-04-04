@@ -40,7 +40,7 @@ class WRZabbixSender:
                     texto_metrica = texto_metrica.join('botoneira_master ')
                 if (metrica & (1<<0)):
                     texto_metrica = texto_metrica.join('botoneira_remota ')
-                else:
+                if (not metrica):
                     texto_metrica = "0"
 
                 try:
@@ -48,7 +48,7 @@ class WRZabbixSender:
                         ZabbixMetric(self.hostname, self.key, texto_metrica)
                     ]
                     ZabbixSender(zabbix_server=self.server, zabbix_port=self.port).send(packet)
-                    print(texto_metrica)
+                    #print(texto_metrica)
                 except Exception as Err:
                     print(f"Falha de conexão com o Zabbix - {Err}")
         except Exception as Err:

@@ -163,7 +163,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
 
             debug = 8
             '''Informa se o winradio master está com o botoneira na posição de geração'''
-            print('Serial' in dados_do_log_master[0][3])
+            #print('Serial' in dados_do_log_master[0][3])
             if ('Serial' in dados_do_log_master[0][3] and not 'Received' in dados_do_log_master[0][3]):
                 THREAD_STATUS[idx] |= (1<<1)   #metrica para zabbix -> adiciona 1 se houver erro de posicao da botoneira
             else:

@@ -1,4 +1,5 @@
 """Biblioteca de criacao da interface do usuario"""
+from numpy import size
 import wx.adv
 import wx
 import os
@@ -72,17 +73,17 @@ class TabDisparoPraca(wx.Panel):
         self.logpanel_master = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 , size=(-1,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
         texto01b2 = wx.StaticText(self, label='Log de eventos do sistema monitorado', style=wx.ALIGN_CENTER, size=(-1,15))
-        self.texto01b2b = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(-1,15))
+        self.textoSlavePath = wx.StaticText(self, label="Sem informações de caminho de arquivo", style=wx.ALIGN_CENTER, size=(-1,15))
         self.logpanel_slave = wx.TextCtrl(self, value='', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2 | wx.EXPAND, size=(-1,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         coluna_ref_panel = wx.BoxSizer(wx.VERTICAL)
         coluna_sec_panel = wx.BoxSizer(wx.VERTICAL)   
         coluna_ref_panel.Add(self.logpanel_master, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
         coluna_ref_panel.Add(texto01b1, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
-        coluna_ref_panel.Add(self.textoMasterPath, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
+        coluna_ref_panel.Add(self.textoMasterPath, proportion=0, flag=wx.ALL| wx.ALIGN_CENTER, border=5)        
         coluna_sec_panel.Add(self.logpanel_slave, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
         coluna_sec_panel.Add(texto01b2, proportion=0, flag=wx.ALL| wx.CENTER, border=5)        
-        coluna_sec_panel.Add(self.texto01b2b, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
+        coluna_sec_panel.Add(self.textoSlavePath, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         box_linha01b.Add(coluna_ref_panel, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
         box_linha01b.Add(coluna_sec_panel, proportion=1, flag=wx.ALL | wx.EXPAND, border=5)
 
@@ -119,7 +120,7 @@ class TabDisparoPraca(wx.Panel):
         coluna_geral.Add(box_linha01, proportion=1, flag=wx.ALL |  wx.EXPAND, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=1, flag=wx.ALL |  wx.EXPAND, border=0)
         coluna_geral.Add(box_linha02, proportion=0, flag=wx.CENTER | wx.ALL, border=0)
-        coluna_geral.Add(self.textoErroTimeSync, proportion=0, flag=wx.CENTER |wx.CENTER, border=0) 
+        coluna_geral.Add(self.textoErroTimeSync, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=0) 
         
         self.listbox1.Bind(wx.EVT_LISTBOX, self.on_select)  #associa funcao ao botao
         self.SetSizer(coluna_geral)
@@ -151,7 +152,7 @@ class TabDisparoPraca(wx.Panel):
         Recebe uma lista no estilo [path master, path slave]
         """
         self.textoMasterPath.SetLabel(self.paths[ list(self.names.keys())[0] ].split(', ')[0])
-        self.texto01b2b.SetLabel(paths[1])
+        self.textoSlavePath.SetLabel(paths[1])
 
     def set_listbox_selected(self, mode):
         """
@@ -224,10 +225,10 @@ class TabDisparoArquivo(wx.Panel):
         """Criação dos itens da janela"""
         box_linha01 = wx.BoxSizer(wx.HORIZONTAL) #cria uma linha 
         box_linha01b = wx.BoxSizer(wx.HORIZONTAL)  
-        self.textoMasterPath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.textoMasterPath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo:", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_master = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2| wx.EXPAND, size=(500,400))  #cria um edit
         self.logpanel_master.SetBackgroundColour(wx.Colour(190,190,170))
-        self.texto01b2b = wx.StaticText(self, label="Selecione a praça para buscar o arquivo", style=wx.ALIGN_CENTER, size=(500,15))
+        self.textoSlavePath = wx.StaticText(self, label="Selecione a praça para buscar o arquivo:", style=wx.ALIGN_CENTER, size=(500,15))
         self.logpanel_slave = wx.TextCtrl(self, value='Sem informações de disparo para exibir', style=wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH2| wx.EXPAND, size=(500,400))  #cria um edit
         self.logpanel_slave.SetBackgroundColour(wx.Colour(190,190,170))
         list_choices = list(names.values())
@@ -241,12 +242,12 @@ class TabDisparoArquivo(wx.Panel):
         coluna01a = wx.BoxSizer(wx.VERTICAL)
         coluna01b = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(self.logpanel_master, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
-        coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL, border=5)        
+        coluna01a.Add(self.textoMasterPath, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01a.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         coluna01a.Add(self.filepick01, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
         coluna01b.Add(self.logpanel_slave, proportion=1, flag=wx.ALL| wx.EXPAND, border=5)
-        coluna01b.Add(self.texto01b2b, proportion=0, flag=wx.ALL, border=5)        
+        coluna01b.Add(self.textoSlavePath, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01b.Add(self.listbox2, proportion=0, flag=wx.ALL | wx.CENTER, border=5)        
         coluna01b.Add(self.filepick02, proportion=0, flag=wx.ALL | wx.CENTER, border=30)
 
@@ -293,7 +294,7 @@ class TabDisparoArquivo(wx.Panel):
             
         elif (selecao == 'filepick02'):
             filepick = self.filepick02
-            self.texto01b2b.SetLabel(filepick.Path)
+            self.textoSlavePath.SetLabel(filepick.Path)
             self.logpanel_slave.Clear()  
             seletor = 'slave'
         conteudo = parser_.get_conteudo_log(filepick.Path)
@@ -306,7 +307,7 @@ class TabDisparoArquivo(wx.Panel):
         self.logpanel_master.SetLabel('Sem informações de disparo para exibir')  
         self.logpanel_slave.SetLabel('Sem informações de disparo para exibir')
         self.textoMasterPath.SetLabel("Selecione a praça para buscar o arquivo")
-        self.texto01b2b.SetLabel("Selecione a praça para buscar o arquivo")
+        self.textoSlavePath.SetLabel("Selecione a praça para buscar o arquivo")
         self.filepick01.SetPath("")
         self.filepick02.SetPath("")
         self.listbox1.Selection = -1
@@ -358,30 +359,41 @@ class TabComercial(wx.Panel):
         self.timepicker1.SetTime(0, 0, 0)
         self.timepicker2 = wx.adv.TimePickerCtrl(self)
         self.timepicker2.SetTime(23,59,00)
-        self.filterbutton = wx.Button(self, label='Consultar')
+        self.filterbutton = wx.Button(self, label='Consultar', size=(200,100))
 
         self.calendar = wx.adv.CalendarCtrl(self)
 
-        linha_selecao_praca = wx.BoxSizer(wx.HORIZONTAL)
-        linha_selecao_praca.Add(wx.StaticText(self, label="Praça: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
-        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.ALL, border=5)
-        linha_selecao_praca.AddSpacer(20)
-        linha_selecao_praca.Add(wx.StaticText(self, label="Data: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
-        linha_selecao_praca.Add(self.calendar)
-        linha_selecao_praca.AddSpacer(20)
-        linha_selecao_praca.Add(wx.StaticText(self, label="Horário de inicio e fim: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.TOP, border=15)
-        linha_selecao_praca.Add(self.timepicker1, flag=wx.ALL, border=10)
-        linha_selecao_praca.Add(wx.StaticText(self, label='-', style=wx.ALIGN_CENTER), flag=wx.TOP, border=15)
-        linha_selecao_praca.Add(self.timepicker2, flag=wx.ALL, border=10)
-        linha_selecao_praca.AddSpacer(30)
-        linha_selecao_praca.Add(self.filterbutton, flag=wx.ALL, border=10)
-        linha_selecao_praca.AddSpacer(10)
+        linha_selecao = wx.BoxSizer(wx.HORIZONTAL)
+        linha_selecao.Add(wx.StaticText(self, label="\n\n\n\n\nData: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
+        linha_selecao.Add(self.calendar)
+        linha_selecao.AddSpacer(20)
+        linha_selecao.AddSpacer(20)
+
+        
+        coluna_selecao_horario = wx.BoxSizer(wx.HORIZONTAL)
+        coluna_selecao_horario.Add(self.timepicker1, flag=wx.ALL, border=5)
+        coluna_selecao_horario.Add(wx.StaticText(self, label='_', style=wx.ALIGN_CENTER), flag=wx.ALL, border=5)
+        coluna_selecao_horario.Add(self.timepicker2, flag=wx.ALL, border=5)
+        
+        linha_selecao_praca = wx.BoxSizer(wx.VERTICAL)
+        linha_selecao.Add(wx.StaticText(self, label="\n\nPraça: \n\n\n\n\n Horário:\n (Início/Fim)", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
+        linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.EXPAND, border=5)
+        linha_selecao_praca.AddSpacer(12)
+        linha_selecao_praca.Add(coluna_selecao_horario)
+        
+        
+        
+        #linha_selecao.Add(wx.StaticText(self, label="Horário de inicio e fim: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.TOP, border=15)
+        linha_selecao.Add(linha_selecao_praca)
+        linha_selecao.AddSpacer(30)
+        linha_selecao.Add(self.filterbutton, flag=wx.ALL, border=10)
+        linha_selecao.AddSpacer(10)
         
 
         coluna_geral.Add(box_linha01, proportion=0, flag=wx.ALL | wx.EXPAND, border=0)                      # adiciona itens à coluna
         coluna_geral.Add(box_linha01b, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         coluna_geral.AddSpacer(10)
-        coluna_geral.Add(linha_selecao_praca, flag=wx.ALIGN_CENTER, border=5)        
+        coluna_geral.Add(linha_selecao, flag=wx.ALIGN_CENTER, border=5)        
         
         
         self.filterbutton.Bind(wx.EVT_BUTTON, self.onFilter)
