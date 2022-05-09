@@ -32,14 +32,20 @@ class WRZabbixSender:
         '''
         try:
             while True:
+                #print(status)
                 time.sleep(self.metric_interval)       
                 texto_metrica = ""
+                produto=1
+                for mtrc in status:
+                    produto *= mtrc
+                #print(produto)  
                 metrica = status[self.idx]
+                #metrica = 3
 
-                if (metrica & (1<<1)):
-                    texto_metrica = texto_metrica.join('botoneira_master ')
+                if (metrica & (1<<1) or produto):
+                    texto_metrica = ' botoneira_master'
                 if (metrica & (1<<0)):
-                    texto_metrica = texto_metrica.join('botoneira_remota ')
+                    texto_metrica = texto_metrica + ' botoneira_remota'
                 if (not metrica):
                     texto_metrica = "0"
 
@@ -48,7 +54,7 @@ class WRZabbixSender:
                         ZabbixMetric(self.hostname, self.key, texto_metrica)
                     ]
                     ZabbixSender(zabbix_server=self.server, zabbix_port=self.port).send(packet)
-                    #print(texto_metrica)
+                    print(texto_metrica)
                 except Exception as Err:
                     print(f"Falha de conexão com o Zabbix - {Err}")
         except Exception as Err:

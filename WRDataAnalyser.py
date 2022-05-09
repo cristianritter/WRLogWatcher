@@ -54,7 +54,7 @@ class WRAnalizer:
 
             if last_flag_time_master > last_flag_time_slave:                    # se master estiver atrasado com relacao a slave
                 offset = last_flag_time_master - last_flag_time_slave  
-                if (offset < timedelta(milliseconds=20)):
+                if (offset > timedelta(milliseconds=25)):
                     offset = -offset                                            # retorna valor positivo caso o timedelta seja menor do que a tolerancia
             else:
                 offset = last_flag_time_slave - last_flag_time_master

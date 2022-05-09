@@ -143,7 +143,6 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
             debug = 7
             if (not operacao_last_line in DEFAULT_MODES[name] and not operacao_last_but_one_line in DEFAULT_MODES[name]):
                 if recorrente == True:                
-             
                     tab.set_error_led('ledErroModoOperacao')
                     THREAD_STATUS[idx] |= (1<<0)   #metrica para zabbix -> adiciona 1 se houver erro de posicao da botoneira
                     log = f"Modo de operação anormal detectado em {NOMES[name]}, Dados master: {dados_do_log_master}, Dados slave: {dados_do_log_slave} Operações: {operacao_last_line}, {operacao_last_but_one_line}"
@@ -162,6 +161,7 @@ def instancia_de_treading(idx: int, name: str, tab: TabDisparoPraca, parser: WRF
                 THREAD_STATUS[idx] &= ~(1<<0)
 
             debug = 8
+            
             '''Informa se o winradio master está com o botoneira na posição de geração'''
             #print('Serial' in dados_do_log_master[0][3])
             if ('Serial' in dados_do_log_master[0][3] and not 'Received' in dados_do_log_master[0][3]):
