@@ -6,6 +6,7 @@ import os
 import sys
 import locale
 from WRFileParser import WRFileParse
+import datetime
 
 def InitLocale(self):
     """
@@ -344,7 +345,11 @@ class TabComercial(wx.Panel):
         coluna01c = wx.BoxSizer(wx.VERTICAL)   
         coluna01a.Add(texto_playlist, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01a.Add(self.panel_playlist, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
-        
+        coluna_observacoes = wx.BoxSizer(wx.HORIZONTAL)
+        self.alteracao_de_roteiro = wx.StaticText(self, label=' ', style=wx.ALIGN_CENTER)
+        coluna_observacoes.Add(self.alteracao_de_roteiro, flag=wx.ALL | wx.EXPAND, border=5)
+        coluna01a.Add(coluna_observacoes)
+
         coluna01b.Add(texto_disparo, proportion=0, flag=wx.ALL | wx.ALIGN_CENTER, border=5)        
         coluna01b.Add(self.panel_disparo, proportion=1, flag=wx.ALL | wx.EXPAND, border=0)
         
@@ -361,7 +366,7 @@ class TabComercial(wx.Panel):
         self.timepicker2.SetTime(23,59,00)
         self.filterbutton = wx.Button(self, label='Consultar', size=(200,100))
 
-        self.calendar = wx.adv.CalendarCtrl(self)
+        self.calendar = wx.adv.CalendarCtrl(self)       
 
         linha_selecao = wx.BoxSizer(wx.HORIZONTAL)
         linha_selecao.Add(wx.StaticText(self, label="\n\n\n\n\nData: ", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
@@ -369,12 +374,13 @@ class TabComercial(wx.Panel):
         linha_selecao.AddSpacer(20)
         linha_selecao.AddSpacer(20)
 
-        
         coluna_selecao_horario = wx.BoxSizer(wx.HORIZONTAL)
         coluna_selecao_horario.Add(self.timepicker1, flag=wx.ALL, border=5)
         coluna_selecao_horario.Add(wx.StaticText(self, label='_', style=wx.ALIGN_CENTER), flag=wx.ALL, border=5)
         coluna_selecao_horario.Add(self.timepicker2, flag=wx.ALL, border=5)
         
+        
+
         linha_selecao_praca = wx.BoxSizer(wx.VERTICAL)
         linha_selecao.Add(wx.StaticText(self, label="\n\nPraça: \n\n\n\n\n Horário:\n (Início/Fim)", style=wx.ALIGN_CENTER, size=(-1,-1)), proportion=0, flag=wx.ALL, border=5)
         linha_selecao_praca.Add(self.listbox1, proportion=0, flag=wx.ALL | wx.EXPAND, border=5)
@@ -428,6 +434,16 @@ class TabComercial(wx.Panel):
                 break
                 
         conteudo_playlist = parser_.get_conteudo_log(playlist_filepath)
+        m_time = os.path.getmtime(playlist_filepath)
+        dt_m = datetime.datetime.fromtimestamp(m_time)
+        if (dt_m.strftime("%d") >= data[0] ):
+            self.alteracao_de_roteiro.SetForegroundColour(wx.RED)
+        else:
+            self.alteracao_de_roteiro.SetForegroundColour(wx.BLACK) 
+
+        self.alteracao_de_roteiro.SetLabel(f'Roteiro exportado em: {dt_m.strftime("%d/%m/%Y, %H:%M:%S")}')
+        
+        
         conteudo_disparo = parser_.get_conteudo_log(disparo_filepath)
         conteudo_exibido = parser_.get_conteudo_log(exibido_filepath)
   
@@ -503,6 +519,8 @@ class TabComercial(wx.Panel):
         self.panel_playlist.SetLabel('Sem informações para exibir')  
         self.panel_disparo.SetLabel('Sem informações para exibir')
         self.panel_exibido.SetLabel('Sem informações para exibir')
+        self.alteracao_de_roteiro.SetLabel(f'')
+
         self.listbox1.Selection = -1
       
 
